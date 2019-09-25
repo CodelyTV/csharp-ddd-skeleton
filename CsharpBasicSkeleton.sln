@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CsharpBasicSkeleton", "src\CsharpBasicSkeleton\CsharpBasicSkeleton.csproj", "{3469419E-D83D-4392-99FA-DDC80E9DFB74}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{ABF745D7-F9BF-4CEE-8A12-DC03FAB68C9A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{950BA3E7-4F83-4D34-B805-932683E66D11}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestCsharpBasicSkeleton", "test\TestCsharpBasicSkeleton\TestCsharpBasicSkeleton.csproj", "{179D9AA2-ED74-4A93-BE4C-186B6B4C267A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3469419E-D83D-4392-99FA-DDC80E9DFB74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3469419E-D83D-4392-99FA-DDC80E9DFB74}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3469419E-D83D-4392-99FA-DDC80E9DFB74}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3469419E-D83D-4392-99FA-DDC80E9DFB74}.Release|Any CPU.Build.0 = Release|Any CPU
+		{179D9AA2-ED74-4A93-BE4C-186B6B4C267A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{179D9AA2-ED74-4A93-BE4C-186B6B4C267A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{179D9AA2-ED74-4A93-BE4C-186B6B4C267A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{179D9AA2-ED74-4A93-BE4C-186B6B4C267A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3469419E-D83D-4392-99FA-DDC80E9DFB74} = {ABF745D7-F9BF-4CEE-8A12-DC03FAB68C9A}
+		{179D9AA2-ED74-4A93-BE4C-186B6B4C267A} = {950BA3E7-4F83-4D34-B805-932683E66D11}
+	EndGlobalSection
+EndGlobal
