@@ -10,6 +10,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Backoffice", "apps/Backoffi
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mooc", "apps/Mooc", "{1D936CB0-C909-4DCE-9D39-03673A6D9F33}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Backend", "apps\Mooc\Backend\Backend.csproj", "{BB158930-72BF-4EDB-B756-B2ACF6525D51}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,9 +26,14 @@ Global
 		{179D9AA2-ED74-4A93-BE4C-186B6B4C267A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{179D9AA2-ED74-4A93-BE4C-186B6B4C267A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{179D9AA2-ED74-4A93-BE4C-186B6B4C267A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB158930-72BF-4EDB-B756-B2ACF6525D51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB158930-72BF-4EDB-B756-B2ACF6525D51}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB158930-72BF-4EDB-B756-B2ACF6525D51}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB158930-72BF-4EDB-B756-B2ACF6525D51}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{EA77673C-C96C-4C6A-AF13-D14EB5BBE779} = {80C7C3D7-CDC6-4013-918B-C37D3FEECD38}
 		{1D936CB0-C909-4DCE-9D39-03673A6D9F33} = {80C7C3D7-CDC6-4013-918B-C37D3FEECD38}
+		{BB158930-72BF-4EDB-B756-B2ACF6525D51} = {1D936CB0-C909-4DCE-9D39-03673A6D9F33}
 	EndGlobalSection
 EndGlobal
