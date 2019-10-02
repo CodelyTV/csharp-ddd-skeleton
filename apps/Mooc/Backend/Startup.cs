@@ -1,11 +1,11 @@
-﻿namespace Backend
+﻿namespace Mooc.Backend
 {
     using Microsoft.AspNetCore.Builder;
-    using Microsoft.AspNetCore.Diagnostics.HealthChecks;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using src.Shared.Infrastructure;
 
     public class Startup
     {
@@ -21,7 +21,7 @@
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            services.AddHealthChecks();
+            services.AddScoped<RandomNumberGenerator, RandomNumberGenerator>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -33,13 +33,8 @@
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
 
-            app.UseHealthChecks("/health", new HealthCheckOptions
-            {
-                AllowCachingResponses = false
-            });
-
             app.UseHttpsRedirection();
-            app.UseMvc();
+            app.UseMvc(routes => { routes.MapRoute("default", "{controller=Home}/{action=Index}/{id?}"); });
         }
     }
 }

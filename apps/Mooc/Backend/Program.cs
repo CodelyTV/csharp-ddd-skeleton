@@ -1,4 +1,4 @@
-﻿namespace Backend
+﻿namespace Mooc.Backend
 {
     using Microsoft.AspNetCore;
     using Microsoft.AspNetCore.Hosting;

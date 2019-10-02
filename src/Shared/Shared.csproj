@@ -1,0 +1,9 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp2.2</TargetFramework>
+        <AssemblyName>src.Shared</AssemblyName>
+        <RootNamespace>src.Shared</RootNamespace>
+    </PropertyGroup>
+
+</Project>
