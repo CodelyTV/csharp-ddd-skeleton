@@ -10,7 +10,7 @@
         <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0"/>
         <PackageReference Include="Microsoft.AspNetCore.HttpsPolicy" Version="2.2.0"/>
         <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0"/>
-        <PackageReference Include="Microsoft.CodeQuality.Analyzers" Version="2.9.4"/>
+        <PackageReference Include="Microsoft.CodeQuality.Analyzers" Version="2.9.6"/>
     </ItemGroup>
 
     <ItemGroup>

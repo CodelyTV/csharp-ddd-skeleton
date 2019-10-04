@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>netcoreapp2.2</TargetFramework>
-        <RootNamespace>src.Shared</RootNamespace>
+        <RootNamespace>src.Mooc</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
