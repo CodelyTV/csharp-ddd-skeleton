@@ -1,17 +1,17 @@
 namespace Mooc.Backend.Controllers.HealthCheck
 {
     using Microsoft.AspNetCore.Mvc;
-    using src.Shared.Infrastructure;
+    using src.Shared.Domain;
 
     [Route("health-check")]
     public class HealthCheckGetController : Controller
     {
-        public HealthCheckGetController(RandomNumberGenerator generator)
+        public HealthCheckGetController(IRandomNumberGenerator generator)
         {
             Generator = generator;
         }
 
-        private RandomNumberGenerator Generator { get; }
+        private IRandomNumberGenerator Generator { get; }
 
         [HttpGet]
         [Produces("application/json")]

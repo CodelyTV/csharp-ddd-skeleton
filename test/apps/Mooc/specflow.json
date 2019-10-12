@@ -1,0 +1,10 @@
+{
+  "language": {
+    "feature": "en-US"
+  },
+  "stepAssemblies": [
+    {
+      "assembly": "src.test.Shared"
+    }
+  ]
+}

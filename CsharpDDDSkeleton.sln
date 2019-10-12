@@ -1,29 +1,31 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29326.143
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{ABF745D7-F9BF-4CEE-8A12-DC03FAB68C9A}"
-ProjectSection(SolutionItems) = preProject
-	Infrastructure\RandomNumberGenerator.cs = Infrastructure\RandomNumberGenerator.cs
-EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{950BA3E7-4F83-4D34-B805-932683E66D11}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "apps", "apps", "{80C7C3D7-CDC6-4013-918B-C37D3FEECD38}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Backoffice", "apps/Backoffice", "{EA77673C-C96C-4C6A-AF13-D14EB5BBE779}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Backoffice", "Backoffice", "{EA77673C-C96C-4C6A-AF13-D14EB5BBE779}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mooc", "apps/Mooc", "{1D936CB0-C909-4DCE-9D39-03673A6D9F33}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mooc", "Mooc", "{1D936CB0-C909-4DCE-9D39-03673A6D9F33}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Backend", "apps\Mooc\Backend\Backend.csproj", "{BB158930-72BF-4EDB-B756-B2ACF6525D51}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Backend", "apps\Mooc\Backend\Backend.csproj", "{BB158930-72BF-4EDB-B756-B2ACF6525D51}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "src\Shared\Shared.csproj", "{9F01009B-117A-4172-9D3C-2475820CA18C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared", "src\Shared\Shared.csproj", "{9F01009B-117A-4172-9D3C-2475820CA18C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mooc", "src\Mooc\Mooc.csproj", "{DBF4A20A-73C4-4CBD-A6EB-0C9A8079A52A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mooc", "src\Mooc\Mooc.csproj", "{DBF4A20A-73C4-4CBD-A6EB-0C9A8079A52A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{73884FEF-DAD3-43E0-AA56-8B75AF6E6568}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "apps", "apps", "{69472605-F119-4A17-8D5E-E2F9D7C9FEB0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "test\src\Shared\Shared.csproj", "{D7BF9671-0397-42F7-AE02-ADAA013B89AD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared", "test\src\Shared\Shared.csproj", "{D7BF9671-0397-42F7-AE02-ADAA013B89AD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mooc", "test\apps\Mooc\Mooc.csproj", "{FFB9FECE-2CB4-4795-8A9C-3DF1A45B4C01}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,14 +33,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{3469419E-D83D-4392-99FA-DDC80E9DFB74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3469419E-D83D-4392-99FA-DDC80E9DFB74}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3469419E-D83D-4392-99FA-DDC80E9DFB74}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3469419E-D83D-4392-99FA-DDC80E9DFB74}.Release|Any CPU.Build.0 = Release|Any CPU
-		{179D9AA2-ED74-4A93-BE4C-186B6B4C267A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{179D9AA2-ED74-4A93-BE4C-186B6B4C267A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{179D9AA2-ED74-4A93-BE4C-186B6B4C267A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{179D9AA2-ED74-4A93-BE4C-186B6B4C267A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BB158930-72BF-4EDB-B756-B2ACF6525D51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BB158930-72BF-4EDB-B756-B2ACF6525D51}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BB158930-72BF-4EDB-B756-B2ACF6525D51}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -55,6 +49,13 @@ Global
 		{D7BF9671-0397-42F7-AE02-ADAA013B89AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D7BF9671-0397-42F7-AE02-ADAA013B89AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D7BF9671-0397-42F7-AE02-ADAA013B89AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FFB9FECE-2CB4-4795-8A9C-3DF1A45B4C01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FFB9FECE-2CB4-4795-8A9C-3DF1A45B4C01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FFB9FECE-2CB4-4795-8A9C-3DF1A45B4C01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FFB9FECE-2CB4-4795-8A9C-3DF1A45B4C01}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{EA77673C-C96C-4C6A-AF13-D14EB5BBE779} = {80C7C3D7-CDC6-4013-918B-C37D3FEECD38}
@@ -65,5 +66,9 @@ Global
 		{73884FEF-DAD3-43E0-AA56-8B75AF6E6568} = {950BA3E7-4F83-4D34-B805-932683E66D11}
 		{69472605-F119-4A17-8D5E-E2F9D7C9FEB0} = {950BA3E7-4F83-4D34-B805-932683E66D11}
 		{D7BF9671-0397-42F7-AE02-ADAA013B89AD} = {73884FEF-DAD3-43E0-AA56-8B75AF6E6568}
+		{FFB9FECE-2CB4-4795-8A9C-3DF1A45B4C01} = {69472605-F119-4A17-8D5E-E2F9D7C9FEB0}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B97A4396-5C75-4848-848F-949B7BE081E2}
 	EndGlobalSection
 EndGlobal

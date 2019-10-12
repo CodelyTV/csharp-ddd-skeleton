@@ -5,6 +5,7 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using src.Shared.Domain;
     using src.Shared.Infrastructure;
 
     public class Startup
@@ -21,7 +22,7 @@
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            services.AddScoped<RandomNumberGenerator, RandomNumberGenerator>();
+            services.AddScoped<IRandomNumberGenerator, CSharpRandomNumberGenerator>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

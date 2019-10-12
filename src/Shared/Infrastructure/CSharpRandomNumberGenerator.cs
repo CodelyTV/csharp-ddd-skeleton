@@ -1,8 +1,9 @@
 namespace src.Shared.Infrastructure
 {
     using System;
+    using Domain;
 
-    public sealed class RandomNumberGenerator
+    public sealed class CSharpRandomNumberGenerator : IRandomNumberGenerator
     {
         private readonly Random _random = new Random();
 
