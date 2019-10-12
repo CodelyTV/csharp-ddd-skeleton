@@ -14,4 +14,4 @@ jobs:
     - name: Build with dotnet
       run: dotnet build --configuration Release
     - name: Unit Tests
-      run: dotnet test
+      run: dotnet test CsharpDDDSkeleton.sln
