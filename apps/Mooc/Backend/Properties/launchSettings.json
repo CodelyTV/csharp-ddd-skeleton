@@ -21,7 +21,7 @@
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "health-check",
-      "applicationUrl": "https://localhost:5001;http://localhost:5000",
+      "applicationUrl": "https://localhost:8031;http://localhost:8030",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

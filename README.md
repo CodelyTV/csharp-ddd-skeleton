@@ -1,6 +1,12 @@
 # C# DDD Bootstrap (base / project skeleton)
 
-This project is currently in progress.
+## Starting the server
+* Local using:
+    * `dotnet run --project apps/Mooc/Backend/Backend.csproj`
+* Docker using:
+    * `docker-compose up`
+    
+And then going to http://localhost:8030/health-check to check all is ok.
 
 ## 💡 Related repositories
 

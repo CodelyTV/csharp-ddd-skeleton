@@ -1,0 +1,11 @@
+version: '3.0'
+
+services:
+  mooc.backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8030:8030"
+    depends_on:
+      - mysql  
