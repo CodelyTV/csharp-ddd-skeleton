@@ -4,7 +4,7 @@
   },
   "stepAssemblies": [
     {
-      "assembly": "src.test.Shared"
+      "assembly": "SharedTest.src"
     }
   ]
 }

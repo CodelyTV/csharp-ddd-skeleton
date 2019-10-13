@@ -1,4 +1,4 @@
-namespace src.Shared.Infrastructure
+namespace Shared.Infrastructure
 {
     using System;
     using Domain;

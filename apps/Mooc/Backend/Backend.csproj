@@ -2,8 +2,8 @@
 
     <PropertyGroup>
         <TargetFramework>netcoreapp2.2</TargetFramework>
-        <RootNamespace>Mooc.Backend</RootNamespace>
-        <AssemblyName>Mooc.Backend</AssemblyName>
+        <RootNamespace>MoocApps.Backend</RootNamespace>
+        <AssemblyName>MoocApps.Backend</AssemblyName>
     </PropertyGroup>
 
     <ItemGroup>
@@ -14,7 +14,6 @@
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.CodeQuality.Analyzers" Version="2.9.6"/>
     </ItemGroup>
 
     <ItemGroup>

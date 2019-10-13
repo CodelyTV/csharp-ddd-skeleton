@@ -1,9 +1,8 @@
-﻿namespace src.test.Shared.Infrastructure.SpecFlow
+﻿namespace SharedTest.src.Infrastructure.SpecFlow
 {
     using System;
-    using System.Threading.Tasks;
     using Factory;
-    using Mooc.Backend;
+    using MoocApps.Backend;
     using Newtonsoft.Json;
     using TechTalk.SpecFlow;
     using Xunit;
@@ -11,56 +10,54 @@
     [Binding]
     public class ApiResponseContext : IClassFixture<CustomWebApiApplicationFactory<Startup>>
     {
-        private CustomWebApiApplicationFactory<Startup> Factory { get; set; }
         private FactorySessionHelper<Startup> SessionHelper { get; set; }
-
 
         public ApiResponseContext(CustomWebApiApplicationFactory<Startup> factory)
         {
-            Factory = factory;
-            SessionHelper = new FactorySessionHelper<Startup>(Factory);
+            if (factory == null) throw new ArgumentException("CustomWebApiApplicationFactory object null");
+            this.SessionHelper = factory.SessionHelper;
         }
 
         [Then(@"the response content should be:")]
-        public async Task ThenTheResponseContentShouldBe(string multilineText)
+        public void ThenTheResponseContentShouldBe(string multilineText)
         {
             string expected = JsonConvert.DeserializeObject(multilineText).ToString();
 
-            var actual = await this.SessionHelper.GetResponseContent();
+            var actual = JsonConvert.DeserializeObject(this.SessionHelper.GetResponseContent()).ToString();
 
             Assert.Equal(expected, actual);
         }
 
         [Then(@"the response should be empty")]
-        public async Task ThenTheResponseShouldBeEmpty()
+        public void ThenTheResponseShouldBeEmpty()
         {
-            var actual = await this.SessionHelper.GetResponseContent();
+            var actual = this.SessionHelper.GetResponseContent();
 
             Assert.Empty(actual);
         }
 
         [Then(@"print last api response")]
-        public async Task ThenPrintApiResponse()
+        public void ThenPrintApiResponse()
         {
-            var actual = await this.SessionHelper.GetResponseContent();
+            var actual = this.SessionHelper.GetResponseContent();
 
             Console.WriteLine(actual);
         }
 
         [Then(@"print response headers")]
-        public async Task ThenPrintResponseHeaders()
+        public void ThenPrintResponseHeaders()
         {
-            var headers = await this.SessionHelper.GetResponseHeaders();
+            var headers = this.SessionHelper.GetResponseHeaders();
 
             Console.WriteLine(headers);
         }
 
-        [Then(@"the response status code should be ""(.*)""")]
-        public async Task ThenTheResponseStatusCodeShouldBe(string expectedResponseCode)
+        [Then(@"the response status code should be (.*)")]
+        public void ThenTheResponseStatusCodeShouldBe(int expectedResponseCode)
         {
-            var statuscode = await this.SessionHelper.GetResponseStatusCode();
+            var statuscode = this.SessionHelper.GetResponseStatusCode();
 
-            Assert.Equal(expectedResponseCode, statuscode.ToString());
+            Assert.True(expectedResponseCode == (int) statuscode);
         }
     }
 }

@@ -1,7 +1,7 @@
-namespace Mooc.Backend.Controllers.HealthCheck
+namespace MoocApps.Backend.Controllers.HealthCheck
 {
     using Microsoft.AspNetCore.Mvc;
-    using src.Shared.Domain;
+    using Shared.Domain;
 
     [Route("health-check")]
     public class HealthCheckGetController : Controller

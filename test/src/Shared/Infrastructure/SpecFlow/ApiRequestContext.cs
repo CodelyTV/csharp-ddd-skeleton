@@ -1,35 +1,55 @@
-﻿namespace src.test.Shared.Infrastructure.SpecFlow
+﻿namespace SharedTest.src.Infrastructure.SpecFlow
 {
     using System;
     using System.Net.Http;
     using System.Text;
+    using System.Threading.Tasks;
     using Factory;
-    using Mooc.Backend;
+    using MoocApps.Backend;
     using TechTalk.SpecFlow;
     using Xunit;
 
     [Binding]
     public class ApiRequestContext : IClassFixture<CustomWebApiApplicationFactory<Startup>>
     {
-        private CustomWebApiApplicationFactory<Startup> Factory { get; set; }
         private FactorySessionHelper<Startup> SessionHelper { get; set; }
 
         public ApiRequestContext(CustomWebApiApplicationFactory<Startup> factory)
         {
-            Factory = factory;
-            SessionHelper = new FactorySessionHelper<Startup>(Factory);
+            if (factory == null) throw new ArgumentException("CustomWebApiApplicationFactory object null");
+            this.SessionHelper = factory.SessionHelper;
         }
 
-        [Given(@"I send a GET request to '(.*)'")]
-        public void GivenISendAGetRequestTo(string route)
+        [Given(@"I send a '(.*)' request to '(.*)'")]
+        public async Task GivenISendAGetRequestTo(string method, string route)
         {
-            this.SessionHelper.SendRequest(HttpMethod.Get, new Uri(route, UriKind.Relative));
+            await this.SessionHelper.SendRequest(GetHttpMethod(method), new Uri(route, UriKind.Relative));
         }
 
-        [Given(@"I send a GET request to '(.*)' with body '(.*)'")]
-        public void GivenISendAGetRequestToWithBody(string route, string body)
+        [Given(@"I send a '(.*)' request to '(.*)' with body:")]
+        public async Task GivenISendAGetRequestToWithBody(string method, string route, string body)
         {
-            this.SessionHelper.SendRequest(HttpMethod.Get, new Uri(route), new StringContent(body, Encoding.UTF8, "application/json"));
+            await this.SessionHelper.SendRequest(GetHttpMethod(method), new Uri(route, UriKind.Relative),
+                new StringContent(body, Encoding.UTF8, "application/json"));
+        }
+
+        private static HttpMethod GetHttpMethod(string method)
+        {
+            switch (method)
+            {
+                case "GET":
+                    return HttpMethod.Get;
+                case "POST":
+                    return HttpMethod.Post;
+                case "PUT":
+                    return HttpMethod.Put;
+                case "DELETE":
+                    return HttpMethod.Delete;
+                case "PATCH":
+                    return HttpMethod.Patch;
+            }
+
+            return null;
         }
     }
 }

@@ -1,67 +1,62 @@
-﻿namespace src.test.Shared.Infrastructure.Factory
+﻿namespace SharedTest.src.Infrastructure.Factory
 {
     using System;
+    using System.Net;
     using System.Net.Http;
     using System.Net.Http.Headers;
     using System.Threading.Tasks;
-    using Newtonsoft.Json;
 
     public class FactorySessionHelper<T> where T : class
     {
-        public CustomWebApiApplicationFactory<T> Factory { get; set; }
+        private HttpClient Client { get; set; }
 
-        public FactorySessionHelper(CustomWebApiApplicationFactory<T> Factory)
+        private HttpResponseMessage Response { get; set; }
+
+        public FactorySessionHelper(CustomWebApiApplicationFactory<T> factory)
         {
-            this.Factory = Factory;
+            if (factory == null) throw new ArgumentException("CustomWebApiApplicationFactory object null");
+            Client = factory.CreateTestClient();
         }
 
-        public void SendRequest(HttpMethod method, Uri url)
+        public async Task SendRequest(HttpMethod method, Uri url)
         {
-            this.Factory.Request = new HttpRequestMessage(method, url);
+            using (var request = new HttpRequestMessage(method, url))
+            {
+                this.Response = await this.Client.SendAsync(request);
+            }
         }
 
-        public void SendRequest(HttpMethod method, Uri uri, StringContent content)
+        public async Task SendRequest(HttpMethod method, Uri uri, StringContent content)
         {
-            this.Factory.Request = new HttpRequestMessage
+            using (var request = new HttpRequestMessage
             {
                 Method = method,
                 RequestUri = uri,
                 Content = content
-            };
+            })
+            {
+                this.Response = await this.Client.SendAsync(request);
+            }
         }
 
-        public async Task<string> GetResponseContent()
+        public string GetResponseContent()
         {
-            var client = this.Factory.CreateTestClient();
-
-            var response = await client.SendAsync(this.Factory.Request);
-
-            return JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result).ToString();
+            return this.Response.Content.ReadAsStringAsync().Result;
         }
 
-        public async Task<HttpResponseMessage> GetResponse()
+        public HttpResponseMessage GetResponse()
         {
-            var client = this.Factory.CreateTestClient();
-
-            return await client.SendAsync(this.Factory.Request);
+            return this.Response;
         }
 
-        public async Task<HttpHeaders> GetResponseHeaders()
+        public HttpHeaders GetResponseHeaders()
         {
-            var client = this.Factory.CreateTestClient();
-
-            var response = await client.SendAsync(this.Factory.Request);
-
-            return response.Headers;
+            return this.Response.Headers;
         }
 
-        public async Task<HttpHeaders> GetResponseStatusCode()
+        public HttpStatusCode GetResponseStatusCode()
         {
-            var client = this.Factory.CreateTestClient();
-
-            var response = await client.SendAsync(this.Factory.Request);
-
-            return response.Headers;
+            return this.Response.StatusCode;
         }
     }
 }

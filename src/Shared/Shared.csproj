@@ -2,7 +2,10 @@
 
     <PropertyGroup>
         <TargetFramework>netcoreapp2.2</TargetFramework>
-        <RootNamespace>src.Shared</RootNamespace>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+        <NoWarn>CA1716</NoWarn>
     </PropertyGroup>
 
     <ItemGroup>
@@ -10,7 +13,6 @@
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.CodeQuality.Analyzers" Version="2.9.6"/>
     </ItemGroup>
 
 </Project>

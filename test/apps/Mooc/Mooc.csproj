@@ -2,8 +2,9 @@
 
     <PropertyGroup>
         <TargetFramework>netcoreapp2.2</TargetFramework>
-
         <IsPackable>false</IsPackable>
+        <AssemblyName>MoocTest.apps</AssemblyName>
+        <RootNamespace>MoocTest.apps</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -24,8 +25,11 @@
         <None Update="specflow.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Include="features\health_check_get.feature">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        <None Include="Features\HealthCheck\HealthCheckGet.feature">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Include="Features\Courses\CoursePut.feature">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
     </ItemGroup>
 

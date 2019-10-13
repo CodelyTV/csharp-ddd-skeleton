@@ -1,4 +1,4 @@
-namespace src.Shared.Domain
+namespace Shared.Domain
 {
     public interface IRandomNumberGenerator
     {

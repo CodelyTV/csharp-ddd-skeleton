@@ -1,12 +1,12 @@
-﻿namespace Mooc.Backend
+﻿namespace MoocApps.Backend
 {
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-    using src.Shared.Domain;
-    using src.Shared.Infrastructure;
+    using Shared.Domain;
+    using Shared.Infrastructure;
 
     public class Startup
     {

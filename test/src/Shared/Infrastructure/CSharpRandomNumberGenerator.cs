@@ -1,6 +1,6 @@
-namespace src.test.Shared.Infrastructure
+namespace SharedTest.src.Infrastructure
 {
-    using src.Shared.Infrastructure;
+    using Shared.Infrastructure;
     using Xunit;
 
     public class CSharpRandomNumberGeneratorMother

@@ -1,6 +1,6 @@
-namespace src.test.Shared.Infrastructure
+namespace SharedTest.src.Infrastructure
 {
-    using src.Shared.Domain;
+    using Shared.Domain;
 
     public class ConstantNumberGenerator : IRandomNumberGenerator
     {
