@@ -20,7 +20,7 @@ namespace MoocApps.Backend.Controllers.Courses
         {
             body = JsonConvert.DeserializeObject(Convert.ToString(body));
 
-            this.Creator.Invoke(new CreateCourseRequest(id, body["name"], body["duration"]));
+            this.Creator.Invoke(new CreateCourseRequest(id, body["name"].ToString(), body["duration"].ToString()));
 
             return StatusCode(201);
         }

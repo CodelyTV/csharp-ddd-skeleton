@@ -10,15 +10,15 @@ namespace Mooc.Courses.Infrastructure
 
         public void Save(Course course)
         {
-            using (StreamWriter outputFile = new StreamWriter(this.FileName(course.Id), false))
+            using (StreamWriter outputFile = new StreamWriter(this.FileName(course.Id.Value), false))
             {
                 outputFile.WriteLine(JsonConvert.SerializeObject(course));
             }
         }
 
-        public Course Search(string id)
+        public Course Search(CourseId id)
         {
-            return File.Exists(FileName(id)) ? JsonConvert.DeserializeObject<Course>(File.ReadAllText(FileName(id))) : null;
+            return File.Exists(FileName(id.Value)) ? JsonConvert.DeserializeObject<Course>(File.ReadAllText(FileName(id.Value))) : null;
         }
 
         private string FileName(string id)

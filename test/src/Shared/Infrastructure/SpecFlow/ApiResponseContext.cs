@@ -57,7 +57,7 @@
         {
             var statuscode = this.SessionHelper.GetResponseStatusCode();
 
-            Assert.True(expectedResponseCode == (int) statuscode);
+            Assert.Equal(expectedResponseCode, (int) statuscode);
         }
     }
 }

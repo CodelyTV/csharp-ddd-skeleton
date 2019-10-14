@@ -11,7 +11,7 @@ namespace MoocTest.src.Courses.Infrastructure
         public void Save_Course_ItShouldSave()
         {
             var repository = new FileCourseRepository();
-            var course = new Course("id", "name", "duration");
+            var course = new Course(new CourseId("decf33ca-81a7-419f-a07a-74f214e928e5"), "name", "duration");
 
             repository.Save(course);
         }
@@ -20,7 +20,7 @@ namespace MoocTest.src.Courses.Infrastructure
         public void Save_Course_ShouldReturnAnExistingCourse()
         {
             var repository = new FileCourseRepository();
-            var course = new Course("id", "name", "duration");
+            var course = new Course(new CourseId("decf33ca-81a7-419f-a07a-74f214e928e5"), "name", "duration");
 
             repository.Save(course);
 
@@ -32,7 +32,7 @@ namespace MoocTest.src.Courses.Infrastructure
         {
             var repository = new FileCourseRepository();
 
-            Assert.Null(repository.Search("randomId"));
+            Assert.Null(repository.Search(new CourseId("65cc2174-30bf-4630-9392-f8084f088cc6")));
         }
     }
 }
