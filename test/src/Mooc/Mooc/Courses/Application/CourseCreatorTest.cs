@@ -1,7 +1,7 @@
 namespace MoocTest.src.Courses.Application
 {
     using FakeItEasy;
-    using Mooc.Courses.Application;
+    using Mooc.Courses.Application.Create;
     using Mooc.Courses.Domain;
     using Xunit;
 
@@ -21,7 +21,7 @@ namespace MoocTest.src.Courses.Application
 
             A.CallTo(() => repository.Save(course));
 
-            creator.Invoke(id, name, duration);
+            creator.Invoke(new CreateCourseRequest(id, name, duration));
         }
     }
 }

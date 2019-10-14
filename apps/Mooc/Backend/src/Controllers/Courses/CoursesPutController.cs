@@ -2,7 +2,8 @@ namespace MoocApps.Backend.Controllers.Courses
 {
     using System;
     using Microsoft.AspNetCore.Mvc;
-    using Mooc.Courses.Application;
+    using Mooc.Courses.Application.Create;
+    using Newtonsoft.Json;
 
     [Route("courses")]
     public class CoursesPutController : Controller
@@ -17,12 +18,9 @@ namespace MoocApps.Backend.Controllers.Courses
         [HttpPut("{id}")]
         public IActionResult Index(string id, [FromBody] dynamic body)
         {
-            body = Newtonsoft.Json.JsonConvert.DeserializeObject(Convert.ToString(body));
+            body = JsonConvert.DeserializeObject(Convert.ToString(body));
 
-            string name = body["name"];
-            string duration = body["duration"];
-
-            this.Creator.Invoke(id, name, duration);
+            this.Creator.Invoke(new CreateCourseRequest(id, body["name"], body["duration"]));
 
             return StatusCode(201);
         }

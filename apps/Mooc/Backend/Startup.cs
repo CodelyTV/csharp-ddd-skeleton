@@ -5,7 +5,7 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-    using Mooc.Courses.Application;
+    using Mooc.Courses.Application.Create;
     using Mooc.Courses.Domain;
     using Mooc.Courses.Infrastructure;
     using Shared.Domain;

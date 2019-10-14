@@ -1,4 +1,4 @@
-namespace Mooc.Courses.Application
+namespace Mooc.Courses.Application.Create
 {
     using Domain;
 
@@ -11,9 +11,9 @@ namespace Mooc.Courses.Application
             Repository = repository;
         }
 
-        public void Invoke(string id, string name, string duration)
+        public void Invoke(CreateCourseRequest request)
         {
-            Course course = new Course(id, name, duration);
+            Course course = new Course(request.Id, request.Name, request.Duration);
 
             this.Repository.Save(course);
         }
