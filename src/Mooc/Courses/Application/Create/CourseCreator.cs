@@ -14,7 +14,10 @@ namespace Mooc.Courses.Application.Create
         public void Invoke(CreateCourseRequest request)
         {
             var id = new CourseId(request.Id);
-            Course course = new Course(id, request.Name, request.Duration);
+            var name = new CourseName(request.Name);
+            var duration = new CourseDuration(request.Duration);
+
+            Course course = new Course(id, name, duration);
 
             this.Repository.Save(course);
         }

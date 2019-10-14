@@ -15,7 +15,7 @@ namespace MoocTest.src.Courses.Application.Create
 
             var request = new CreateCourseRequest("decf33ca-81a7-419f-a07a-74f214e928e5", "some-name", "some-duration");
 
-            var course = new Course(new CourseId(request.Id), request.Name, request.Duration);
+            var course = new Course(new CourseId(request.Id), new CourseName(request.Name), new CourseDuration(request.Duration));
 
             A.CallTo(() => repository.Save(course));
 
