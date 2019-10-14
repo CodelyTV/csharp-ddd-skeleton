@@ -27,6 +27,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared", "test\src\Shared\S
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mooc", "test\apps\Mooc\Mooc.csproj", "{FFB9FECE-2CB4-4795-8A9C-3DF1A45B4C01}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mooc", "test\src\Mooc\Mooc\Mooc.csproj", "{2FC463F0-1E9E-454D-BA41-9B9AB506CA42}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +55,10 @@ Global
 		{FFB9FECE-2CB4-4795-8A9C-3DF1A45B4C01}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FFB9FECE-2CB4-4795-8A9C-3DF1A45B4C01}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FFB9FECE-2CB4-4795-8A9C-3DF1A45B4C01}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2FC463F0-1E9E-454D-BA41-9B9AB506CA42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FC463F0-1E9E-454D-BA41-9B9AB506CA42}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FC463F0-1E9E-454D-BA41-9B9AB506CA42}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FC463F0-1E9E-454D-BA41-9B9AB506CA42}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -67,6 +73,7 @@ Global
 		{69472605-F119-4A17-8D5E-E2F9D7C9FEB0} = {950BA3E7-4F83-4D34-B805-932683E66D11}
 		{D7BF9671-0397-42F7-AE02-ADAA013B89AD} = {73884FEF-DAD3-43E0-AA56-8B75AF6E6568}
 		{FFB9FECE-2CB4-4795-8A9C-3DF1A45B4C01} = {69472605-F119-4A17-8D5E-E2F9D7C9FEB0}
+		{2FC463F0-1E9E-454D-BA41-9B9AB506CA42} = {73884FEF-DAD3-43E0-AA56-8B75AF6E6568}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B97A4396-5C75-4848-848F-949B7BE081E2}

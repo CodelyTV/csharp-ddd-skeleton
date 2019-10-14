@@ -17,6 +17,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\..\..\src\Mooc\Mooc.csproj"/>
         <ProjectReference Include="..\..\..\src\Shared\Shared.csproj"/>
     </ItemGroup>
 </Project>

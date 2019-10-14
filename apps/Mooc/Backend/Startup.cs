@@ -5,6 +5,9 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Mooc.Courses.Application;
+    using Mooc.Courses.Domain;
+    using Mooc.Courses.Infrastructure;
     using Shared.Domain;
     using Shared.Infrastructure;
 
@@ -23,6 +26,8 @@
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddScoped<IRandomNumberGenerator, CSharpRandomNumberGenerator>();
+            services.AddScoped<CourseCreator, CourseCreator>();
+            services.AddScoped<ICourseRepository, FileCourseRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
