@@ -1,38 +1,33 @@
 namespace MoocTest.src.Courses.Infrastructure
 {
     using Domain;
-    using Mooc.Courses.Infrastructure;
     using Newtonsoft.Json;
     using Xunit;
 
-    public class FileCourseRepositoryTest
+    public class FileCourseRepositoryTest : CoursesModuleInfrastructureTestCase
     {
         [Fact]
         public void Save_Course_ItShouldSave()
         {
-            var repository = new FileCourseRepository();
             var course = CourseMother.Random();
 
-            repository.Save(course);
+            this.Repository.Save(course);
         }
 
         [Fact]
         public void Save_Course_ShouldReturnAnExistingCourse()
         {
-            var repository = new FileCourseRepository();
             var course = CourseMother.Random();
 
-            repository.Save(course);
+            this.Repository.Save(course);
 
-            Assert.Equal(JsonConvert.SerializeObject(course), JsonConvert.SerializeObject(repository.Search(course.Id)));
+            Assert.Equal(JsonConvert.SerializeObject(course), JsonConvert.SerializeObject(this.Repository.Search(course.Id)));
         }
 
         [Fact]
         public void Search_NonExistingId_ItShouldNotReturnANonExistingCourse()
         {
-            var repository = new FileCourseRepository();
-
-            Assert.Null(repository.Search(CourseIdMother.Random()));
+            Assert.Null(this.Repository.Search(CourseIdMother.Random()));
         }
     }
 }
