@@ -1,5 +1,6 @@
 namespace MoocTest.src.Courses.Application.Create
 {
+    using Domain;
     using FakeItEasy;
     using Mooc.Courses.Application.Create;
     using Mooc.Courses.Domain;
@@ -13,9 +14,8 @@ namespace MoocTest.src.Courses.Application.Create
             var repository = A.Fake<ICourseRepository>();
             var creator = new CourseCreator(repository);
 
-            var request = new CreateCourseRequest("decf33ca-81a7-419f-a07a-74f214e928e5", "some-name", "some-duration");
-
-            var course = new Course(new CourseId(request.Id), new CourseName(request.Name), new CourseDuration(request.Duration));
+            var request = CreateCourseRequestMother.Random();
+            var course = CourseMother.FromRequest(request);
 
             A.CallTo(() => repository.Save(course));
 
