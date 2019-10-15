@@ -1,36 +1,33 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <PropertyGroup>
+        <TargetFramework>netcoreapp2.2</TargetFramework>
+        <IsPackable>false</IsPackable>
+        <AssemblyName>SharedTest.src</AssemblyName>
+        <RootNamespace>SharedTest.src</RootNamespace>
+    </PropertyGroup>
 
-    <IsPackable>false</IsPackable>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+        <NoWarn>CA1707,CA1716,CA2007,CA1303</NoWarn>
+    </PropertyGroup>
 
-      <AssemblyName>SharedTest.src</AssemblyName>
+    <ItemGroup>
+        <PackageReference Include="Bogus" Version="28.3.2"/>
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="2.2.0"/>
+        <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.6">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.0.1"/>
+        <PackageReference Include="Newtonsoft.Json" Version="12.0.2"/>
+        <PackageReference Include="SpecFlow" Version="3.0.225"/>
+        <PackageReference Include="xunit" Version="2.4.0"/>
+        <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0"/>
+    </ItemGroup>
 
-      <RootNamespace>SharedTest.src</RootNamespace>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-      <NoWarn>CA1707,CA1716,CA2007,CA1303</NoWarn>
-  </PropertyGroup>
-
-  <ItemGroup>
-      <PackageReference Include="Bogus" Version="28.3.2"/>
-      <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="2.2.0"/>
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.6">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-      <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.0.1"/>
-      <PackageReference Include="Newtonsoft.Json" Version="12.0.2"/>
-      <PackageReference Include="SpecFlow" Version="3.0.225"/>
-      <PackageReference Include="xunit" Version="2.4.0"/>
-      <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0"/>
-  </ItemGroup>
-
-  <ItemGroup>
-      <ProjectReference Include="..\..\..\apps\Mooc\Backend\Backend.csproj"/>
-      <ProjectReference Include="..\..\..\src\Shared\Shared.csproj"/>
-  </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\..\..\apps\Mooc\Backend\Backend.csproj"/>
+        <ProjectReference Include="..\..\..\src\Shared\Shared.csproj"/>
+    </ItemGroup>
 
 </Project>

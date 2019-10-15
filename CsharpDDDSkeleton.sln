@@ -27,7 +27,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared", "test\src\Shared\S
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mooc", "test\apps\Mooc\Mooc.csproj", "{FFB9FECE-2CB4-4795-8A9C-3DF1A45B4C01}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mooc", "test\src\Mooc\Mooc\Mooc.csproj", "{2FC463F0-1E9E-454D-BA41-9B9AB506CA42}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mooc", "test\src\Mooc\Mooc.csproj", "{2FC463F0-1E9E-454D-BA41-9B9AB506CA42}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
