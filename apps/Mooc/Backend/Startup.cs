@@ -3,11 +3,13 @@
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Mooc.Courses.Application.Create;
     using Mooc.Courses.Domain;
-    using Mooc.Courses.Infrastructure;
+    using Mooc.Courses.Infrastructure.Persistence;
+    using Mooc.Courses.Infrastructure.Persistence.EntityFramework;
     using Shared.Domain;
     using Shared.Infrastructure;
 
@@ -21,13 +23,15 @@
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public static void ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddScoped<IRandomNumberGenerator, CSharpRandomNumberGenerator>();
             services.AddScoped<CourseCreator, CourseCreator>();
-            services.AddScoped<ICourseRepository, FileCourseRepository>();
+            services.AddScoped<ICourseRepository, MySqlCourseRepository>();
+
+            services.AddDbContext<CourseContext>(options => options.UseMySQL(Configuration.GetConnectionString("MoocDatabase")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
