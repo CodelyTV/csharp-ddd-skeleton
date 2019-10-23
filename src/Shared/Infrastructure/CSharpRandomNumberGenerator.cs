@@ -1,4 +1,4 @@
-namespace Shared.Infrastructure
+namespace CodelyTv.Shared.Infrastructure
 {
     using System;
     using Domain;

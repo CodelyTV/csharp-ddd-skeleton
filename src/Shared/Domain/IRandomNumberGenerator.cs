@@ -1,4 +1,4 @@
-namespace Shared.Domain
+namespace CodelyTv.Shared.Domain
 {
     public interface IRandomNumberGenerator
     {

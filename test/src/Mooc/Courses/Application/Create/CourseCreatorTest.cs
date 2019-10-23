@@ -1,7 +1,7 @@
-namespace MoocTest.src.Courses.Application.Create
+namespace CodelyTv.Tests.Mooc.Courses.Application.Create
 {
+    using CodelyTv.Mooc.Courses.Application.Create;
     using Domain;
-    using Mooc.Courses.Application.Create;
     using Xunit;
 
     public class CourseCreatorTest : CoursesModuleUnitTestCase

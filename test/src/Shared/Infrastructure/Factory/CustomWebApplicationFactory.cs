@@ -1,12 +1,12 @@
-﻿namespace SharedTest.src.Infrastructure.Factory
+﻿namespace CodelyTv.Test.Shared.Infrastructure.Factory
 {
     using System.Net.Http;
+    using CodelyTv.Shared.Domain;
     using Microsoft.AspNetCore.Mvc.Testing;
     using Microsoft.AspNetCore.TestHost;
     using Microsoft.Extensions.DependencyInjection;
     using Mooc.Courses.Domain;
     using Mooc.Courses.Infrastructure;
-    using Shared.Domain;
 
     public class CustomWebApiApplicationFactory<TStartup>
         : WebApplicationFactory<TStartup> where TStartup : class

@@ -1,4 +1,4 @@
-namespace SharedTest.src.Domain
+namespace CodelyTv.Test.Shared.Domain
 {
     public class WordMother
     {

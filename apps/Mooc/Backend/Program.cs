@@ -1,4 +1,4 @@
-﻿namespace MoocApps.Backend
+﻿namespace CodelyTv.Apps.Mooc.Backend
 {
     using Microsoft.AspNetCore;
     using Microsoft.AspNetCore.Hosting;

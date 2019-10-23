@@ -1,6 +1,6 @@
-namespace MoocTest.src.Courses
+namespace CodelyTv.Tests.Mooc.Courses
 {
-    using Mooc.Courses.Infrastructure;
+    using CodelyTv.Mooc.Courses.Infrastructure;
 
     public abstract class CoursesModuleInfrastructureTestCase
     {

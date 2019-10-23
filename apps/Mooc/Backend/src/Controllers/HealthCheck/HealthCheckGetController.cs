@@ -1,4 +1,4 @@
-namespace MoocApps.Backend.Controllers.HealthCheck
+namespace CodelyTv.Apps.Mooc.Backend.Controllers.HealthCheck
 {
     using Microsoft.AspNetCore.Mvc;
     using Shared.Domain;

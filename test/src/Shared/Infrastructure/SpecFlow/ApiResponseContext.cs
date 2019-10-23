@@ -1,8 +1,8 @@
-﻿namespace SharedTest.src.Infrastructure.SpecFlow
+﻿namespace CodelyTv.Test.Shared.Infrastructure.SpecFlow
 {
     using System;
+    using Apps.Mooc.Backend;
     using Factory;
-    using MoocApps.Backend;
     using Newtonsoft.Json;
     using TechTalk.SpecFlow;
     using Xunit;

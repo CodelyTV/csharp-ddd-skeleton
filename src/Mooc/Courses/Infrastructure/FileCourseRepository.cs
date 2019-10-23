@@ -1,4 +1,4 @@
-namespace Mooc.Courses.Infrastructure
+namespace CodelyTv.Mooc.Courses.Infrastructure
 {
     using System.IO;
     using Domain;

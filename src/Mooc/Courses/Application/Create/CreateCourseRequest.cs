@@ -1,4 +1,4 @@
-namespace Mooc.Courses.Application.Create
+namespace CodelyTv.Mooc.Courses.Application.Create
 {
     public class CreateCourseRequest
     {

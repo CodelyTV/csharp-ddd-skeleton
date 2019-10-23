@@ -1,10 +1,10 @@
-namespace Mooc.Courses.Application.Create
+namespace CodelyTv.Mooc.Courses.Application.Create
 {
     using Domain;
 
     public class CourseCreator
     {
-        public ICourseRepository Repository { get; private set; }
+        private ICourseRepository Repository;
 
         public CourseCreator(ICourseRepository repository)
         {
@@ -18,7 +18,7 @@ namespace Mooc.Courses.Application.Create
             var duration = new CourseDuration(request.Duration);
 
             Course course = new Course(id, name, duration);
-
+            
             this.Repository.Save(course);
         }
     }

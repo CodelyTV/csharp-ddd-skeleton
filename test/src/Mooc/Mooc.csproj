@@ -3,19 +3,19 @@
     <PropertyGroup>
         <TargetFramework>netcoreapp2.2</TargetFramework>
         <IsPackable>false</IsPackable>
-        <AssemblyName>MoocTest.src</AssemblyName>
-        <RootNamespace>MoocTest.src</RootNamespace>
+        <AssemblyName>CodelyTv.Tests.Mooc</AssemblyName>
+        <RootNamespace>CodelyTv.Tests.Mooc</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="FakeItEasy" Version="5.2.0"/>
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.3.0"/>
-        <PackageReference Include="xunit" Version="2.4.0"/>
-        <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0"/>
+        <PackageReference Include="FakeItEasy" Version="5.2.0" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.3.0" />
+        <PackageReference Include="xunit" Version="2.4.0" />
+        <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\..\src\Mooc\Mooc.csproj"/>
-        <ProjectReference Include="..\Shared\Shared.csproj"/>
+        <ProjectReference Include="..\..\..\src\Mooc\Mooc.csproj" />
+        <ProjectReference Include="..\Shared\Shared.csproj" />
     </ItemGroup>
 </Project>

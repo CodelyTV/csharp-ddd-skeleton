@@ -1,4 +1,4 @@
-namespace Shared.Domain.ValueObject
+namespace CodelyTv.Shared.Domain.ValueObject
 {
     using System.Globalization;
 

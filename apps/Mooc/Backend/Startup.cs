@@ -1,15 +1,15 @@
-﻿namespace MoocApps.Backend
+﻿namespace CodelyTv.Apps.Mooc.Backend
 {
+    using CodelyTv.Mooc.Courses.Application.Create;
+    using CodelyTv.Mooc.Courses.Domain;
+    using CodelyTv.Mooc.Courses.Infrastructure.Persistence;
+    using CodelyTv.Mooc.Shared.Infrastructure.Persistence.EntityFramework;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-    using Mooc.Courses.Application.Create;
-    using Mooc.Courses.Domain;
-    using Mooc.Courses.Infrastructure.Persistence;
-    using Mooc.Courses.Infrastructure.Persistence.EntityFramework;
     using Shared.Domain;
     using Shared.Infrastructure;
 
@@ -31,7 +31,7 @@
             services.AddScoped<CourseCreator, CourseCreator>();
             services.AddScoped<ICourseRepository, MySqlCourseRepository>();
 
-            services.AddDbContext<CourseContext>(options => options.UseMySQL(Configuration.GetConnectionString("MoocDatabase")));
+            services.AddDbContext<MoocContext>(options => options.UseMySQL(Configuration.GetConnectionString("MoocDatabase")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

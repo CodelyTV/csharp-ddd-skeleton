@@ -1,20 +1,20 @@
-namespace Mooc.Courses.Infrastructure.Persistence.EntityFramework
+namespace CodelyTv.Mooc.Shared.Infrastructure.Persistence.EntityFramework
 {
-    using Domain;
+    using Courses.Domain;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-    public class CourseContext : DbContext
+    public class MoocContext : DbContext
     {
         public DbSet<Course> Courses { get; set; }
 
-        public CourseContext(DbContextOptions<CourseContext> options) : base(options)
+        public MoocContext(DbContextOptions<MoocContext> options) : base(options)
         {
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Course>()
-                .ToTable("courses");
+            RelationalEntityTypeBuilderExtensions.ToTable((EntityTypeBuilder) modelBuilder.Entity<Course>(), "courses");
 
             modelBuilder.Entity<Course>().HasKey(x => x.Id);
 

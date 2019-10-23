@@ -1,4 +1,4 @@
-namespace Mooc.Courses.Domain
+namespace CodelyTv.Mooc.Courses.Domain
 {
     public interface ICourseRepository
     {

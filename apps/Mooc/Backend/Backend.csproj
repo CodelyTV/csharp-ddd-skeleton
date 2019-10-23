@@ -2,8 +2,8 @@
 
     <PropertyGroup>
         <TargetFramework>netcoreapp2.2</TargetFramework>
-        <RootNamespace>MoocApps.Backend</RootNamespace>
-        <AssemblyName>MoocApps.Backend</AssemblyName>
+        <RootNamespace>CodelyTv.Apps.Mooc.Backend</RootNamespace>
+        <AssemblyName>CodelyTv.Apps.Mooc.Backend</AssemblyName>
     </PropertyGroup>
 
     <ItemGroup>

@@ -1,4 +1,4 @@
-namespace MoocTest.src.Courses.Infrastructure
+namespace CodelyTv.Tests.Mooc.Courses.Infrastructure
 {
     using Domain;
     using Newtonsoft.Json;

@@ -1,4 +1,4 @@
-namespace Shared.Domain.ValueObject
+namespace CodelyTv.Shared.Domain.ValueObject
 {
     public class StringValueObject
     {

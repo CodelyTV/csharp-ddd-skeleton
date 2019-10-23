@@ -1,4 +1,4 @@
-﻿namespace SharedTest.src.Infrastructure.Factory
+﻿namespace CodelyTv.Test.Shared.Infrastructure.Factory
 {
     using System;
     using System.Net;

@@ -2,6 +2,8 @@
 
     <PropertyGroup>
         <TargetFramework>netcoreapp2.2</TargetFramework>
+        <AssemblyName>CodelyTv.Shared</AssemblyName>
+        <RootNamespace>CodelyTv.Shared</RootNamespace>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -13,6 +15,11 @@
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.6"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Folder Include="Infrastructure\Persistence\EntityFramework"/>
     </ItemGroup>
 
 </Project>

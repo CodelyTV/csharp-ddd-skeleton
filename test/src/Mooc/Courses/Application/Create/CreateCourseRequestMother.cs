@@ -1,8 +1,8 @@
-namespace MoocTest.src.Courses.Application.Create
+namespace CodelyTv.Tests.Mooc.Courses.Application.Create
 {
+    using CodelyTv.Mooc.Courses.Application.Create;
+    using CodelyTv.Mooc.Courses.Domain;
     using Domain;
-    using Mooc.Courses.Application.Create;
-    using Mooc.Courses.Domain;
 
     public static class CreateCourseRequestMother
     {

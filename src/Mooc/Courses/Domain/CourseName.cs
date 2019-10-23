@@ -1,6 +1,6 @@
-namespace Mooc.Courses.Domain
+namespace CodelyTv.Mooc.Courses.Domain
 {
-    using Shared.Domain.ValueObject;
+    using CodelyTv.Shared.Domain.ValueObject;
 
     public class CourseName : StringValueObject
     {

@@ -1,6 +1,6 @@
-namespace SharedTest.src.Infrastructure
+namespace CodelyTv.Test.Shared.Infrastructure
 {
-    using Shared.Domain;
+    using CodelyTv.Shared.Domain;
 
     public class ConstantNumberGenerator : IRandomNumberGenerator
     {

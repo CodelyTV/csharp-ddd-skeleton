@@ -1,14 +1,14 @@
-namespace MoocApps.Backend.Controllers.Courses
+namespace CodelyTv.Apps.Mooc.Backend.Controllers.Courses
 {
     using System;
+    using CodelyTv.Mooc.Courses.Application.Create;
     using Microsoft.AspNetCore.Mvc;
-    using Mooc.Courses.Application.Create;
     using Newtonsoft.Json;
 
     [Route("courses")]
     public class CoursesPutController : Controller
     {
-        public CourseCreator Creator { get; private set; }
+        private CourseCreator Creator { get; set; }
 
         public CoursesPutController(CourseCreator creator)
         {

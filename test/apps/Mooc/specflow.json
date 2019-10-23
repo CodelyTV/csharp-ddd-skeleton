@@ -4,7 +4,7 @@
   },
   "stepAssemblies": [
     {
-      "assembly": "SharedTest.src"
+      "assembly": "CodelyTv.Test.Shared"
     }
   ]
 }

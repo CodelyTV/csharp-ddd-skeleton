@@ -1,7 +1,7 @@
-namespace MoocTest.src.Courses.Domain
+namespace CodelyTv.Tests.Mooc.Courses.Domain
 {
-    using Mooc.Courses.Domain;
-    using SharedTest.src.Domain;
+    using CodelyTv.Mooc.Courses.Domain;
+    using Test.Shared.Domain;
 
     public class CourseNameMother
     {

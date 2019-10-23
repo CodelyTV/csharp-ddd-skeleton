@@ -1,11 +1,11 @@
-﻿namespace SharedTest.src.Infrastructure.SpecFlow
+﻿namespace CodelyTv.Test.Shared.Infrastructure.SpecFlow
 {
     using System;
     using System.Net.Http;
     using System.Text;
     using System.Threading.Tasks;
+    using Apps.Mooc.Backend;
     using Factory;
-    using MoocApps.Backend;
     using TechTalk.SpecFlow;
     using Xunit;
 

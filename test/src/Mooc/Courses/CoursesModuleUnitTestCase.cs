@@ -1,7 +1,7 @@
-namespace MoocTest.src.Courses
+namespace CodelyTv.Tests.Mooc.Courses
 {
+    using CodelyTv.Mooc.Courses.Domain;
     using FakeItEasy;
-    using Mooc.Courses.Domain;
 
     public abstract class CoursesModuleUnitTestCase
     {
