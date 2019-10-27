@@ -2,9 +2,9 @@ namespace CodelyTv.Mooc.Courses.Application.Create
 {
     public class CreateCourseRequest
     {
-        public string Id { get; private set; }
-        public string Name { get; private set; }
-        public string Duration { get; private set; }
+        public string Id { get; }
+        public string Name { get; }
+        public string Duration { get; }
 
         public CreateCourseRequest(string id, string name, string duration)
         {

@@ -4,11 +4,11 @@ namespace CodelyTv.Mooc.Courses.Application.Create
 
     public class CourseCreator
     {
-        private ICourseRepository Repository;
+        private readonly ICourseRepository _repository;
 
         public CourseCreator(ICourseRepository repository)
         {
-            Repository = repository;
+            _repository = repository;
         }
 
         public void Invoke(CreateCourseRequest request)
@@ -18,8 +18,8 @@ namespace CodelyTv.Mooc.Courses.Application.Create
             var duration = new CourseDuration(request.Duration);
 
             Course course = new Course(id, name, duration);
-            
-            this.Repository.Save(course);
+
+            this._repository.Save(course);
         }
     }
 }

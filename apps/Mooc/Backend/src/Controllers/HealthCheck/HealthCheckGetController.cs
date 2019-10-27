@@ -6,18 +6,18 @@ namespace CodelyTv.Apps.Mooc.Backend.Controllers.HealthCheck
     [Route("health-check")]
     public class HealthCheckGetController : Controller
     {
+        private readonly IRandomNumberGenerator _generator;
+
         public HealthCheckGetController(IRandomNumberGenerator generator)
         {
-            Generator = generator;
+            _generator = generator;
         }
-
-        private IRandomNumberGenerator Generator { get; }
 
         [HttpGet]
         [Produces("application/json")]
-        public IActionResult Index()
+        public IActionResult Invoke()
         {
-            return Ok(new {moocBackend = "ok", rand = Generator.Generate()});
+            return Ok(new {moocBackend = "ok", rand = _generator.Generate()});
         }
     }
 }

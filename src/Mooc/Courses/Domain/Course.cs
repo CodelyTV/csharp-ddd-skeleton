@@ -1,7 +1,7 @@
 namespace CodelyTv.Mooc.Courses.Domain
 {
     public class Course
-    { 
+    {
         public CourseId Id { get; private set; }
         public CourseName Name { get; private set; }
         public CourseDuration Duration { get; private set; }
@@ -11,6 +11,10 @@ namespace CodelyTv.Mooc.Courses.Domain
             Id = id;
             Name = name;
             Duration = duration;
+        }
+
+        private Course()
+        {
         }
     }
 }

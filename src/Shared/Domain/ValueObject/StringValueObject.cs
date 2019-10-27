@@ -1,6 +1,8 @@
 namespace CodelyTv.Shared.Domain.ValueObject
 {
-    public class StringValueObject
+    using System.Collections.Generic;
+
+    public class StringValueObject : ValueObject
     {
         public string Value { get; private set; }
 
@@ -12,6 +14,11 @@ namespace CodelyTv.Shared.Domain.ValueObject
         public override string ToString()
         {
             return this.Value;
+        }
+
+        protected override IEnumerable<object> GetAtomicValues()
+        {
+            yield return Value;
         }
     }
 }

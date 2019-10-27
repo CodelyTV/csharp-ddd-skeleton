@@ -8,21 +8,21 @@
 
     public class FactorySessionHelper<T> where T : class
     {
-        private HttpClient Client { get; set; }
+        private readonly HttpClient _client;
 
-        private HttpResponseMessage Response { get; set; }
+        private HttpResponseMessage _response;
 
         public FactorySessionHelper(CustomWebApiApplicationFactory<T> factory)
         {
             if (factory == null) throw new ArgumentException("CustomWebApiApplicationFactory object null");
-            Client = factory.CreateTestClient();
+            _client = factory.CreateTestClient();
         }
 
         public async Task SendRequest(HttpMethod method, Uri url)
         {
             using (var request = new HttpRequestMessage(method, url))
             {
-                this.Response = await this.Client.SendAsync(request);
+                this._response = await this._client.SendAsync(request);
             }
         }
 
@@ -35,28 +35,28 @@
                 Content = content
             })
             {
-                this.Response = await this.Client.SendAsync(request);
+                this._response = await this._client.SendAsync(request);
             }
         }
 
         public string GetResponseContent()
         {
-            return this.Response.Content.ReadAsStringAsync().Result;
+            return this._response.Content.ReadAsStringAsync().Result;
         }
 
         public HttpResponseMessage GetResponse()
         {
-            return this.Response;
+            return this._response;
         }
 
         public HttpHeaders GetResponseHeaders()
         {
-            return this.Response.Headers;
+            return this._response.Headers;
         }
 
         public HttpStatusCode GetResponseStatusCode()
         {
-            return this.Response.StatusCode;
+            return this._response.StatusCode;
         }
     }
 }
