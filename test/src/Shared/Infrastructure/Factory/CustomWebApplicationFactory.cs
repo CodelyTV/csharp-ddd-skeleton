@@ -11,7 +11,7 @@
     public class CustomWebApiApplicationFactory<TStartup>
         : WebApplicationFactory<TStartup> where TStartup : class
     {
-        public FactorySessionHelper<TStartup> SessionHelper { get; private set; }
+        public FactorySessionHelper<TStartup> SessionHelper { get; }
 
         public CustomWebApiApplicationFactory()
         {

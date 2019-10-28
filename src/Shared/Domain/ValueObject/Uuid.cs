@@ -6,7 +6,7 @@ namespace CodelyTv.Shared.Domain.ValueObject
 
     public class Uuid : ValueObject
     {
-        public string Value { get; private set; }
+        public string Value { get; }
 
         public Uuid(string value)
         {

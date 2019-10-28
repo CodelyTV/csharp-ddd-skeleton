@@ -5,7 +5,7 @@ namespace CodelyTv.Shared.Domain.ValueObject
 
     public class IntValueObject : ValueObject
     {
-        public int Value { get; private set; }
+        public int Value { get; }
 
         public IntValueObject(int value)
         {

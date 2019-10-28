@@ -4,7 +4,7 @@ namespace CodelyTv.Shared.Domain.ValueObject
 
     public class StringValueObject : ValueObject
     {
-        public string Value { get; private set; }
+        public string Value { get; }
 
         public StringValueObject(string value)
         {
