@@ -10,12 +10,12 @@
     [Binding]
     public class ApiResponseContext : IClassFixture<CustomWebApiApplicationFactory<Startup>>
     {
-        private FactorySessionHelper<Startup> SessionHelper { get; set; }
+        private readonly FactorySessionHelper<Startup> _sessionHelper;
 
         public ApiResponseContext(CustomWebApiApplicationFactory<Startup> factory)
         {
             if (factory == null) throw new ArgumentException("CustomWebApiApplicationFactory object null");
-            this.SessionHelper = factory.SessionHelper;
+            this._sessionHelper = factory.SessionHelper;
         }
 
         [Then(@"the response content should be:")]
@@ -23,7 +23,7 @@
         {
             string expected = JsonConvert.DeserializeObject(multilineText).ToString();
 
-            var actual = JsonConvert.DeserializeObject(this.SessionHelper.GetResponseContent()).ToString();
+            var actual = JsonConvert.DeserializeObject(this._sessionHelper.GetResponseContent()).ToString();
 
             Assert.Equal(expected, actual);
         }
@@ -31,7 +31,7 @@
         [Then(@"the response should be empty")]
         public void ThenTheResponseShouldBeEmpty()
         {
-            var actual = this.SessionHelper.GetResponseContent();
+            var actual = this._sessionHelper.GetResponseContent();
 
             Assert.Empty(actual);
         }
@@ -39,7 +39,7 @@
         [Then(@"print last api response")]
         public void ThenPrintApiResponse()
         {
-            var actual = this.SessionHelper.GetResponseContent();
+            var actual = this._sessionHelper.GetResponseContent();
 
             Console.WriteLine(actual);
         }
@@ -47,7 +47,7 @@
         [Then(@"print response headers")]
         public void ThenPrintResponseHeaders()
         {
-            var headers = this.SessionHelper.GetResponseHeaders();
+            var headers = this._sessionHelper.GetResponseHeaders();
 
             Console.WriteLine(headers);
         }
@@ -55,7 +55,7 @@
         [Then(@"the response status code should be (.*)")]
         public void ThenTheResponseStatusCodeShouldBe(int expectedResponseCode)
         {
-            var statuscode = this.SessionHelper.GetResponseStatusCode();
+            var statuscode = this._sessionHelper.GetResponseStatusCode();
 
             Assert.Equal(expectedResponseCode, (int) statuscode);
         }

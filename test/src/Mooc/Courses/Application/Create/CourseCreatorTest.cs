@@ -6,11 +6,11 @@ namespace CodelyTv.Tests.Mooc.Courses.Application.Create
 
     public class CourseCreatorTest : CoursesModuleUnitTestCase
     {
-        private CourseCreator Creator;
+        private readonly CourseCreator _creator;
 
         public CourseCreatorTest()
         {
-            this.Creator = new CourseCreator(this.Repository);
+            this._creator = new CourseCreator(this.Repository);
         }
 
         [Fact]
@@ -21,7 +21,7 @@ namespace CodelyTv.Tests.Mooc.Courses.Application.Create
 
             this.ShouldSave(course);
 
-            this.Creator.Invoke(request);
+            this._creator.Invoke(request);
         }
     }
 }

@@ -4,6 +4,6 @@ namespace CodelyTv.Tests.Mooc.Courses
 
     public abstract class CoursesModuleInfrastructureTestCase
     {
-        protected FileCourseRepository Repository = new FileCourseRepository();
+        protected readonly FileCourseRepository Repository = new FileCourseRepository();
     }
 }

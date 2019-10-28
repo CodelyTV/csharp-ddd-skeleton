@@ -1,11 +1,12 @@
 namespace CodelyTv.Shared.Domain.ValueObject
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel;
 
-    public class Uuid
+    public class Uuid : ValueObject
     {
-        public string Value { get; private set; }
+        public string Value { get; }
 
         public Uuid(string value)
         {
@@ -29,6 +30,11 @@ namespace CodelyTv.Shared.Domain.ValueObject
         public static Uuid Random()
         {
             return new Uuid(Guid.NewGuid().ToString());
+        }
+
+        protected override IEnumerable<object> GetAtomicValues()
+        {
+            yield return Value;
         }
     }
 }

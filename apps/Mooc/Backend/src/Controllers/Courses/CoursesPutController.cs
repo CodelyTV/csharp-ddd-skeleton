@@ -8,19 +8,19 @@ namespace CodelyTv.Apps.Mooc.Backend.Controllers.Courses
     [Route("courses")]
     public class CoursesPutController : Controller
     {
-        private CourseCreator Creator { get; set; }
+        private readonly CourseCreator _creator;
 
         public CoursesPutController(CourseCreator creator)
         {
-            Creator = creator;
+            _creator = creator;
         }
 
         [HttpPut("{id}")]
-        public IActionResult Index(string id, [FromBody] dynamic body)
+        public IActionResult Invoke(string id, [FromBody] dynamic body)
         {
             body = JsonConvert.DeserializeObject(Convert.ToString(body));
 
-            this.Creator.Invoke(new CreateCourseRequest(id, body["name"].ToString(), body["duration"].ToString()));
+            this._creator.Invoke(new CreateCourseRequest(id, body["name"].ToString(), body["duration"].ToString()));
 
             return StatusCode(201);
         }
