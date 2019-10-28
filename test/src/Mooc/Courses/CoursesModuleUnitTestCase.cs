@@ -5,7 +5,7 @@ namespace CodelyTv.Tests.Mooc.Courses
 
     public abstract class CoursesModuleUnitTestCase
     {
-        protected ICourseRepository Repository = A.Fake<ICourseRepository>();
+        protected readonly ICourseRepository Repository = A.Fake<ICourseRepository>();
 
         protected void ShouldSave(Course course)
         {

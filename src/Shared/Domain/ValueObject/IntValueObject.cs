@@ -1,10 +1,11 @@
 namespace CodelyTv.Shared.Domain.ValueObject
 {
+    using System.Collections.Generic;
     using System.Globalization;
 
-    public class IntValueObject
+    public class IntValueObject : ValueObject
     {
-        public int Value { get; private set; }
+        public int Value { get; }
 
         public IntValueObject(int value)
         {
@@ -14,6 +15,11 @@ namespace CodelyTv.Shared.Domain.ValueObject
         public override string ToString()
         {
             return this.Value.ToString(NumberFormatInfo.InvariantInfo);
+        }
+
+        protected override IEnumerable<object> GetAtomicValues()
+        {
+            yield return Value;
         }
     }
 }

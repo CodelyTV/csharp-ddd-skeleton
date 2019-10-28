@@ -1,6 +1,7 @@
 namespace CodelyTv.Mooc.Courses.Infrastructure
 {
     using System.IO;
+    using System.Threading.Tasks;
     using Domain;
     using Newtonsoft.Json;
 
@@ -8,12 +9,15 @@ namespace CodelyTv.Mooc.Courses.Infrastructure
     {
         private readonly string _filePath = Directory.GetCurrentDirectory() + "/courses";
 
-        public void Save(Course course)
+        public async Task Save(Course course)
         {
-            using (StreamWriter outputFile = new StreamWriter(this.FileName(course.Id.Value), false))
+            await Task.Run(() =>
             {
-                outputFile.WriteLine(JsonConvert.SerializeObject(course));
-            }
+                using (StreamWriter outputFile = new StreamWriter(this.FileName(course.Id.Value), false))
+                {
+                    outputFile.WriteLine(JsonConvert.SerializeObject(course));
+                }
+            });
         }
 
         public Course Search(CourseId id)

@@ -1,8 +1,10 @@
 namespace CodelyTv.Mooc.Courses.Domain
 {
+    using System.Threading.Tasks;
+
     public interface ICourseRepository
     {
-        void Save(Course course);
+        Task Save(Course course);
         Course Search(CourseId id);
     }
 }

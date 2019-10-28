@@ -1,5 +1,6 @@
 namespace CodelyTv.Tests.Mooc.Courses.Infrastructure
 {
+    using System.Threading.Tasks;
     using Domain;
     using Newtonsoft.Json;
     using Xunit;
@@ -7,19 +8,19 @@ namespace CodelyTv.Tests.Mooc.Courses.Infrastructure
     public class FileCourseRepositoryTest : CoursesModuleInfrastructureTestCase
     {
         [Fact]
-        public void Save_Course_ItShouldSave()
+        public async Task Save_Course_ItShouldSave()
         {
             var course = CourseMother.Random();
 
-            this.Repository.Save(course);
+            await this.Repository.Save(course);
         }
 
         [Fact]
-        public void Save_Course_ShouldReturnAnExistingCourse()
+        public async Task Save_Course_ShouldReturnAnExistingCourse()
         {
             var course = CourseMother.Random();
 
-            this.Repository.Save(course);
+            await this.Repository.Save(course);
 
             Assert.Equal(JsonConvert.SerializeObject(course), JsonConvert.SerializeObject(this.Repository.Search(course.Id)));
         }
