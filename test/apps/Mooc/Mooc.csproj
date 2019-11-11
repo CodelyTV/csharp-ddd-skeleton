@@ -35,6 +35,6 @@
 
     <ItemGroup>
         <ProjectReference Include="..\..\..\apps\Mooc\Backend\Backend.csproj"/>
-        <ProjectReference Include="..\..\src\Shared\Shared.csproj"/>
+        <ProjectReference Include="..\..\src\Mooc\Mooc.csproj"/>
     </ItemGroup>
 </Project>

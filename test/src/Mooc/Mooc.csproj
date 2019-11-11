@@ -18,4 +18,8 @@
         <ProjectReference Include="..\..\..\src\Mooc\Mooc.csproj" />
         <ProjectReference Include="..\Shared\Shared.csproj" />
     </ItemGroup>
+
+    <ItemGroup>
+        <Folder Include="Shared"/>
+    </ItemGroup>
 </Project>

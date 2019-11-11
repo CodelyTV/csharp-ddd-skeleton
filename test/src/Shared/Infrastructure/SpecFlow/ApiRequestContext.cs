@@ -1,35 +1,26 @@
-﻿namespace CodelyTv.Test.Shared.Infrastructure.SpecFlow
+namespace CodelyTv.Test.Shared.Infrastructure.SpecFlow
 {
     using System;
     using System.Net.Http;
     using System.Text;
     using System.Threading.Tasks;
-    using Apps.Mooc.Backend;
     using Factory;
     using TechTalk.SpecFlow;
-    using Xunit;
 
-    [Binding]
-    public class ApiRequestContext : IClassFixture<CustomWebApiApplicationFactory<Startup>>
+    public abstract class ApiRequestContext<TStartup> where TStartup : class
     {
-        private readonly FactorySessionHelper<Startup> _sessionHelper;
-
-        public ApiRequestContext(CustomWebApiApplicationFactory<Startup> factory)
-        {
-            if (factory == null) throw new ArgumentException("CustomWebApiApplicationFactory object null");
-            this._sessionHelper = factory.SessionHelper;
-        }
+        protected SessionHelper<TStartup> SessionHelper;
 
         [Given(@"I send a '(.*)' request to '(.*)'")]
         public async Task GivenISendAGetRequestTo(string method, string route)
         {
-            await this._sessionHelper.SendRequest(GetHttpMethod(method), new Uri(route, UriKind.Relative));
+            await this.SessionHelper.SendRequest(GetHttpMethod(method), new Uri(route, UriKind.Relative));
         }
 
         [Given(@"I send a '(.*)' request to '(.*)' with body:")]
         public async Task GivenISendAGetRequestToWithBody(string method, string route, string body)
         {
-            await this._sessionHelper.SendRequest(GetHttpMethod(method), new Uri(route, UriKind.Relative),
+            await this.SessionHelper.SendRequest(GetHttpMethod(method), new Uri(route, UriKind.Relative),
                 new StringContent(body, Encoding.UTF8, "application/json"));
         }
 

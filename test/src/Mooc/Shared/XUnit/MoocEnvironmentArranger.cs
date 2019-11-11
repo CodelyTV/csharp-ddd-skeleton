@@ -1,8 +1,8 @@
-namespace CodelyTv.Test.Shared.Infrastructure.XUnit
+namespace CodelyTv.Tests.Mooc.Shared.XUnit
 {
-    using Arranger;
-    using EntityFramework;
-    using Mooc.Shared.Infrastructure.Persistence.EntityFramework;
+    using CodelyTv.Mooc.Shared.Infrastructure.Persistence.EntityFramework;
+    using Test.Shared.Infrastructure.Arranger;
+    using Test.Shared.Infrastructure.EntityFramework;
 
     public class MoocEnvironmentArranger : IEnvironmentArranger
     {
