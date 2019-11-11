@@ -7,8 +7,8 @@
     {
         public MoocFactorySessionHelper()
         {
-            var testServer = CreateServer();
-            this.Client = testServer.CreateClient();
+            base.CreateServer();
+            this.Client = TestServer.CreateClient();
         }
     }
 }

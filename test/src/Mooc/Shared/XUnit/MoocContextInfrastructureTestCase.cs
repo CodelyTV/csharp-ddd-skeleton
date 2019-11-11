@@ -1,22 +1,28 @@
 namespace CodelyTv.Tests.Mooc.Shared.XUnit
 {
+    using System;
     using Apps.Mooc.Backend;
     using CodelyTv.Mooc.Shared.Infrastructure.Persistence.EntityFramework;
-    using Microsoft.AspNetCore.TestHost;
     using Microsoft.Extensions.DependencyInjection;
     using Test.Shared.Infrastructure.XUnit;
 
-    public abstract class MoocContextInfrastructureTestCase : InfrastructureTestCase<Startup>
+    public abstract class MoocContextInfrastructureTestCase : InfrastructureTestCase<Startup>, IDisposable
     {
-        protected void SetUp(TestServer server)
+        public MoocContextInfrastructureTestCase()
         {
-            var arranger = new MoocEnvironmentArranger(server.Host.Services.GetService<MoocContext>());
+            base.CreateServer();
+            this.SetUp();
+        }
+
+        private void SetUp()
+        {
+            var arranger = new MoocEnvironmentArranger(this.TestServer.Host.Services.GetService<MoocContext>());
             arranger.Arrange();
         }
 
-        protected void TearDown(TestServer server)
+        public void Dispose()
         {
-            var arranger = new MoocEnvironmentArranger(server.Host.Services.GetService<MoocContext>());
+            var arranger = new MoocEnvironmentArranger(this.TestServer.Host.Services.GetService<MoocContext>());
             arranger.Close();
         }
     }

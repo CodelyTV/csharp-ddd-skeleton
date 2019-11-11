@@ -10,37 +10,28 @@ namespace CodelyTv.Tests.Mooc.Courses.Infrastructure.Persistence
         [Fact]
         public async Task Save_Course_ItShouldSave()
         {
-            using (var server = CreateServer())
-            {
-                var course = CourseMother.Random();
+            var course = CourseMother.Random();
 
-                var repository = Repository(server);
-                await repository.Save(course);
-            }
+            var repository = Repository();
+            await repository.Save(course);
         }
 
         [Fact]
         public async Task Save_Course_ShouldReturnAnExistingCourse()
         {
-            using (var server = CreateServer())
-            {
-                var course = CourseMother.Random();
-                var repository = Repository(server);
+            var course = CourseMother.Random();
+            var repository = Repository();
 
-                await repository.Save(course);
+            await repository.Save(course);
 
-                Assert.Equal(JsonConvert.SerializeObject(course), JsonConvert.SerializeObject(repository.Search(course.Id)));
-            }
+            Assert.Equal(JsonConvert.SerializeObject(course), JsonConvert.SerializeObject(repository.Search(course.Id)));
         }
 
         [Fact]
         public void Search_NonExistingId_ItShouldNotReturnANonExistingCourse()
         {
-            using (var server = CreateServer())
-            {
-                var repository = Repository(server);
-                Assert.Null(repository.Search(CourseIdMother.Random()));
-            }
+            var repository = Repository();
+            Assert.Null(repository.Search(CourseIdMother.Random()));
         }
     }
 }

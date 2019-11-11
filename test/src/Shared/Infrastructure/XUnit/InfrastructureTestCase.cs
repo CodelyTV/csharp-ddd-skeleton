@@ -10,7 +10,9 @@ namespace CodelyTv.Test.Shared.Infrastructure.XUnit
 
     public abstract class InfrastructureTestCase<TStartup> where TStartup : class
     {
-        protected TestServer CreateServer()
+        protected TestServer TestServer;
+
+        protected void CreateServer()
         {
             var path = Assembly.GetAssembly(typeof(InfrastructureTestCase<TStartup>))
                 .Location;
@@ -24,9 +26,7 @@ namespace CodelyTv.Test.Shared.Infrastructure.XUnit
                 }).ConfigureTestServices(services => { services.AddScoped<IRandomNumberGenerator, ConstantNumberGenerator>(); })
                 .UseStartup<TStartup>();
 
-            var testServer = new TestServer(hostBuilder);
-
-            return testServer;
+            TestServer = new TestServer(hostBuilder);
         }
     }
 }
