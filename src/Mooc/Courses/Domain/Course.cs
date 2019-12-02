@@ -1,6 +1,8 @@
 namespace CodelyTv.Mooc.Courses.Domain
 {
-    public class Course
+    using CodelyTv.Shared.Domain.Aggregate;
+
+    public class Course : AggregateRoot
     {
         public CourseId Id { get; private set; }
         public CourseName Name { get; private set; }
@@ -15,6 +17,15 @@ namespace CodelyTv.Mooc.Courses.Domain
 
         private Course()
         {
+        }
+
+        public static Course Create(CourseId id, CourseName name, CourseDuration duration)
+        {
+            Course course = new Course(id, name, duration);
+
+            course.Record(new CourseCreatedDomainEvent(id.Value, name.Value, duration.Value));
+
+            return course;
         }
     }
 }

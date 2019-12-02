@@ -16,7 +16,7 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event
             _serviceProvider = serviceProvider;
         }
 
-        public async Task Publish(List<IDomainEvent> events)
+        public async Task Publish(List<DomainEvent> events)
         {
             using (IServiceScope scope = _serviceProvider.CreateScope())
             {
@@ -34,11 +34,11 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event
             }
         }
 
-        private async Task Notify(Type suscriberType, object suscriber, IDomainEvent @event)
+        private async Task Notify(Type suscriberType, object suscriber, DomainEvent @event)
         {
             object result = suscriberType
                 .GetTypeInfo()
-                .GetDeclaredMethod(nameof(IDomainEventSuscriber<IDomainEvent>.On))
+                .GetDeclaredMethod(nameof(IDomainEventSuscriber<DomainEvent>.On))
                 .Invoke(suscriber, new object[]
                 {
                     @event

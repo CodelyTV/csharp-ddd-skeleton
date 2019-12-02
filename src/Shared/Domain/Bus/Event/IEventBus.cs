@@ -5,6 +5,6 @@ namespace CodelyTv.Shared.Domain.Bus.Event
 
     public interface IEventBus
     {
-        Task Publish(List<IDomainEvent> events);
+        Task Publish(List<DomainEvent> events);
     }
 }

@@ -10,7 +10,7 @@ namespace CodelyTv.Tests.Mooc.Courses.Application.Create
 
         public CourseCreatorTest()
         {
-            this._creator = new CourseCreator(this.Repository);
+            this._creator = new CourseCreator(this.Repository, this.EventBus);
         }
 
         [Fact]
