@@ -12,7 +12,7 @@
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="2.2.0"/>
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="3.0.0"/>
         <PackageReference Include="SpecFlow" Version="3.0.225"/>
         <PackageReference Include="SpecFlow.Tools.MsBuild.Generation" Version="3.0.225"/>
         <PackageReference Include="SpecFlow.xUnit" Version="3.0.225"/>
