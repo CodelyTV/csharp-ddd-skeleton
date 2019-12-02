@@ -11,7 +11,9 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Shared.Domain;
+    using Shared.Domain.Bus.Event;
     using Shared.Infrastructure;
+    using Shared.Infrastructure.Bus.Event;
 
     public class Startup
     {
@@ -30,6 +32,8 @@
             services.AddScoped<IRandomNumberGenerator, CSharpRandomNumberGenerator>();
             services.AddScoped<CourseCreator, CourseCreator>();
             services.AddScoped<ICourseRepository, MySqlCourseRepository>();
+
+            services.AddScoped<IEventBus, InMemoryEventBus>();
 
             services.AddDbContext<MoocContext>(options => options.UseMySQL(_configuration.GetConnectionString("MoocDatabase")));
         }
