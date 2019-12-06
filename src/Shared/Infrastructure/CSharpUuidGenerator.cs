@@ -1,8 +1,9 @@
 namespace CodelyTv.Shared.Infrastructure
 {
     using System;
+    using Domain;
 
-    public class CSharpUuidGenerator
+    public class CSharpUuidGenerator : IUuidGenerator
     {
         public string Generate()
         {

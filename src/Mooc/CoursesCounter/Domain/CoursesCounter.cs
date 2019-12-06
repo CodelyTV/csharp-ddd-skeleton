@@ -17,6 +17,10 @@ namespace CodelyTv.Mooc.CoursesCounter.Domain
             ExistingCourses = existingCourses;
         }
 
+        private CoursesCounter()
+        {
+        }
+
         public static CoursesCounter Initialize(string id)
         {
             return new CoursesCounter(new CoursesCounterId(id), CoursesCounterTotal.Initialize(), new List<CourseId>());

@@ -1,11 +1,15 @@
 ﻿namespace CodelyTv.Apps.Mooc.Backend
 {
+    using System;
+    using System.Linq;
     using CodelyTv.Mooc.Courses.Application.Create;
     using CodelyTv.Mooc.Courses.Domain;
     using CodelyTv.Mooc.Courses.Infrastructure.Persistence;
+    using CodelyTv.Mooc.CoursesCounter.Application.Incrementer;
     using CodelyTv.Mooc.CoursesCounter.Domain;
     using CodelyTv.Mooc.CoursesCounter.Infrastructure.Persistence;
     using CodelyTv.Mooc.Shared.Infrastructure.Persistence.EntityFramework;
+    using Extension;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Mvc;
@@ -34,9 +38,13 @@
             services.AddScoped<IRandomNumberGenerator, CSharpRandomNumberGenerator>();
             services.AddScoped<CourseCreator, CourseCreator>();
             services.AddScoped<ICourseRepository, MySqlCourseRepository>();
+
+            services.AddScoped<CoursesCounterIncrementer, CoursesCounterIncrementer>();
+            services.AddScoped<IUuidGenerator, CSharpUuidGenerator>();
             services.AddScoped<ICoursesCounterRepository, MySqlCoursesCounterRepository>();
 
             services.AddScoped<IEventBus, InMemoryEventBus>();
+            services.AddDomainEventSuscribersServices(AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(x => x.FullName.Contains("CodelyTv.Mooc")));
 
             services.AddDbContext<MoocContext>(options => options.UseMySQL(_configuration.GetConnectionString("MoocDatabase")));
         }

@@ -17,7 +17,7 @@ namespace CodelyTv.Mooc.CoursesCounter.Application.Incrementer
 
         public void Increment(CourseId id)
         {
-            CoursesCounter counter = repository.Search() ?? CoursesCounter.Initialize(uuidGenerator.Generate());
+            CoursesCounter counter = repository.Search() ?? InitializeCounter();
 
             if (!counter.HasIncremented(id))
             {
@@ -25,6 +25,11 @@ namespace CodelyTv.Mooc.CoursesCounter.Application.Incrementer
 
                 repository.Save(counter);
             }
+        }
+
+        private CoursesCounter InitializeCounter()
+        {
+            return CoursesCounter.Initialize(uuidGenerator.Generate());
         }
     }
 }
