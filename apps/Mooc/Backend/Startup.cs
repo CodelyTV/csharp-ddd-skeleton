@@ -24,10 +24,12 @@
     public class Startup
     {
         private readonly IConfiguration _configuration;
+        private IHostingEnvironment _currentEnvironment;
 
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IHostingEnvironment currentEnvironment)
         {
             _configuration = configuration;
+            _currentEnvironment = currentEnvironment;
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -46,7 +48,17 @@
             services.AddScoped<IEventBus, InMemoryEventBus>();
             services.AddDomainEventSuscribersServices(AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(x => x.FullName.Contains("CodelyTv.Mooc")));
 
-            services.AddDbContext<MoocContext>(options => options.UseMySQL(_configuration.GetConnectionString("MoocDatabase")));
+            services.AddDbContext<MoocContext>(GetDatabaseOptions());
+        }
+
+        private Action<DbContextOptionsBuilder> GetDatabaseOptions()
+        {
+            if (this._currentEnvironment.IsEnvironment("Testing"))
+            {
+                return options => options.UseInMemoryDatabase("TestingDB");
+            }
+            
+            return options => options.UseMySQL(_configuration.GetConnectionString("MoocDatabase"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

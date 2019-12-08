@@ -1,21 +1,26 @@
 namespace CodelyTv.Tests.Mooc.CoursesCounter
 {
     using CodelyTv.Mooc.CoursesCounter.Domain;
-    using FakeItEasy;
+    using Moq;
     using Test.Shared.Infrastructure;
 
     public class CoursesCounterModuleUnitTestCase : UnitTestCase
     {
-        protected readonly ICoursesCounterRepository Repository = A.Fake<ICoursesCounterRepository>();
+        protected readonly Mock<ICoursesCounterRepository> Repository;
 
-        protected void ShouldSave(CoursesCounter counter)
+        protected CoursesCounterModuleUnitTestCase()
         {
-            A.CallTo(() => this.Repository.Save(counter));
+            this.Repository = new Mock<ICoursesCounterRepository>();
+        }
+
+        protected void ShouldHaveSave(CoursesCounter course)
+        {
+            this.Repository.Verify(x => x.Save(course), Times.AtLeastOnce());
         }
 
         protected void ShouldSearch(CoursesCounter counter)
         {
-            A.CallTo(() => this.Repository.Search()).Returns(counter);
+            this.Repository.Setup(x => x.Search()).Returns(counter);
         }
     }
 }

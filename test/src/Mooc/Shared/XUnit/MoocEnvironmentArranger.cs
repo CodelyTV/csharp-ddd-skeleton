@@ -15,7 +15,6 @@ namespace CodelyTv.Tests.Mooc.Shared.XUnit
 
         public void Arrange()
         {
-            new DatabaseCleaner().Invoke(_context);
         }
 
         public void Close()

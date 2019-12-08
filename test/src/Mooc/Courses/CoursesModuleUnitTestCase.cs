@@ -1,16 +1,21 @@
 namespace CodelyTv.Tests.Mooc.Courses
 {
     using CodelyTv.Mooc.Courses.Domain;
-    using FakeItEasy;
+    using Moq;
     using Test.Shared.Infrastructure;
 
     public abstract class CoursesModuleUnitTestCase : UnitTestCase
     {
-        protected readonly ICourseRepository Repository = A.Fake<ICourseRepository>();
+        protected readonly Mock<ICourseRepository> Repository;
 
-        protected void ShouldSave(Course course)
+        protected CoursesModuleUnitTestCase()
         {
-            A.CallTo(() => this.Repository.Save(course));
+            this.Repository = new Mock<ICourseRepository>();
+        }
+
+        protected void ShouldHaveSave(Course course)
+        {
+            this.Repository.Verify(x => x.Save(course), Times.AtLeastOnce());
         }
     }
 }

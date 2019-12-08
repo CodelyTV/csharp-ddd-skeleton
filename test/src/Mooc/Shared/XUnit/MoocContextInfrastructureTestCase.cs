@@ -10,7 +10,7 @@ namespace CodelyTv.Tests.Mooc.Shared.XUnit
     {
         public MoocContextInfrastructureTestCase()
         {
-            base.CreateServer();
+            base.CreateServer<MoocContext>();
             this.SetUp();
         }
 

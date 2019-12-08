@@ -10,7 +10,7 @@ namespace CodelyTv.Tests.Mooc.Courses.Application.Create
 
         public CourseCreatorTest()
         {
-            this._creator = new CourseCreator(this.Repository, this.EventBus);
+            this._creator = new CourseCreator(this.Repository.Object, this.EventBus.Object);
         }
 
         [Fact]
@@ -18,10 +18,12 @@ namespace CodelyTv.Tests.Mooc.Courses.Application.Create
         {
             var request = CreateCourseRequestMother.Random();
             var course = CourseMother.FromRequest(request);
-
-            this.ShouldSave(course);
+            var domainEvent = CourseCreatedDomainEventMother.FromCourse(course);
 
             this._creator.Invoke(request);
+
+            this.ShouldHaveSave(course);
+            this.ShouldHavePublished(domainEvent);
         }
     }
 }
