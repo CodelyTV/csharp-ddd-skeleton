@@ -17,6 +17,10 @@ namespace CodelyTv.Shared.Domain.Bus.Event
             OccurredOn = occurredOn ?? Utils.DateToString(DateTime.Now);
         }
 
+        protected DomainEvent()
+        {
+        }
+
         public abstract string EventName();
         public abstract Dictionary<string, string> ToPrimitives();
         public abstract DomainEvent FromPrimitives(string aggregateId, Dictionary<string, string> body, string eventId, string occurredOn);
