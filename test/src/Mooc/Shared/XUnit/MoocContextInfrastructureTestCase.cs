@@ -1,29 +1,29 @@
 namespace CodelyTv.Tests.Mooc.Shared.XUnit
 {
-    using System;
+    using System.Linq;
     using Apps.Mooc.Backend;
     using CodelyTv.Mooc.Shared.Infrastructure.Persistence.EntityFramework;
+    using Microsoft.AspNetCore.TestHost;
+    using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
     using Test.Shared.Infrastructure.XUnit;
 
-    public abstract class MoocContextInfrastructureTestCase : InfrastructureTestCase<Startup>, IDisposable
+    public abstract class MoocContextInfrastructureTestCase : InfrastructureTestCase<Startup>
     {
+        protected TestServer TestServer { get; }
+
         public MoocContextInfrastructureTestCase()
         {
-            base.CreateServer();
-            this.SetUp();
+            this.TestServer = base.CreateServer(CreateTestServices<MoocContext>);
         }
 
-        private void SetUp()
+        protected override void CreateTestServices<TDbContext>(IServiceCollection services)
         {
-            var arranger = new MoocEnvironmentArranger(this.TestServer.Host.Services.GetService<MoocContext>());
-            arranger.Arrange();
-        }
+            var descriptor = services.SingleOrDefault(d => d.ServiceType == typeof(DbContextOptions<TDbContext>));
+            if (descriptor != null)
+                services.Remove(descriptor);
 
-        public void Dispose()
-        {
-            var arranger = new MoocEnvironmentArranger(this.TestServer.Host.Services.GetService<MoocContext>());
-            arranger.Close();
+            services.AddDbContext<TDbContext>(options => options.UseInMemoryDatabase("TestingDB"));
         }
     }
 }

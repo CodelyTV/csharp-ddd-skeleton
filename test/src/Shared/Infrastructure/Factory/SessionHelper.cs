@@ -7,7 +7,7 @@ namespace CodelyTv.Test.Shared.Infrastructure.Factory
     using System.Threading.Tasks;
     using XUnit;
 
-    public class SessionHelper<TStartup> : InfrastructureTestCase<TStartup> where TStartup : class
+    public abstract class SessionHelper<TStartup> : InfrastructureTestCase<TStartup> where TStartup : class
     {
         private HttpResponseMessage Response;
         protected HttpClient Client;

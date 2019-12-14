@@ -12,7 +12,7 @@ namespace CodelyTv.Tests.Mooc.Courses.Domain
 
         public static Course FromRequest(CreateCourseRequest request)
         {
-            return Create(CourseIdMother.Random(), CourseNameMother.Random(), CourseDurationMother.Random());
+            return Create(CourseIdMother.Create(request.Id), CourseNameMother.Create(request.Name), CourseDurationMother.Create(request.Duration));
         }
 
         public static Course Random()

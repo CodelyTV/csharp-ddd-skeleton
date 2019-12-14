@@ -1,5 +1,6 @@
 namespace CodelyTv.Mooc.Courses.Domain
 {
+    using System;
     using CodelyTv.Shared.Domain.Aggregate;
 
     public class Course : AggregateRoot
@@ -26,6 +27,21 @@ namespace CodelyTv.Mooc.Courses.Domain
             course.Record(new CourseCreatedDomainEvent(id.Value, name.Value, duration.Value));
 
             return course;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (this == obj) return true;
+
+            var item = obj as Course;
+            if (item == null) return false;
+
+            return this.Id.Equals(item.Id) && this.Name.Equals(item.Name) && this.Duration.Equals(item.Duration);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(this.Id, this.Name, this.Duration);
         }
     }
 }

@@ -2,15 +2,20 @@ namespace CodelyTv.Test.Shared.Infrastructure
 {
     using System.Collections.Generic;
     using CodelyTv.Shared.Domain.Bus.Event;
-    using FakeItEasy;
+    using Moq;
 
     public class UnitTestCase
     {
-        protected readonly IEventBus EventBus = A.Fake<IEventBus>();
+        protected readonly Mock<IEventBus> EventBus;
+
+        public UnitTestCase()
+        {
+            this.EventBus = new Mock<IEventBus>();
+        }
 
         public void ShouldHavePublished(List<DomainEvent> domainEvents)
         {
-            A.CallTo(() => this.EventBus.Publish(domainEvents)).MustHaveHappenedOnceOrMore();
+            this.EventBus.Verify(x => x.Publish(domainEvents), Times.AtLeastOnce());
         }
 
         public void ShouldHavePublished(DomainEvent domainEvent)

@@ -37,4 +37,8 @@
         <ProjectReference Include="..\..\..\apps\Mooc\Backend\Backend.csproj"/>
         <ProjectReference Include="..\..\src\Mooc\Mooc.csproj"/>
     </ItemGroup>
+
+    <ItemGroup>
+        <Content Include="Features\CoursesCounter\CoursesCounterGet.feature"/>
+    </ItemGroup>
 </Project>

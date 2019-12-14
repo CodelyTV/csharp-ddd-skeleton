@@ -1,5 +1,6 @@
 namespace CodelyTv.Mooc.Courses.Domain
 {
+    using System;
     using System.Collections.Generic;
     using CodelyTv.Shared.Domain.Bus.Event;
 
@@ -13,6 +14,10 @@ namespace CodelyTv.Mooc.Courses.Domain
         {
             Name = name;
             Duration = duration;
+        }
+
+        public CourseCreatedDomainEvent()
+        {
         }
 
         public override string EventName()
@@ -32,6 +37,21 @@ namespace CodelyTv.Mooc.Courses.Domain
         public override DomainEvent FromPrimitives(string aggregateId, Dictionary<string, string> body, string eventId, string occurredOn)
         {
             return new CourseCreatedDomainEvent(aggregateId, body["name"], body["duration"], eventId, occurredOn);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (this == obj) return true;
+
+            var item = obj as CourseCreatedDomainEvent;
+            if (item == null) return false;
+
+            return this.AggregateId.Equals(item.AggregateId) && this.Name.Equals(item.Name) && this.Duration.Equals(item.Duration);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(this.AggregateId, this.Name, this.Duration);
         }
     }
 }

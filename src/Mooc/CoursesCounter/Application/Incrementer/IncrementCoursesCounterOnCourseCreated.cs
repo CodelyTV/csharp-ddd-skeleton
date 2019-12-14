@@ -1,0 +1,23 @@
+namespace CodelyTv.Mooc.CoursesCounter.Application.Incrementer
+{
+    using System.Threading.Tasks;
+    using CodelyTv.Shared.Domain.Bus.Event;
+    using Courses.Domain;
+
+    public class IncrementCoursesCounterOnCourseCreated : IDomainEventSuscriber<CourseCreatedDomainEvent>
+    {
+        private readonly CoursesCounterIncrementer _incrementer;
+
+        public IncrementCoursesCounterOnCourseCreated(CoursesCounterIncrementer incrementer)
+        {
+            _incrementer = incrementer;
+        }
+
+        public async Task On(CourseCreatedDomainEvent @event)
+        {
+            CourseId courseId = new CourseId(@event.AggregateId);
+
+            _incrementer.Increment(courseId);
+        }
+    }
+}
