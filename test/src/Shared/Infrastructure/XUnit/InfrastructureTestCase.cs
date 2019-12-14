@@ -1,8 +1,8 @@
 namespace CodelyTv.Test.Shared.Infrastructure.XUnit
 {
+    using System;
     using System.IO;
     using System.Reflection;
-    using CodelyTv.Shared.Domain;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.TestHost;
     using Microsoft.EntityFrameworkCore;
@@ -10,23 +10,19 @@ namespace CodelyTv.Test.Shared.Infrastructure.XUnit
 
     public abstract class InfrastructureTestCase<TStartup> where TStartup : class
     {
-        protected TestServer TestServer;
-
-        protected void CreateServer<T>() where T: DbContext
+        protected TestServer CreateServer(Action<IServiceCollection> servicesConfiguration)
         {
             var path = Assembly.GetAssembly(typeof(InfrastructureTestCase<TStartup>))
                 .Location;
 
             var hostBuilder = new WebHostBuilder()
                 .UseContentRoot(Path.GetDirectoryName(path))
-                .UseEnvironment("Testing")
-                .ConfigureTestServices(services =>
-                {
-                    services.AddScoped<IRandomNumberGenerator, ConstantNumberGenerator>();
-                })
+                .ConfigureTestServices(servicesConfiguration)
                 .UseStartup<TStartup>();
 
-            TestServer = new TestServer(hostBuilder);
+            return new TestServer(hostBuilder);
         }
+
+        protected abstract void CreateTestServices<TDbContext>(IServiceCollection services) where TDbContext : DbContext;
     }
 }

@@ -12,7 +12,8 @@ namespace CodelyTv.Test.Shared.Infrastructure.SpecFlow
         protected SessionHelper<TStartup> SessionHelper;
 
         [Given(@"I send a '(.*)' request to '(.*)'")]
-        public async Task GivenISendAGetRequestTo(string method, string route)
+        [When(@"I send a '(.*)' request to '(.*)'")]
+        public async Task SendAGetRequestTo(string method, string route)
         {
             await this.SessionHelper.SendRequest(GetHttpMethod(method), new Uri(route, UriKind.Relative));
         }

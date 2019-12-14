@@ -16,6 +16,10 @@ namespace CodelyTv.Mooc.Courses.Domain
             Duration = duration;
         }
 
+        public CourseCreatedDomainEvent()
+        {
+        }
+
         public override string EventName()
         {
             return "course.created";

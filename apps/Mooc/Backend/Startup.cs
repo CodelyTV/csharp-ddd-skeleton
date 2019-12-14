@@ -24,12 +24,10 @@
     public class Startup
     {
         private readonly IConfiguration _configuration;
-        private IHostingEnvironment _currentEnvironment;
 
-        public Startup(IConfiguration configuration, IHostingEnvironment currentEnvironment)
+        public Startup(IConfiguration configuration)
         {
             _configuration = configuration;
-            _currentEnvironment = currentEnvironment;
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -48,26 +46,14 @@
             services.AddScoped<IEventBus, InMemoryEventBus>();
             services.AddDomainEventSuscribersServices(AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(x => x.FullName.Contains("CodelyTv.Mooc")));
 
-            services.AddDbContext<MoocContext>(GetDatabaseOptions());
+            services.AddDbContext<MoocContext>(options => options.UseMySQL(_configuration.GetConnectionString("MoocDatabase")));
         }
 
-        private Action<DbContextOptionsBuilder> GetDatabaseOptions()
-        {
-            if (this._currentEnvironment.IsEnvironment("Testing"))
-            {
-                return options => options.UseInMemoryDatabase("TestingDB");
-            }
-            
-            return options => options.UseMySQL(_configuration.GetConnectionString("MoocDatabase"));
-        }
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public static void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
                 app.UseDeveloperExceptionPage();
             else
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
 
             app.UseHttpsRedirection();

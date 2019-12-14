@@ -11,11 +11,7 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event
 
         public DomainEventInformation()
         {
-            IEnumerable<Type> eventTypes = GetDomainTypes();
-            foreach (Type eventType in eventTypes)
-            {
-                this.IndexedDomainEvents.Add(this.GetEventName(eventType), eventType);
-            }
+            GetDomainTypes().ForEach(eventType => this.IndexedDomainEvents.Add(this.GetEventName(eventType), eventType));
         }
 
         public Type ForName(string name)
@@ -25,29 +21,24 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event
             return value;
         }
 
-        private string GetEventName(Type eventType)
+        public string ForClass(DomainEvent domainEvent)
         {
-            try
-            {
-                DomainEvent instance = (DomainEvent) Activator.CreateInstance(eventType);
-                return eventType.GetMethod("EventName").Invoke(instance, null).ToString();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            }
-
-            return string.Empty;
+            return IndexedDomainEvents.FirstOrDefault(x => x.Value.Equals(domainEvent.GetType())).Key;
         }
 
-        private IEnumerable<Type> GetDomainTypes()
+        private string GetEventName(Type eventType)
+        {
+            DomainEvent instance = (DomainEvent) Activator.CreateInstance(eventType);
+            return eventType.GetMethod("EventName").Invoke(instance, null).ToString();
+        }
+
+        private List<Type> GetDomainTypes()
         {
             var type = typeof(DomainEvent);
 
-            var types = AppDomain.CurrentDomain.GetAssemblies()
+            return AppDomain.CurrentDomain.GetAssemblies()
                 .SelectMany(s => s.GetTypes())
-                .Where(p => type.IsAssignableFrom(p) && !p.IsAbstract);
-            return types;
+                .Where(p => type.IsAssignableFrom(p) && !p.IsAbstract).ToList();
         }
     }
 }

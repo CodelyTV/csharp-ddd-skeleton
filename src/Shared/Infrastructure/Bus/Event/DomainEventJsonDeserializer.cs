@@ -5,7 +5,7 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event
     using Domain.Bus.Event;
     using Newtonsoft.Json;
 
-    public class DomainEventJsonDeserializer
+    public class DomainEventJsonDeserializer : IDomainEventDeserializer
     {
         private readonly DomainEventInformation _information;
 
@@ -22,7 +22,6 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event
             Type domainEventType = _information.ForName(data.type.ToString());
 
             DomainEvent instance = (DomainEvent) Activator.CreateInstance(domainEventType);
-
 
             return (DomainEvent) domainEventType.GetMethod("FromPrimitives").Invoke(instance, new object[]
             {
