@@ -1,5 +1,6 @@
 namespace CodelyTv.Mooc.Courses.Application.Create
 {
+    using System.Threading.Tasks;
     using CodelyTv.Shared.Domain.Bus.Event;
     using Domain;
 
@@ -14,7 +15,7 @@ namespace CodelyTv.Mooc.Courses.Application.Create
             _eventBus = eventBus;
         }
 
-        public void Invoke(CreateCourseRequest request)
+        public async Task Invoke(CreateCourseRequest request)
         {
             var id = new CourseId(request.Id);
             var name = new CourseName(request.Name);
@@ -22,8 +23,8 @@ namespace CodelyTv.Mooc.Courses.Application.Create
 
             Course course = Course.Create(id, name, duration);
 
-            this._repository.Save(course);
-            this._eventBus.Publish(course.PullDomainEvents());
+            await this._repository.Save(course);
+            await this._eventBus.Publish(course.PullDomainEvents());
         }
     }
 }

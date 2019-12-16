@@ -8,7 +8,7 @@ namespace CodelyTv.Tests.Mooc.CoursesCounter
     {
         protected ICourseRepository Repository()
         {
-            return this.TestServer.Host.Services.GetService<ICourseRepository>();
+            return this.Host.Services.GetService<ICourseRepository>();
         }
     }
 }

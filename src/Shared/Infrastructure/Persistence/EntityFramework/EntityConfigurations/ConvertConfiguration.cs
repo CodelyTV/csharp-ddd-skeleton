@@ -10,17 +10,17 @@ namespace CodelyTv.Shared.Infrastructure.Persistence.EntityFramework.EntityConfi
     {
         public static List<TObject> ObjectFromJson<TObject>(string json) where TObject : class
         {
+            var jsonList = JsonConvert.DeserializeObject<List<string>>(json);
+
             Type type = typeof(TObject);
             ConstructorInfo ctor = type.GetConstructor(new[] {typeof(string)});
-
-            var jsonList = JsonConvert.DeserializeObject<List<string>>(json);
 
             return jsonList.Select(x => (TObject) ctor.Invoke(new object[] {x})).ToList();
         }
 
-        public static string ObjectToJson<T>(List<T> courseIds)
+        public static string ObjectToJson<T>(List<T> objects)
         {
-            return JsonConvert.SerializeObject(courseIds.Select(x => x.ToString()));
+            return JsonConvert.SerializeObject(objects.Select(x => x.ToString()));
         }
     }
 }

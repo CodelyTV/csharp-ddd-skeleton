@@ -11,27 +11,23 @@ namespace CodelyTv.Tests.Mooc.Courses.Infrastructure.Persistence
         public async Task Save_Course_ItShouldSave()
         {
             var course = CourseMother.Random();
-
-            var repository = Repository();
-            await repository.Save(course);
+            await Repository.Save(course);
         }
 
         [Fact]
         public async Task Save_Course_ShouldReturnAnExistingCourse()
         {
             var course = CourseMother.Random();
-            var repository = Repository();
 
-            await repository.Save(course);
+            await Repository.Save(course);
 
-            Assert.Equal(JsonConvert.SerializeObject(course), JsonConvert.SerializeObject(repository.Search(course.Id)));
+            Assert.Equal(JsonConvert.SerializeObject(course), JsonConvert.SerializeObject(Repository.Search(course.Id)));
         }
 
         [Fact]
         public void Search_NonExistingId_ItShouldNotReturnANonExistingCourse()
         {
-            var repository = Repository();
-            Assert.Null(repository.Search(CourseIdMother.Random()));
+            Assert.Null(Repository.Search(CourseIdMother.Random()));
         }
     }
 }

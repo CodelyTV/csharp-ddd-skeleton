@@ -6,9 +6,9 @@ namespace CodelyTv.Tests.Mooc.Courses
 
     public abstract class CoursesModuleInfrastructureTestCase : MoocContextInfrastructureTestCase
     {
-        protected ICourseRepository Repository()
+        protected ICourseRepository Repository
         {
-            return this.TestServer.Host.Services.GetService<ICourseRepository>();
+            get { return this.Host.Services.GetService<ICourseRepository>(); }
         }
     }
 }

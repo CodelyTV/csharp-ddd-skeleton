@@ -16,7 +16,7 @@ namespace CodelyTv.Test.Shared.Infrastructure.EntityFramework
 
         private string TruncateDatabaseSql(List<string> tables)
         {
-            var truncateTables = tables.Select(x => $"TRUNCATE TABLE {x.FormatDatabaseName()};").ToList();
+            var truncateTables = tables.Select(x => $"TRUNCATE TABLE {x.ToDatabaseFormat()};").ToList();
             return $"SET FOREIGN_KEY_CHECKS=0;{string.Join(" ", truncateTables)} SET FOREIGN_KEY_CHECKS = 1;";
         }
 

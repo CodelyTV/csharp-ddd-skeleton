@@ -1,5 +1,6 @@
 namespace CodelyTv.Mooc.CoursesCounter.Application.Incrementer
 {
+    using System.Threading.Tasks;
     using CodelyTv.Shared.Domain;
     using Courses.Domain;
     using Domain;
@@ -15,7 +16,7 @@ namespace CodelyTv.Mooc.CoursesCounter.Application.Incrementer
             this.uuidGenerator = uuidGenerator;
         }
 
-        public void Increment(CourseId id)
+        public async Task Increment(CourseId id)
         {
             CoursesCounter counter = repository.Search() ?? InitializeCounter();
 
@@ -23,7 +24,7 @@ namespace CodelyTv.Mooc.CoursesCounter.Application.Incrementer
             {
                 counter.Increment(id);
 
-                repository.Save(counter);
+                await repository.Save(counter);
             }
         }
 

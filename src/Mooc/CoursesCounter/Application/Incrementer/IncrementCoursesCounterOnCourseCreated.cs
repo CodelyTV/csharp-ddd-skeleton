@@ -17,7 +17,7 @@ namespace CodelyTv.Mooc.CoursesCounter.Application.Incrementer
         {
             CourseId courseId = new CourseId(@event.AggregateId);
 
-            _incrementer.Increment(courseId);
+            await _incrementer.Increment(courseId);
         }
     }
 }

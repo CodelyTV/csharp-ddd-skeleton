@@ -11,11 +11,10 @@
     using CodelyTv.Mooc.Shared.Infrastructure.Persistence.EntityFramework;
     using Extension;
     using Microsoft.AspNetCore.Builder;
-    using Microsoft.AspNetCore.Hosting;
-    using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
     using Shared.Domain;
     using Shared.Domain.Bus.Event;
     using Shared.Infrastructure;
@@ -33,7 +32,7 @@
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddControllersWithViews();
 
             services.AddScoped<IRandomNumberGenerator, CSharpRandomNumberGenerator>();
             services.AddScoped<CourseCreator, CourseCreator>();
@@ -46,7 +45,7 @@
             services.AddScoped<IEventBus, InMemoryEventBus>();
             services.AddDomainEventSuscribersServices(AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(x => x.FullName.Contains("CodelyTv.Mooc")));
 
-            services.AddDbContext<MoocContext>(options => options.UseMySQL(_configuration.GetConnectionString("MoocDatabase")));
+            services.AddDbContext<MoocContext>(options => options.UseSqlServer(_configuration.GetConnectionString("MoocDatabase")));
         }
 
         public static void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -57,7 +56,9 @@
                 app.UseHsts();
 
             app.UseHttpsRedirection();
-            app.UseMvc(routes => { routes.MapRoute("default", "{controller=Home}/{action=Invoke}/{id?}"); });
+
+            app.UseRouting();
+            app.UseEndpoints(endpoints => { endpoints.MapControllerRoute("default", "{controller=Home}/{action=Invoke}/{id?}"); });
         }
     }
 }
