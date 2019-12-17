@@ -5,17 +5,17 @@ namespace CodelyTv.Tests.Mooc.Courses.Infrastructure.Persistence
     using Newtonsoft.Json;
     using Xunit;
 
-    public class CourseRepositoryTest : CoursesModuleInfrastructureTestCase
+    public class InMemoryCourseRepositoryShould : CoursesModuleInfrastructureTestCase
     {
         [Fact]
-        public async Task Save_Course_ItShouldSave()
+        public async Task save_a_course()
         {
             var course = CourseMother.Random();
             await Repository.Save(course);
         }
 
         [Fact]
-        public async Task Save_Course_ShouldReturnAnExistingCourse()
+        public async Task return_an_existing_course()
         {
             var course = CourseMother.Random();
 
@@ -25,7 +25,7 @@ namespace CodelyTv.Tests.Mooc.Courses.Infrastructure.Persistence
         }
 
         [Fact]
-        public void Search_NonExistingId_ItShouldNotReturnANonExistingCourse()
+        public void not_return_a_non_existing_course()
         {
             Assert.Null(Repository.Search(CourseIdMother.Random()));
         }

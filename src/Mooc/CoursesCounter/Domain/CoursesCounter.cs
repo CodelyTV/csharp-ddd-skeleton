@@ -2,6 +2,7 @@ namespace CodelyTv.Mooc.CoursesCounter.Domain
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using Courses.Domain;
 
     public class CoursesCounter
@@ -46,7 +47,7 @@ namespace CodelyTv.Mooc.CoursesCounter.Domain
 
             return this.Id.Equals(item.Id) &&
                    this.Total.Equals(item.Total) &&
-                   this.ExistingCourses.Equals(item.ExistingCourses);
+                   this.ExistingCourses.SequenceEqual(item.ExistingCourses);
         }
 
         public override int GetHashCode()

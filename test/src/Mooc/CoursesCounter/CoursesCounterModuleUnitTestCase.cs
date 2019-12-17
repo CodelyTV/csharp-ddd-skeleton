@@ -13,7 +13,7 @@ namespace CodelyTv.Tests.Mooc.CoursesCounter
             this.Repository = new Mock<ICoursesCounterRepository>();
         }
 
-        protected void ShouldHaveSave(CoursesCounter course)
+        protected void ShouldHaveSaved(CoursesCounter course)
         {
             this.Repository.Verify(x => x.Save(course), Times.AtLeastOnce());
         }
@@ -21,6 +21,11 @@ namespace CodelyTv.Tests.Mooc.CoursesCounter
         protected void ShouldSearch(CoursesCounter counter)
         {
             this.Repository.Setup(x => x.Search()).Returns(counter);
+        }
+
+        protected void ShouldSearch()
+        {
+            this.Repository.Setup(x => x.Search()).Returns((CoursesCounter) null);
         }
     }
 }

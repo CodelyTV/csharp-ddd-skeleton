@@ -4,17 +4,17 @@ namespace CodelyTv.Tests.Mooc.Courses.Application.Create
     using Domain;
     using Xunit;
 
-    public class CourseCreatorTest : CoursesModuleUnitTestCase
+    public class CourseCreatorShould : CoursesModuleUnitTestCase
     {
         private readonly CourseCreator _creator;
 
-        public CourseCreatorTest()
+        public CourseCreatorShould()
         {
             this._creator = new CourseCreator(this.Repository.Object, this.EventBus.Object);
         }
 
         [Fact]
-        public void Invoke_ItShouldCreateAValidCourse()
+        public void create_a_valid_course()
         {
             var request = CreateCourseRequestMother.Random();
             var course = CourseMother.FromRequest(request);
