@@ -58,7 +58,7 @@
             app.UseHttpsRedirection();
 
             app.UseRouting();
-            app.UseEndpoints(endpoints => { endpoints.MapControllerRoute("default", "{controller=Home}/{action=Invoke}/{id?}"); });
+            app.UseEndpoints(endpoints => { endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}"); });
         }
     }
 }

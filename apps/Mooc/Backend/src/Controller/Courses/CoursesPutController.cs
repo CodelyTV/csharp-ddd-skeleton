@@ -1,4 +1,4 @@
-namespace CodelyTv.Apps.Mooc.Backend.Controllers.Courses
+namespace CodelyTv.Apps.Mooc.Backend.Controller.Courses
 {
     using System;
     using System.Threading.Tasks;
@@ -17,7 +17,7 @@ namespace CodelyTv.Apps.Mooc.Backend.Controllers.Courses
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Invoke(string id, [FromBody] dynamic body)
+        public async Task<IActionResult> Index(string id, [FromBody] dynamic body)
         {
             body = JsonConvert.DeserializeObject(Convert.ToString(body));
 

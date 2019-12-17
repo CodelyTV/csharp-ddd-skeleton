@@ -12,7 +12,6 @@
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.0"/>
         <PackageReference Include="SpecFlow" Version="3.1.67"/>
         <PackageReference Include="SpecFlow.Tools.MsBuild.Generation" Version="3.1.67"/>
         <PackageReference Include="SpecFlow.xUnit" Version="3.1.67"/>

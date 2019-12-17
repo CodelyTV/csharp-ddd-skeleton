@@ -1,4 +1,4 @@
-namespace CodelyTv.Apps.Mooc.Backend.Controllers.HealthCheck
+namespace CodelyTv.Apps.Mooc.Backend.Controller.HealthCheck
 {
     using Microsoft.AspNetCore.Mvc;
     using Shared.Domain;
@@ -15,7 +15,7 @@ namespace CodelyTv.Apps.Mooc.Backend.Controllers.HealthCheck
 
         [HttpGet]
         [Produces("application/json")]
-        public IActionResult Invoke()
+        public IActionResult Index()
         {
             return Ok(new {moocBackend = "ok", rand = _generator.Generate()});
         }
