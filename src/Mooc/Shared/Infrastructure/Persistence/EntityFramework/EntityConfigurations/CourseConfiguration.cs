@@ -1,7 +1,7 @@
 namespace CodelyTv.Mooc.Shared.Infrastructure.Persistence.EntityFramework.EntityConfigurations
 {
+    using CodelyTv.Shared.Infrastructure.Persistence.EntityFramework.Extension;
     using Courses.Domain;
-    using Extension;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

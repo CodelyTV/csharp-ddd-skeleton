@@ -7,7 +7,7 @@ namespace CodelyTv.Shared.Domain
     {
         public static string DateToString(DateTime date)
         {
-            return date.ToString("d", CultureInfo.CurrentCulture);
+            return date.ToString("s", CultureInfo.CurrentCulture);
         }
     }
 }

@@ -36,15 +36,16 @@
 
             services.AddScoped<IRandomNumberGenerator, CSharpRandomNumberGenerator>();
             services.AddScoped<CourseCreator, CourseCreator>();
-            services.AddScoped<ICourseRepository, MySqlCourseRepository>();
+            services.AddScoped<ICourseRepository, MsSqlCourseRepository>();
 
             services.AddScoped<CoursesCounterIncrementer, CoursesCounterIncrementer>();
             services.AddScoped<IUuidGenerator, CSharpUuidGenerator>();
-            services.AddScoped<ICoursesCounterRepository, MySqlCoursesCounterRepository>();
+            services.AddScoped<ICoursesCounterRepository, MsSqlCoursesCounterRepository>();
 
-            services.AddScoped<IEventBus, InMemoryEventBus>();
+            services.AddScoped<IEventBus, MsSqlEventBus>();
             services.AddDomainEventSuscribersServices(AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(x => x.FullName.Contains("CodelyTv.Mooc")));
 
+            services.AddScoped<DbContext, MoocContext>();
             services.AddDbContext<MoocContext>(options => options.UseSqlServer(_configuration.GetConnectionString("MoocDatabase")));
         }
 

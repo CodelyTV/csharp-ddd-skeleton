@@ -6,11 +6,11 @@ namespace CodelyTv.Mooc.CoursesCounter.Infrastructure.Persistence
     using Microsoft.EntityFrameworkCore;
     using Shared.Infrastructure.Persistence.EntityFramework;
 
-    public class MySqlCoursesCounterRepository : ICoursesCounterRepository
+    public class MsSqlCoursesCounterRepository : ICoursesCounterRepository
     {
         private MoocContext _context;
 
-        public MySqlCoursesCounterRepository(MoocContext context)
+        public MsSqlCoursesCounterRepository(MoocContext context)
         {
             this._context = context;
         }

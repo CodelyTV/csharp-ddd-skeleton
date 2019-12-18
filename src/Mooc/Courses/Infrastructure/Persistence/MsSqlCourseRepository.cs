@@ -5,11 +5,11 @@ namespace CodelyTv.Mooc.Courses.Infrastructure.Persistence
     using Domain;
     using Shared.Infrastructure.Persistence.EntityFramework;
 
-    public class MySqlCourseRepository : ICourseRepository
+    public class MsSqlCourseRepository : ICourseRepository
     {
         private MoocContext _context;
 
-        public MySqlCourseRepository(MoocContext context)
+        public MsSqlCourseRepository(MoocContext context)
         {
             this._context = context;
         }

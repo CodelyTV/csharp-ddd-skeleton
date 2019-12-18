@@ -1,4 +1,4 @@
-namespace CodelyTv.Mooc.Shared.Infrastructure.Persistence.EntityFramework.Extension
+namespace CodelyTv.Shared.Infrastructure.Persistence.EntityFramework.Extension
 {
     using System;
     using System.Linq;

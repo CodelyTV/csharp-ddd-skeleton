@@ -2,8 +2,8 @@ namespace CodelyTv.Test.Shared.Infrastructure.EntityFramework
 {
     using System.Collections.Generic;
     using System.Linq;
+    using CodelyTv.Shared.Infrastructure.Persistence.EntityFramework.Extension;
     using Microsoft.EntityFrameworkCore;
-    using Mooc.Shared.Infrastructure.Persistence.EntityFramework.Extension;
 
     public class DatabaseCleaner
     {
