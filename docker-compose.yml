@@ -8,7 +8,7 @@ services:
     ports:
       - "8030:8030"
     depends_on:
-      - sql
+      - mssql
   mssql:
     image: mcr.microsoft.com/mssql/server:2017-latest
     container_name: codelytv-php_ddd_skeleton-mooc-mssql

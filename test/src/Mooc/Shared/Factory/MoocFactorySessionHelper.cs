@@ -38,7 +38,7 @@
         protected override void CreateHostServices<TDbContext>(IServiceCollection services)
         {
             services.AddScoped<IRandomNumberGenerator, ConstantNumberGenerator>();
-            services.AddScoped<IEventBus, InMemoryEventBus>();
+            services.AddScoped<NetCoreApplicationEventBus, NetCoreApplicationEventBus>();
             services.AddScoped<DomainEventInformation, DomainEventInformation>();
             services.AddScoped<IDomainEventDeserializer, DomainEventJsonDeserializer>();
 

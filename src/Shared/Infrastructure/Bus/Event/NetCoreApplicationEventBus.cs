@@ -7,11 +7,11 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event
     using Domain.Bus.Event;
     using Microsoft.Extensions.DependencyInjection;
 
-    public class InMemoryEventBus : IEventBus
+    public class NetCoreApplicationEventBus
     {
         private readonly IServiceProvider _serviceProvider;
 
-        public InMemoryEventBus(IServiceProvider serviceProvider)
+        public NetCoreApplicationEventBus(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
         }
