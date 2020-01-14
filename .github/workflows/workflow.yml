@@ -13,3 +13,5 @@ jobs:
           dotnet-version: 3.1.100
       - name: Build with dotnet
         run: dotnet build --configuration Release
+      - name: Unit Tests
+        run: dotnet test CsharpDDDSkeleton.sln

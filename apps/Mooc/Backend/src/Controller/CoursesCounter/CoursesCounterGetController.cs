@@ -15,7 +15,7 @@ namespace CodelyTv.Apps.Mooc.Backend.Controller.CoursesCounter
             this._finder = finder;
         }
 
-        [HttpGet("{id}")]
+        [HttpGet]
         [Produces("application/json")]
         public async Task<IActionResult> Index()
         {
