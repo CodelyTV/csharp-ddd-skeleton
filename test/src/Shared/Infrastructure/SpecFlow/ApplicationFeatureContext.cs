@@ -7,7 +7,7 @@ namespace CodelyTv.Test.Shared.Infrastructure.SpecFlow
 
     public abstract class ApplicationFeatureContext<TStartup> where TStartup : class
     {
-        protected NetCoreApplicationEventBus EventBus;
+        protected InMemoryApplicationEventBus EventBus;
         protected IDomainEventDeserializer DomainEventDeserializer;
 
         [Given(@"I send an event to the event bus:")]

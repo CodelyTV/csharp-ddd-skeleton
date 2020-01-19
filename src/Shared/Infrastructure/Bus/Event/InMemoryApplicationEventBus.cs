@@ -1,17 +1,18 @@
 namespace CodelyTv.Shared.Infrastructure.Bus.Event
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
-    using System.Reflection;
+    using System.Linq;
     using System.Threading.Tasks;
     using Domain.Bus.Event;
     using Microsoft.Extensions.DependencyInjection;
 
-    public class NetCoreApplicationEventBus
+    public class InMemoryApplicationEventBus : IEventBus
     {
         private readonly IServiceProvider _serviceProvider;
 
-        public NetCoreApplicationEventBus(IServiceProvider serviceProvider)
+        public InMemoryApplicationEventBus(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
         }
@@ -23,27 +24,15 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event
                 foreach (var @event in events)
                 {
                     Type eventType = @event.GetType();
-                    Type suscriberType = typeof(IDomainEventSuscriber<>).MakeGenericType(eventType);
+                    Type suscriberType = typeof(IDomainEventSubscriber<>).MakeGenericType(eventType);
                     IEnumerable<object> suscribers = scope.ServiceProvider.GetServices(suscriberType);
 
                     foreach (object suscriber in suscribers)
                     {
-                        await Notify(suscriberType, suscriber, @event);
+                        await (suscriber as IDomainEventSubscriberBase).On(@event);
                     }
                 }
             }
-        }
-
-        private async Task Notify(Type suscriberType, object suscriber, DomainEvent @event)
-        {
-            object result = suscriberType
-                .GetTypeInfo()
-                .GetDeclaredMethod(nameof(IDomainEventSuscriber<DomainEvent>.On))
-                .Invoke(suscriber, new object[]
-                {
-                    @event
-                });
-            await (Task) result;
         }
     }
 }

@@ -11,9 +11,9 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event.MsSql
     {
         private readonly DbContext _context;
         private readonly DomainEventInformation _domainEventInformation;
-        private readonly NetCoreApplicationEventBus _bus;
+        private readonly InMemoryApplicationEventBus _bus;
 
-        public MsSqlDomainEventsConsumer(NetCoreApplicationEventBus bus, DomainEventInformation domainEventInformation,
+        public MsSqlDomainEventsConsumer(InMemoryApplicationEventBus bus, DomainEventInformation domainEventInformation,
             DbContext context)
         {
             _bus = bus;
@@ -25,11 +25,11 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event.MsSql
         {
             foreach (var domainEvent in _context.Set<DomainEventPrimitive>().ToList())
             {
-                ExecuteSuscribers(domainEvent);
+                ExecuteSubscribers(domainEvent);
             }
         }
 
-        private void ExecuteSuscribers(DomainEventPrimitive domainEventPrimitive)
+        private void ExecuteSubscribers(DomainEventPrimitive domainEventPrimitive)
         {
             Type domainEventType = this._domainEventInformation.ForName(domainEventPrimitive.Name);
 

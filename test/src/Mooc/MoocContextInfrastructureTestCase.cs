@@ -34,7 +34,7 @@ namespace CodelyTv.Tests.Mooc
             services.AddScoped<IEventBus, MsSqlEventBus>();
             services.AddScoped<IDomainEventsConsumer, MsSqlDomainEventsConsumer>();
             services.AddScoped<DomainEventInformation, DomainEventInformation>();
-            services.AddScoped<NetCoreApplicationEventBus, NetCoreApplicationEventBus>();
+            services.AddScoped<IEventBus, InMemoryApplicationEventBus>();
 
             services.AddDbContext<TDbContext>(options => options.UseInMemoryDatabase("TestingDB"));
         }

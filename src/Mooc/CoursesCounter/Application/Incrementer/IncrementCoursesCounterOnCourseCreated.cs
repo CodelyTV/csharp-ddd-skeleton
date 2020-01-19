@@ -4,7 +4,7 @@ namespace CodelyTv.Mooc.CoursesCounter.Application.Incrementer
     using CodelyTv.Shared.Domain.Bus.Event;
     using Courses.Domain;
 
-    public class IncrementCoursesCounterOnCourseCreated : IDomainEventSuscriber<CourseCreatedDomainEvent>
+    public class IncrementCoursesCounterOnCourseCreated : IDomainEventSubscriber<CourseCreatedDomainEvent>
     {
         private readonly CoursesCounterIncrementer _incrementer;
 

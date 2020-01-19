@@ -44,9 +44,9 @@
             services.AddScoped<IUuidGenerator, CSharpUuidGenerator>();
             services.AddScoped<ICoursesCounterRepository, MsSqlCoursesCounterRepository>();
 
-
+            services.AddScoped<InMemoryApplicationEventBus, InMemoryApplicationEventBus>();
             services.AddScoped<IEventBus, MsSqlEventBus>();
-            services.AddDomainEventSuscribersServices(AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(x => x.FullName.Contains("CodelyTv.Mooc")));
+            services.AddDomainEventSubscribersServices(AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(x => x.FullName.Contains("CodelyTv.Mooc")));
 
             services.AddScoped<DbContext, MoocContext>();
             services.AddDbContext<MoocContext>(options => options.UseSqlServer(_configuration.GetConnectionString("MoocDatabase")));

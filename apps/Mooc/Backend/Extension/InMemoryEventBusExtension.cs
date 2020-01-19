@@ -7,7 +7,7 @@ namespace CodelyTv.Apps.Mooc.Backend.Extension
 
     public static class InMemoryEventBusExtension
     {
-        public static IServiceCollection AddDomainEventSuscribersServices(this IServiceCollection services, Assembly assembly)
+        public static IServiceCollection AddDomainEventSubscribersServices(this IServiceCollection services, Assembly assembly)
         {
             var classTypes = assembly.ExportedTypes.Select(t => t.GetTypeInfo()).Where(t => t.IsClass && !t.IsAbstract);
 
@@ -15,7 +15,7 @@ namespace CodelyTv.Apps.Mooc.Backend.Extension
             {
                 var interfaces = type.ImplementedInterfaces.Select(i => i.GetTypeInfo());
 
-                foreach (var handlerType in interfaces.Where(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IDomainEventSuscriber<>)))
+                foreach (var handlerType in interfaces.Where(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IDomainEventSubscriber<>)))
                 {
                     services.AddScoped(handlerType.AsType(), type.AsType());
                 }

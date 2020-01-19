@@ -17,7 +17,7 @@
     {
         private IHost Host { get; set; }
 
-        public NetCoreApplicationEventBus EventBusContext { get; private set; }
+        public InMemoryApplicationEventBus EventBusContext { get; private set; }
         public IDomainEventDeserializer DomainEventDeserializer { get; private set; }
 
         public MoocFactorySessionHelper()
@@ -32,7 +32,7 @@
             this.Client = this.Host.GetTestClient();
 
             this.EventBusContext =
-                this.Host.Services.GetService(typeof(NetCoreApplicationEventBus)) as NetCoreApplicationEventBus;
+                this.Host.Services.GetService(typeof(InMemoryApplicationEventBus)) as InMemoryApplicationEventBus;
 
             this.DomainEventDeserializer =
                 this.Host.Services.GetService(typeof(IDomainEventDeserializer)) as IDomainEventDeserializer;
@@ -41,7 +41,7 @@
         protected override void CreateHostServices<TDbContext>(IServiceCollection services)
         {
             services.AddScoped<IRandomNumberGenerator, ConstantNumberGenerator>();
-            services.AddScoped<NetCoreApplicationEventBus, NetCoreApplicationEventBus>();
+            services.AddScoped<InMemoryApplicationEventBus, InMemoryApplicationEventBus>();
             services.AddScoped<DomainEventInformation, DomainEventInformation>();
             services.AddScoped<IDomainEventDeserializer, DomainEventJsonDeserializer>();
 
