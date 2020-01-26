@@ -16,11 +16,12 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event
             _context = eventContext;
         }
 
-        public async Task Publish(List<DomainEvent> events)
+        public Task Publish(List<DomainEvent> events)
         {
-            events.ForEach(async x => await Publish(x));
+            events?.ForEach(async x => await Publish(x));
+            return Task.CompletedTask;
         }
-        
+
         private async Task Publish(DomainEvent domainEvent)
         {
             DomainEventPrimitive value = new DomainEventPrimitive()
@@ -32,7 +33,7 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event
                 OccurredOn = domainEvent.OccurredOn
             };
             _context.Set<DomainEventPrimitive>().Add(value);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
     }
 }

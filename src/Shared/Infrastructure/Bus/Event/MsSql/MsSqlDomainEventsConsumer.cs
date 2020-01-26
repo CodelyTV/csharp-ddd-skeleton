@@ -4,6 +4,7 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event.MsSql
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+    using System.Threading.Tasks;
     using Domain.Bus.Event;
     using Microsoft.EntityFrameworkCore;
 
@@ -21,17 +22,17 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event.MsSql
             _context = context;
         }
 
-        public void Consume()
+        public async void Consume()
         {
             foreach (var domainEvent in _context.Set<DomainEventPrimitive>().ToList())
             {
-                ExecuteSubscribers(domainEvent);
+                await ExecuteSubscribers(domainEvent);
             }
         }
 
-        private void ExecuteSubscribers(DomainEventPrimitive domainEventPrimitive)
+        private async Task ExecuteSubscribers(DomainEventPrimitive domainEventPrimitive)
         {
-            Type domainEventType = this._domainEventInformation.ForName(domainEventPrimitive.Name);
+            Type domainEventType = _domainEventInformation.ForName(domainEventPrimitive.Name);
 
             DomainEvent instance = (DomainEvent) Activator.CreateInstance(domainEventType);
 
@@ -46,7 +47,7 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event.MsSql
                     domainEventPrimitive.OccurredOn
                 });
 
-            _bus.Publish(new List<DomainEvent>() {result});
+            await _bus.Publish(new List<DomainEvent> {result});
         }
     }
 }

@@ -19,18 +19,19 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event
 
         public async Task Publish(List<DomainEvent> events)
         {
-            using (IServiceScope scope = _serviceProvider.CreateScope())
-            {
-                foreach (var @event in events)
-                {
-                    Type eventType = @event.GetType();
-                    Type suscriberType = typeof(IDomainEventSubscriber<>).MakeGenericType(eventType);
-                    IEnumerable<object> suscribers = scope.ServiceProvider.GetServices(suscriberType);
+            if (events == null)
+                return;
 
-                    foreach (object suscriber in suscribers)
-                    {
-                        await (suscriber as IDomainEventSubscriberBase).On(@event);
-                    }
+            using IServiceScope scope = _serviceProvider.CreateScope();
+            foreach (var @event in events)
+            {
+                Type eventType = @event.GetType();
+                Type suscriberType = typeof(IDomainEventSubscriber<>).MakeGenericType(eventType);
+                IEnumerable<object> suscribers = scope.ServiceProvider.GetServices(suscriberType);
+
+                foreach (object suscriber in suscribers)
+                {
+                    await ((IDomainEventSubscriberBase) suscriber).On(@event);
                 }
             }
         }
