@@ -16,23 +16,24 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event
             _context = eventContext;
         }
 
-        public async Task Publish(List<DomainEvent> events)
+        public Task Publish(List<DomainEvent> events)
         {
-            events.ForEach(async x => await Publish(x));
+            events?.ForEach(async x => await Publish(x));
+            return Task.CompletedTask;
         }
 
         private async Task Publish(DomainEvent domainEvent)
         {
-            var id = new SqlParameter("@id", domainEvent.EventId);
-            var aggregateId = new SqlParameter("@aggregateId", domainEvent.AggregateId);
-            var name = new SqlParameter("@name", domainEvent.EventName());
-            var body = new SqlParameter("@body", JsonConvert.SerializeObject(domainEvent.ToPrimitives()));
-            var occurredOn = new SqlParameter("@occurredOn", domainEvent.OccurredOn);
-
-            var commandText = "INSERT INTO domain_events (id,  aggregate_id, name,  body,  occurred_on) " +
-                              "VALUES (@id, @aggregateId, @name, @body, @occurredOn);";
-
-            _context.Database.ExecuteSqlCommand(commandText, id, aggregateId, name, body, occurredOn);
+            DomainEventPrimitive value = new DomainEventPrimitive()
+            {
+                Id = domainEvent.EventId,
+                AggregateId = domainEvent.AggregateId,
+                Body = domainEvent.ToPrimitives(),
+                Name = domainEvent.EventName(),
+                OccurredOn = domainEvent.OccurredOn
+            };
+            _context.Set<DomainEventPrimitive>().Add(value);
+            await _context.SaveChangesAsync();
         }
     }
 }

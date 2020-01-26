@@ -5,6 +5,7 @@
     using CodelyTv.Mooc.Courses.Application.Create;
     using CodelyTv.Mooc.Courses.Domain;
     using CodelyTv.Mooc.Courses.Infrastructure.Persistence;
+    using CodelyTv.Mooc.CoursesCounter.Application.Find;
     using CodelyTv.Mooc.CoursesCounter.Application.Incrementer;
     using CodelyTv.Mooc.CoursesCounter.Domain;
     using CodelyTv.Mooc.CoursesCounter.Infrastructure.Persistence;
@@ -39,11 +40,13 @@
             services.AddScoped<ICourseRepository, MsSqlCourseRepository>();
 
             services.AddScoped<CoursesCounterIncrementer, CoursesCounterIncrementer>();
+            services.AddScoped<CoursesCounterFinder, CoursesCounterFinder>();
             services.AddScoped<IUuidGenerator, CSharpUuidGenerator>();
             services.AddScoped<ICoursesCounterRepository, MsSqlCoursesCounterRepository>();
 
+            services.AddScoped<InMemoryApplicationEventBus, InMemoryApplicationEventBus>();
             services.AddScoped<IEventBus, MsSqlEventBus>();
-            services.AddDomainEventSuscribersServices(AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(x => x.FullName.Contains("CodelyTv.Mooc")));
+            services.AddDomainEventSubscribersServices(AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(x => x.FullName.Contains("CodelyTv.Mooc")));
 
             services.AddScoped<DbContext, MoocContext>();
             services.AddDbContext<MoocContext>(options => options.UseSqlServer(_configuration.GetConnectionString("MoocDatabase")));
