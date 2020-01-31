@@ -1,4 +1,4 @@
-FROM microsoft/dotnet:2.2-sdk-alpine3.8 AS build
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
 
 WORKDIR /home/app
  
