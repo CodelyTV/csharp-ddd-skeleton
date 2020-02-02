@@ -4,6 +4,6 @@ namespace CodelyTv.Shared.Domain.Bus.Event
 
     public interface IDomainEventsConsumer
     {
-        void Consume();
+        Task Consume();
     }
 }

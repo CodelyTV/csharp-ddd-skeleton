@@ -8,7 +8,7 @@ namespace CodelyTv.Mooc.CoursesCounter.Infrastructure.Persistence
 
     public class MsSqlCoursesCounterRepository : ICoursesCounterRepository
     {
-        private MoocContext _context;
+        private readonly MoocContext _context;
 
         public MsSqlCoursesCounterRepository(MoocContext context)
         {
@@ -19,11 +19,11 @@ namespace CodelyTv.Mooc.CoursesCounter.Infrastructure.Persistence
         {
             if (this._context.Entry(counter).State == EntityState.Detached)
             {
-                this._context.CoursesCounter.Add(counter);
+                await this._context.AddAsync(counter);
             }
             else
             {
-                this._context.CoursesCounter.Update(counter);
+                this._context.Entry(counter).State = EntityState.Modified;
             }
 
             await this._context.SaveChangesAsync();

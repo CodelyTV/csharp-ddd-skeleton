@@ -1,6 +1,7 @@
 namespace CodelyTv.Mooc.Shared.Infrastructure.Persistence.EntityFramework.EntityConfigurations
 {
     using System.Collections.Generic;
+    using CodelyTv.Shared.Domain;
     using CodelyTv.Shared.Domain.Bus.Event;
     using CodelyTv.Shared.Infrastructure.Persistence.EntityFramework.Extension;
     using Microsoft.EntityFrameworkCore;
@@ -23,6 +24,7 @@ namespace CodelyTv.Mooc.Shared.Infrastructure.Persistence.EntityFramework.Entity
                 .HasColumnName(nameof(DomainEventPrimitive.AggregateId).ToDatabaseFormat());
             
             builder.Property(x => x.OccurredOn)
+                .HasConversion(v => Utils.StringToDate(v), v => Utils.DateToString(v))
                 .HasColumnName(nameof(DomainEventPrimitive.OccurredOn).ToDatabaseFormat());
         }
     }

@@ -1,25 +1,10 @@
 ﻿namespace CodelyTv.Apps.Mooc.Backend
 {
-    using System;
-    using System.Linq;
-    using CodelyTv.Mooc.Courses.Application.Create;
-    using CodelyTv.Mooc.Courses.Domain;
-    using CodelyTv.Mooc.Courses.Infrastructure.Persistence;
-    using CodelyTv.Mooc.CoursesCounter.Application.Find;
-    using CodelyTv.Mooc.CoursesCounter.Application.Incrementer;
-    using CodelyTv.Mooc.CoursesCounter.Domain;
-    using CodelyTv.Mooc.CoursesCounter.Infrastructure.Persistence;
-    using CodelyTv.Mooc.Shared.Infrastructure.Persistence.EntityFramework;
-    using Extension;
+    using Extension.DependencyInjection;
     using Microsoft.AspNetCore.Builder;
-    using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
-    using Shared.Domain;
-    using Shared.Domain.Bus.Event;
-    using Shared.Infrastructure;
-    using Shared.Infrastructure.Bus.Event;
 
     public class Startup
     {
@@ -34,22 +19,8 @@
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-
-            services.AddScoped<IRandomNumberGenerator, CSharpRandomNumberGenerator>();
-            services.AddScoped<CourseCreator, CourseCreator>();
-            services.AddScoped<ICourseRepository, MsSqlCourseRepository>();
-
-            services.AddScoped<CoursesCounterIncrementer, CoursesCounterIncrementer>();
-            services.AddScoped<CoursesCounterFinder, CoursesCounterFinder>();
-            services.AddScoped<IUuidGenerator, CSharpUuidGenerator>();
-            services.AddScoped<ICoursesCounterRepository, MsSqlCoursesCounterRepository>();
-
-            services.AddScoped<InMemoryApplicationEventBus, InMemoryApplicationEventBus>();
-            services.AddScoped<IEventBus, MsSqlEventBus>();
-            services.AddDomainEventSubscribersServices(AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(x => x.FullName.Contains("CodelyTv.Mooc")));
-
-            services.AddScoped<DbContext, MoocContext>();
-            services.AddDbContext<MoocContext>(options => options.UseSqlServer(_configuration.GetConnectionString("MoocDatabase")));
+            services.AddApplication();
+            services.AddInfrastructure(_configuration);
         }
 
         public static void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -62,7 +33,10 @@
             app.UseHttpsRedirection();
 
             app.UseRouting();
-            app.UseEndpoints(endpoints => { endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}"); });
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
+            });
         }
     }
 }

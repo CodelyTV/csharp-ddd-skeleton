@@ -36,5 +36,20 @@ namespace CodelyTv.Shared.Domain.ValueObject
         {
             yield return Value;
         }
+
+        public override bool Equals(object obj)
+        {
+            if (this == obj) return true;
+
+            var item = obj as Uuid;
+            if (item == null) return false;
+
+            return Value == item.Value;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(this.Value);
+        }
     }
 }
