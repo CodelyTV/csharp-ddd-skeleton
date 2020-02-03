@@ -13,7 +13,7 @@ namespace CodelyTv.Tests.Mooc
 
     public abstract class MoocContextInfrastructureTestCase : InfrastructureTestCase<Startup>
     {
-        protected IHost Host { get; private set; }
+        public IHost Host { get; private set; }
 
         public MoocContextInfrastructureTestCase()
         {
@@ -23,6 +23,11 @@ namespace CodelyTv.Tests.Mooc
         private void SetUp()
         {
             this.Host = CreateHost(CreateHostServices<MoocContext>).GetAwaiter().GetResult();
+        }
+        
+        public T GetService<T>()
+        {
+            return this.Host.Services.GetService<T>();
         }
 
         protected override void CreateHostServices<TDbContext>(IServiceCollection services)
