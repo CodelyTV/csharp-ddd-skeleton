@@ -75,7 +75,7 @@ namespace MoocTest.apps.Backend.Controller.CoursesCounter
                 })
                 {
                     var response = await client.SendAsync(request);
-                    var result = await Utility.GetResponseContent<string>(response);
+                    var result = await Utilities.GetResponseContent(response);
                     Assert.Equal(200, (int) response.StatusCode);
                     Assert.Equal("{\"total\":3}", result);
                 }
