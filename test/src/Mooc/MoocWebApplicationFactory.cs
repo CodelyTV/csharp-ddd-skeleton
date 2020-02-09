@@ -9,9 +9,11 @@ namespace CodelyTv.Tests.Mooc
     using Microsoft.AspNetCore.Mvc.Testing;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
+    using Test.Shared;
 
     public class MoocWebApplicationFactory<TStartup> : WebApplicationFactory<TStartup> where TStartup : class
     {
+        private string _databaseName;
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
             builder
@@ -26,12 +28,12 @@ namespace CodelyTv.Tests.Mooc
                     // database for testing.
                     services.AddDbContext<MoocContext>(options =>
                     {
-                        options.UseInMemoryDatabase(Guid.NewGuid().ToString());
+                        options.UseInMemoryDatabase(_databaseName);
                         options.UseInternalServiceProvider(serviceProvider);
                     });
 
                     services.AddScoped<IEventBus, InMemoryApplicationEventBus>();
-                    
+
                     var sp = services.BuildServiceProvider();
 
                     using var scope = sp.CreateScope();
@@ -41,12 +43,17 @@ namespace CodelyTv.Tests.Mooc
                     // Ensure the database is created.
                     context.Database.EnsureCreated();
                 });
-
         }
 
         public HttpClient GetAnonymousClient()
         {
+            SetRandomDatabaseName();
             return CreateClient();
+        }
+
+        private void SetRandomDatabaseName()
+        {
+            _databaseName = Guid.NewGuid().ToString();
         }
     }
 }
