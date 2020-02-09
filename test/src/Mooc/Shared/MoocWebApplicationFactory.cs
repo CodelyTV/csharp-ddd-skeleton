@@ -1,4 +1,4 @@
-namespace CodelyTv.Tests.Mooc
+namespace CodelyTv.Tests.Mooc.Shared
 {
     using System;
     using System.Net.Http;
@@ -9,7 +9,6 @@ namespace CodelyTv.Tests.Mooc
     using Microsoft.AspNetCore.Mvc.Testing;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
-    using Test.Shared;
 
     public class MoocWebApplicationFactory<TStartup> : WebApplicationFactory<TStartup> where TStartup : class
     {

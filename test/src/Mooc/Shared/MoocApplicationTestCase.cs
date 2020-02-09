@@ -1,23 +1,23 @@
-namespace MoocTest.apps.Backend.Controller
+namespace CodelyTv.Tests.Mooc.Shared
 {
     using System;
     using System.Collections.Generic;
     using System.Net.Http;
     using System.Text;
     using System.Threading.Tasks;
-    using CodelyTv.Apps.Mooc.Backend;
+    using Apps.Mooc.Backend;
     using CodelyTv.Shared.Domain.Bus.Event;
     using CodelyTv.Shared.Infrastructure.Bus.Event;
-    using CodelyTv.Tests.Mooc;
     using Microsoft.Extensions.DependencyInjection;
+    using Mooc;
     using Xunit;
 
-    public class ApplicationTestCase : IClassFixture<MoocWebApplicationFactory<Startup>>
+    public class MoocApplicationTestCase : IClassFixture<MoocWebApplicationFactory<Startup>>
     {
         private readonly MoocWebApplicationFactory<Startup> _factory;
         private HttpClient _client;
 
-        public ApplicationTestCase(MoocWebApplicationFactory<Startup> factory)
+        public MoocApplicationTestCase(MoocWebApplicationFactory<Startup> factory)
         {
             _factory = factory;
         }
