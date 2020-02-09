@@ -7,7 +7,7 @@ namespace MoocTest.apps.Backend.Controller.Courses
     using CodelyTv.Tests.Mooc.Shared;
     using Xunit;
 
-    public class CoursesPutControllerShould : MoocApplicationTestCase
+    public class CoursesPutControllerShould : MoocContextApplicationTestCase
     {
         public CoursesPutControllerShould(MoocWebApplicationFactory<Startup> factory) : base(factory)
         {

@@ -6,10 +6,10 @@ namespace MoocTest.apps.Backend.Controller.CoursesCounter
     using CodelyTv.Apps.Mooc.Backend;
     using CodelyTv.Mooc.Courses.Domain;
     using CodelyTv.Shared.Domain.Bus.Event;
-    using CodelyTv.Tests.Mooc.Shared;
+    using CodelyTv.Tests.Mooc;
     using Xunit;
 
-    public class CoursesCounterGetControllerShould : MoocApplicationTestCase
+    public class CoursesCounterGetControllerShould : MoocContextApplicationTestCase
     {
         public CoursesCounterGetControllerShould(MoocWebApplicationFactory<Startup> factory) : base(factory)
         {

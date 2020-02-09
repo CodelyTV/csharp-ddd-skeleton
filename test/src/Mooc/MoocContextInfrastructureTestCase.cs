@@ -1,5 +1,6 @@
 namespace CodelyTv.Tests.Mooc
 {
+    using System;
     using System.Linq;
     using Apps.Mooc.Backend;
     using CodelyTv.Mooc.Shared.Infrastructure.Persistence.EntityFramework;
@@ -8,40 +9,25 @@ namespace CodelyTv.Tests.Mooc
     using CodelyTv.Shared.Infrastructure.Bus.Event.MsSql;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Hosting;
-    using Test.Shared.Infrastructure.XUnit;
+    using Test.Shared.Infrastructure;
 
-    public abstract class MoocContextInfrastructureTestCase : InfrastructureTestCase<Startup>
+    public class MoocContextInfrastructureTestCase : InfrastructureTestCase<Startup>
     {
-        public IHost Host { get; private set; }
-
-        public MoocContextInfrastructureTestCase()
+        protected override Action<IServiceCollection> Services()
         {
-            this.SetUp();
-        }
+            return services =>
+            {
+                var descriptor = services.SingleOrDefault(d => d.ServiceType == typeof(DbContextOptions<MoocContext>));
+                if (descriptor != null)
+                    services.Remove(descriptor);
 
-        private void SetUp()
-        {
-            this.Host = CreateHost(CreateHostServices<MoocContext>).GetAwaiter().GetResult();
-        }
-        
-        public T GetService<T>()
-        {
-            return this.Host.Services.GetService<T>();
-        }
+                services.AddScoped<IEventBus, MsSqlEventBus>();
+                services.AddScoped<IDomainEventsConsumer, MsSqlDomainEventsConsumer>();
+                services.AddScoped<DomainEventInformation, DomainEventInformation>();
+                services.AddScoped<IEventBus, InMemoryApplicationEventBus>();
 
-        protected override void CreateHostServices<TDbContext>(IServiceCollection services)
-        {
-            var descriptor = services.SingleOrDefault(d => d.ServiceType == typeof(DbContextOptions<TDbContext>));
-            if (descriptor != null)
-                services.Remove(descriptor);
-
-            services.AddScoped<IEventBus, MsSqlEventBus>();
-            services.AddScoped<IDomainEventsConsumer, MsSqlDomainEventsConsumer>();
-            services.AddScoped<DomainEventInformation, DomainEventInformation>();
-            services.AddScoped<IEventBus, InMemoryApplicationEventBus>();
-
-            services.AddDbContext<TDbContext>(options => options.UseInMemoryDatabase("TestingDB"));
+                services.AddDbContext<MoocContext>(options => options.UseInMemoryDatabase("TestingDB"));
+            };
         }
     }
 }

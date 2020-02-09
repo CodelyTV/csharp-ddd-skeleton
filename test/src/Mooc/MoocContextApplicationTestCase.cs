@@ -1,4 +1,4 @@
-namespace CodelyTv.Tests.Mooc.Shared
+namespace CodelyTv.Tests.Mooc
 {
     using System;
     using System.Collections.Generic;
@@ -9,15 +9,14 @@ namespace CodelyTv.Tests.Mooc.Shared
     using CodelyTv.Shared.Domain.Bus.Event;
     using CodelyTv.Shared.Infrastructure.Bus.Event;
     using Microsoft.Extensions.DependencyInjection;
-    using Mooc;
     using Xunit;
 
-    public class MoocApplicationTestCase : IClassFixture<MoocWebApplicationFactory<Startup>>
+    public class MoocContextApplicationTestCase : IClassFixture<MoocWebApplicationFactory<Startup>>
     {
         private readonly MoocWebApplicationFactory<Startup> _factory;
         private HttpClient _client;
 
-        public MoocApplicationTestCase(MoocWebApplicationFactory<Startup> factory)
+        public MoocContextApplicationTestCase(MoocWebApplicationFactory<Startup> factory)
         {
             _factory = factory;
         }
