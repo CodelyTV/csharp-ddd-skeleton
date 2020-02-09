@@ -1,39 +1,26 @@
 namespace MoocTest.apps.Backend.Controller.Courses
 {
-    using System;
     using System.Net.Http;
-    using System.Text;
     using System.Threading.Tasks;
     using CodelyTv.Apps.Mooc.Backend;
     using CodelyTv.Tests.Mooc;
     using Xunit;
 
-    public class CoursesPutControllerShould : IClassFixture<MoocWebApplicationFactory<Startup>>
+    public class CoursesPutControllerShould : ApplicationTestCase
     {
-        private readonly MoocWebApplicationFactory<Startup> _factory;
-
-        public CoursesPutControllerShould(MoocWebApplicationFactory<Startup> factory)
+        public CoursesPutControllerShould(MoocWebApplicationFactory<Startup> factory) : base(factory)
         {
-            _factory = factory;
+            CreateAnonymousClient();
         }
 
         [Fact]
-        public async Task Test()
+        public async Task create_a_valid_non_existing_course()
         {
-            var client = _factory.GetAnonymousClient();
-
-            using (var request = new HttpRequestMessage
-            {
-                Method = HttpMethod.Put,
-                RequestUri = new Uri("/courses/1aab45ba-3c7a-4344-8936-78466eca77fa", UriKind.Relative),
-                Content = new StringContent("{\"name\": \"The best course\", \"duration\": \"5 hours\"}", Encoding.UTF8,
-                    "application/json")
-            })
-            {
-                var response = await client.SendAsync(request);
-
-                Assert.Equal(201, (int) response.StatusCode);
-            }
+            await AssertRequestWithBody(
+                HttpMethod.Put,
+                "/courses/1aab45ba-3c7a-4344-8936-78466eca77fa",
+                "{\"name\": \"The best course\", \"duration\": \"5 hours\"}",
+                201);
         }
     }
 }

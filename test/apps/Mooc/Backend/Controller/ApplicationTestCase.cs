@@ -15,69 +15,57 @@ namespace MoocTest.apps.Backend.Controller
     public class ApplicationTestCase : IClassFixture<MoocWebApplicationFactory<Startup>>
     {
         private readonly MoocWebApplicationFactory<Startup> _factory;
+        private HttpClient _client;
 
         public ApplicationTestCase(MoocWebApplicationFactory<Startup> factory)
         {
             _factory = factory;
         }
-        
-        protected async Task AssertRequestWithBody(string method, string endpoint, string body, int expectedStatusCode)
-        {
-            var client = _factory.GetAnonymousClient();
 
+        protected void CreateAnonymousClient()
+        {
+            _client = _factory.GetAnonymousClient();
+        }
+
+        protected async Task AssertRequestWithBody(HttpMethod method, string endpoint, string body,
+            int expectedStatusCode)
+        {
             using (var request = new HttpRequestMessage
             {
-                Method = GetHttpMethod(method),
+                Method = method,
                 RequestUri = new Uri(endpoint, UriKind.Relative),
                 Content = new StringContent(body, Encoding.UTF8, "application/json")
             })
             {
-                var response = await client.SendAsync(request);
+                var response = await _client.SendAsync(request);
 
                 Assert.Equal(expectedStatusCode, (int) response.StatusCode);
             }
         }
-        
-        protected async Task AssertResponse(string method, string endpoint, int expectedStatusCode, string expectedResponse )
-        {
-            var client = _factory.GetAnonymousClient();
 
+        protected async Task AssertResponse(HttpMethod method, string endpoint, int expectedStatusCode,
+            string expectedResponse)
+        {
             using (var request = new HttpRequestMessage
             {
-                Method = GetHttpMethod(method),
+                Method = method,
                 RequestUri = new Uri(endpoint, UriKind.Relative)
             })
             {
-                var response = await client.SendAsync(request);
+                var response = await _client.SendAsync(request);
                 var result = response.Content.ReadAsStringAsync().Result;
                 Assert.Equal(expectedStatusCode, (int) response.StatusCode);
                 Assert.Equal(expectedResponse, result);
             }
         }
 
-        protected void GivenISendEventsToTheBus(List<DomainEvent> domainEvents)
+        protected async Task GivenISendEventsToTheBus(List<DomainEvent> domainEvents)
         {
-            var eventBus = _factory.Services.GetService<InMemoryApplicationEventBus>();
-            eventBus.Publish(domainEvents);
-        }
-
-        private static HttpMethod GetHttpMethod(string method)
-        {
-            switch (method)
+            using (var scope = _factory.Server.Host.Services.CreateScope())
             {
-                case "GET":
-                    return HttpMethod.Get;
-                case "POST":
-                    return HttpMethod.Post;
-                case "PUT":
-                    return HttpMethod.Put;
-                case "DELETE":
-                    return HttpMethod.Delete;
-                case "PATCH":
-                    return HttpMethod.Patch;
+                var eventBus = scope.ServiceProvider.GetRequiredService<InMemoryApplicationEventBus>();
+                await eventBus.Publish(domainEvents);
             }
-
-            return null;
         }
     }
 }
