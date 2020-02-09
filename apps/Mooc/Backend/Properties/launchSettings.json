@@ -25,6 +25,14 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
+    },
+    "Mssql Command consumer":{
+      "commandName": "Project",
+      "launchBrowser": false,
+      "commandLineArgs": "domain-events:mysql:consume",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
     }
   }
 }

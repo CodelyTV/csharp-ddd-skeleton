@@ -13,6 +13,7 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event.MsSql
         private readonly DbContext _context;
         private readonly DomainEventInformation _domainEventInformation;
         private readonly InMemoryApplicationEventBus _bus;
+        private const int Chunk = 200;
 
         public MsSqlDomainEventsConsumer(InMemoryApplicationEventBus bus, DomainEventInformation domainEventInformation,
             DbContext context)
@@ -22,9 +23,11 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event.MsSql
             _context = context;
         }
 
-        public async void Consume()
+        public async Task Consume()
         {
-            foreach (var domainEvent in _context.Set<DomainEventPrimitive>().ToList())
+            var domainEvents = _context.Set<DomainEventPrimitive>().Take(Chunk).ToList();
+
+            foreach (var domainEvent in domainEvents)
             {
                 await ExecuteSubscribers(domainEvent);
             }
@@ -47,7 +50,10 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event.MsSql
                     domainEventPrimitive.OccurredOn
                 });
 
-            await _bus.Publish(new List<DomainEvent> {result});
+            _bus.Publish(new List<DomainEvent> {result}).Wait();
+            
+            _context.Set<DomainEventPrimitive>().Remove(domainEventPrimitive);
+            _context.SaveChanges();
         }
     }
 }
