@@ -34,6 +34,8 @@ namespace CodelyTv.Apps.Mooc.Backend.Extension.DependencyInjection
             services.AddDbContext<MoocContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("MoocDatabase")));
 
+            services.Configure<RabbitMqConfig>(configuration.GetSection("RabbitMq"));
+            
             return services;
         }
     }
