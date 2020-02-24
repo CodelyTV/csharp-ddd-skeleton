@@ -8,6 +8,7 @@ namespace CodelyTv.Tests.Mooc
     using CodelyTv.Shared.Domain.Bus.Event;
     using CodelyTv.Shared.Infrastructure.Bus.Event;
     using CodelyTv.Shared.Infrastructure.Bus.Event.MsSql;
+    using CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
@@ -29,8 +30,10 @@ namespace CodelyTv.Tests.Mooc
                     .Build();
 
                 services.AddScoped<MsSqlEventBus, MsSqlEventBus>();
-                services.AddScoped<IDomainEventsConsumer, MsSqlDomainEventsConsumer>();
+                services.AddScoped<MsSqlDomainEventsConsumer, MsSqlDomainEventsConsumer>();
 
+                services.AddScoped<RabbitMqEventBus, RabbitMqEventBus>();
+                
                 services.AddScoped<DomainEventInformation, DomainEventInformation>();
                 services.AddScoped<IEventBus, InMemoryApplicationEventBus>();
 
@@ -39,6 +42,8 @@ namespace CodelyTv.Tests.Mooc
                 
                 services.AddDbContext<MoocContext>(options =>
                     options.UseSqlServer(configuration.GetConnectionString("MoocDatabase")));
+                
+                services.Configure<RabbitMqConfig>(configuration.GetSection("RabbitMq"));
             };
         }
     }
