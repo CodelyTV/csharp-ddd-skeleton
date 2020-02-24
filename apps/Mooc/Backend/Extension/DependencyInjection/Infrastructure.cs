@@ -13,6 +13,7 @@ namespace CodelyTv.Apps.Mooc.Backend.Extension.DependencyInjection
     using Shared.Infrastructure;
     using Shared.Infrastructure.Bus.Event;
     using Shared.Infrastructure.Bus.Event.MsSql;
+    using Shared.Infrastructure.Bus.Event.RabbitMq;
 
     public static class Infrastructure
     {
@@ -23,8 +24,11 @@ namespace CodelyTv.Apps.Mooc.Backend.Extension.DependencyInjection
             services.AddScoped<IUuidGenerator, CSharpUuidGenerator>();
             services.AddScoped<ICoursesCounterRepository, MsSqlCoursesCounterRepository>();
             services.AddScoped<ICourseRepository, MsSqlCourseRepository>();
-            services.AddScoped<IEventBus, MsSqlEventBus>();
+            services.AddScoped<IEventBus, RabbitMqEventBus>();
             services.AddScoped<InMemoryApplicationEventBus, InMemoryApplicationEventBus>();
+            
+            // Failover
+            services.AddScoped<MsSqlEventBus, MsSqlEventBus>();
 
             services.AddScoped<IDomainEventsConsumer, MsSqlDomainEventsConsumer>();
             services.AddScoped<DomainEventInformation, DomainEventInformation>();
@@ -33,6 +37,9 @@ namespace CodelyTv.Apps.Mooc.Backend.Extension.DependencyInjection
             services.AddDbContext<MoocContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("MoocDatabase")));
 
+            services.AddScoped<RabbitMqService, RabbitMqService>();
+            services.Configure<RabbitMqConfig>(configuration.GetSection("RabbitMq"));
+            
             return services;
         }
     }

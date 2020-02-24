@@ -22,7 +22,7 @@ namespace CodelyTv.Mooc.Courses.Infrastructure.Persistence
 
         public Course Search(CourseId id)
         {
-            return this._context.Courses.FirstOrDefault(c => c.Id.Value.Equals(id.Value));
+            return this._context.Courses.FirstOrDefault(c => c.Id.Equals(id));
         }
     }
 }
