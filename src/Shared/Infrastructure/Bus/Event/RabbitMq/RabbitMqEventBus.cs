@@ -1,19 +1,21 @@
 namespace CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq
 {
-    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Domain.Bus.Event;
+    using RabbitMQ.Client.Exceptions;
 
     public class RabbitMqEventBus : IEventBus
     {
-        private readonly RabbitMqService _rabitMqService;
+        private readonly RabbitMqService _rabbitMqService;
         private readonly string _exchangeName;
+        private readonly MsSqlEventBus _failOverPublisher;
 
-        public RabbitMqEventBus(RabbitMqService rabitMqService)
+        public RabbitMqEventBus(RabbitMqService rabbitMqService, MsSqlEventBus msSqlEventBus)
         {
-            _rabitMqService = rabitMqService;
-            this._exchangeName = "domain_events";
+            _rabbitMqService = rabbitMqService;
+            _failOverPublisher = msSqlEventBus;
+            _exchangeName = "domain_events";
         }
 
         public async Task Publish(List<DomainEvent> events)
@@ -23,8 +25,15 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq
 
         private async Task Publish(DomainEvent domainEvent)
         {
-            String serializedDomainEvent = DomainEventJsonSerializer.Serialize(domainEvent);
-            this._rabitMqService.PublishMessage(_exchangeName, serializedDomainEvent);
+            try
+            {
+                var serializedDomainEvent = DomainEventJsonSerializer.Serialize(domainEvent);
+                this._rabbitMqService.PublishMessage(_exchangeName, serializedDomainEvent);
+            }
+            catch (RabbitMQClientException e)
+            {
+                await _failOverPublisher.Publish(new List<DomainEvent> {domainEvent});
+            }
         }
     }
 }

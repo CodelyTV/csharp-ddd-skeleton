@@ -26,6 +26,9 @@ namespace CodelyTv.Apps.Mooc.Backend.Extension.DependencyInjection
             services.AddScoped<ICourseRepository, MsSqlCourseRepository>();
             services.AddScoped<IEventBus, RabbitMqEventBus>();
             services.AddScoped<InMemoryApplicationEventBus, InMemoryApplicationEventBus>();
+            
+            // Failover
+            services.AddScoped<MsSqlEventBus, MsSqlEventBus>();
 
             services.AddScoped<IDomainEventsConsumer, MsSqlDomainEventsConsumer>();
             services.AddScoped<DomainEventInformation, DomainEventInformation>();

@@ -7,22 +7,21 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq
 
     public class RabbitMqService
     {
-        private readonly RabbitMqConfig _rabitMqConfig;
+        private readonly RabbitMqConfig _rabbitMqConfig;
         private readonly ConnectionFactory _connectionFactory;
 
-        public RabbitMqService(IOptions<RabbitMqConfig> rabitMqConfig)
+        public RabbitMqService(IOptions<RabbitMqConfig> rabbitMqConfig)
         {
-            this._rabitMqConfig = rabitMqConfig.Value;
+            this._rabbitMqConfig = rabbitMqConfig.Value;
 
             _connectionFactory = new ConnectionFactory()
             {
-                HostName = _rabitMqConfig.HostName,
-                UserName = _rabitMqConfig.Username,
-                Password = _rabitMqConfig.Password,
-                Port = _rabitMqConfig.Port
+                HostName = _rabbitMqConfig.HostName,
+                UserName = _rabbitMqConfig.Username,
+                Password = _rabbitMqConfig.Password,
+                Port = _rabbitMqConfig.Port
             };
         }
-
         public void PublishMessage(string exchangeName, string message)
         {
             using (var connection = _connectionFactory.CreateConnection())

@@ -14,13 +14,13 @@ jobs:
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: 3.1.100   
+          dotnet-version: 3.1.100  
        
+      - name: Build with dotnet
+        run: dotnet build --configuration Release
+
       - name: Init database
         run: docker exec codelytv-chsarp_ddd_skeleton-mssql /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P Your_password123 -d master -i init.sql
 
-      - name: Build with dotnet
-        run: dotnet build --configuration Release
-      
       - name: Unit Tests
         run: dotnet test CsharpDDDSkeleton.sln
