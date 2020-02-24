@@ -8,17 +8,16 @@ namespace CodelyTv.Test.Shared.Infrastructure
 
     public abstract class InfrastructureTestCase<TStartup> where TStartup : class
     {
-        public IHost Host { get; private set; }
-
+        private readonly IHost _host;
         public InfrastructureTestCase()
         {
-            Host = CreateHost();
+            _host = CreateHost();
         }
 
         protected IHost CreateHost()
         {
             var hostBuilder = new HostBuilder()
-                .ConfigureWebHost(webHost =>
+                .ConfigureWebHostDefaults(webHost =>
                 {
                     webHost.UseTestServer();
                     webHost.UseStartup<TStartup>();
@@ -29,7 +28,7 @@ namespace CodelyTv.Test.Shared.Infrastructure
 
         protected T GetService<T>()
         {
-            return this.Host.Services.GetService<T>();
+            return this._host.Services.GetService<T>();
         }
 
         protected abstract Action<IServiceCollection> Services();
