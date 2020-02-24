@@ -3,11 +3,13 @@ namespace CodelyTv.Tests.Mooc
     using System;
     using System.Linq;
     using Apps.Mooc.Backend;
+    using Apps.Mooc.Backend.Extension;
     using CodelyTv.Mooc.Shared.Infrastructure.Persistence.EntityFramework;
     using CodelyTv.Shared.Domain.Bus.Event;
     using CodelyTv.Shared.Infrastructure.Bus.Event;
     using CodelyTv.Shared.Infrastructure.Bus.Event.MsSql;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Test.Shared.Infrastructure;
 
@@ -21,12 +23,22 @@ namespace CodelyTv.Tests.Mooc
                 if (descriptor != null)
                     services.Remove(descriptor);
 
-                services.AddScoped<IEventBus, MsSqlEventBus>();
+                IConfigurationRoot configuration = new ConfigurationBuilder()
+                    .SetBasePath(AppContext.BaseDirectory)
+                    .AddJsonFile("appsettings.json")
+                    .Build();
+
+                services.AddScoped<MsSqlEventBus, MsSqlEventBus>();
                 services.AddScoped<IDomainEventsConsumer, MsSqlDomainEventsConsumer>();
+
                 services.AddScoped<DomainEventInformation, DomainEventInformation>();
                 services.AddScoped<IEventBus, InMemoryApplicationEventBus>();
 
-                services.AddDbContext<MoocContext>(options => options.UseInMemoryDatabase("TestingDB"));
+                services.AddDomainEventSubscribersServices(AppDomain.CurrentDomain.GetAssemblies()
+                    .FirstOrDefault(x => x.FullName.Contains("CodelyTv.Mooc")));
+                
+                services.AddDbContext<MoocContext>(options =>
+                    options.UseSqlServer(configuration.GetConnectionString("MoocDatabase")));
             };
         }
     }

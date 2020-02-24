@@ -1,9 +1,7 @@
 namespace CodelyTv.Shared.Infrastructure.Bus.Event
 {
     using System;
-    using System.Collections;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
     using Domain.Bus.Event;
     using Microsoft.Extensions.DependencyInjection;

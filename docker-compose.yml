@@ -2,21 +2,27 @@ version: '3.0'
 
 services:
   mooc.backend:
+    container_name: codelytv-ddd_skeleton-csharp
     build:
       context: .
       dockerfile: Dockerfile
     ports:
       - "8030:8030"
+    tty: true
     depends_on:
       - mssql
+      - rabbitmq
   mssql:
     image: mcr.microsoft.com/mssql/server:2017-latest
-    container_name: codelytv-php_ddd_skeleton-mooc-mssql
+    container_name: codelytv-chsarp_ddd_skeleton-mssql
+    command: /bin/bash /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P Your_password123 -d master -i mooc.sql
     ports:
-      - "1433:1433"
+      - 1433:1433
     environment:
-      SA_PASSWORD: "Your_password123"
-      ACCEPT_EULA: "Y"
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Your_password123
+    volumes:
+      - ./database/mooc.sql:/mooc.sql
   rabbitmq:
     container_name: codelytv-chsarp_ddd_skeleton-rabbitmq
     image: 'rabbitmq:3.7-management'
