@@ -62,7 +62,8 @@
         {
             return new Dictionary<string, Type>()
             {
-                {"domain-events:mysql:consume", typeof(ConsumeMsSqlDomainEventsCommand)}
+                {"domain-events:mysql:consume", typeof(ConsumeMsSqlDomainEventsCommand)},
+                {"domain-events:rabbitmq:consume", typeof(ConsumeRabbitMqDomainEventsCommand)}
             };
         }
 

@@ -2,6 +2,7 @@ namespace CodelyTv.Shared.Domain
 {
     using System;
     using System.Globalization;
+    using System.Linq;
 
     public sealed class Utils
     {
@@ -13,6 +14,11 @@ namespace CodelyTv.Shared.Domain
         public static DateTime StringToDate(string date)
         {
             return DateTime.ParseExact(date, "s", CultureInfo.CurrentCulture);
+        }
+
+        public static string ToSnake(string text)
+        {
+            return string.Concat(text.Select((x, i) => i > 0 && char.IsUpper(x) ? "_" + x : x.ToString()));
         }
     }
 }
