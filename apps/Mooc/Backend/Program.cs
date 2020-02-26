@@ -4,14 +4,12 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    using System.Reflection;
     using Command;
     using Extension.DependencyInjection;
     using Microsoft.AspNetCore;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-    using Shared.Domain.Bus.Event;
 
     public static class Program
     {
@@ -39,6 +37,9 @@
             services.AddApplication();
             services.AddInfrastructure(Configuration());
 
+            services.AddScoped<ConsumeRabbitMqDomainEventsCommand, ConsumeRabbitMqDomainEventsCommand>();
+            services.AddScoped<ConsumeMsSqlDomainEventsCommand, ConsumeMsSqlDomainEventsCommand>();
+
             var serviceProvider = services.BuildServiceProvider();
             return serviceProvider;
         }
@@ -46,16 +47,11 @@
         private static void ExecuteCommand(string[] args, KeyValuePair<string, Type> command,
             ServiceProvider serviceProvider)
         {
-            Type commandType = command.Value;
-            var instance = Activator.CreateInstance(commandType, serviceProvider.GetService<IDomainEventsConsumer>());
+            using IServiceScope scope = serviceProvider.CreateScope();
 
-            commandType
-                .GetTypeInfo()
-                .GetDeclaredMethod(nameof(Shared.Cli.Command.Execute))
-                .Invoke(instance, new object[]
-                {
-                    args
-                });
+            Type commandType = command.Value;
+            object service = scope.ServiceProvider.GetService(commandType);
+            ((Shared.Cli.Command) service).Execute(args);
         }
 
         private static Dictionary<string, Type> Commands()
