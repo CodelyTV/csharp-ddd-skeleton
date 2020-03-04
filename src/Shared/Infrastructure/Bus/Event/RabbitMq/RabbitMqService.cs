@@ -1,6 +1,7 @@
 namespace CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq
 {
     using System;
+    using System.Collections.Generic;
     using System.Text;
     using Microsoft.Extensions.Options;
     using RabbitMQ.Client;
@@ -44,40 +45,64 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq
 
         public void GetMessages(string exchangeName)
         {
-            try
+            using (var connection = _connectionFactory.CreateConnection())
+            using (var channel = connection.CreateModel())
             {
-                using (var connection = _connectionFactory.CreateConnection())
-                using (var channel = connection.CreateModel())
+                channel.ExchangeDeclare(exchange: exchangeName, type: ExchangeType.Fanout);
+
+                var queueName = channel.QueueDeclare().QueueName;
+                channel.QueueBind(queue: queueName,
+                    exchange: exchangeName,
+                    routingKey: "");
+
+                Console.WriteLine(" [*] Waiting for logs.");
+
+                var consumer = new EventingBasicConsumer(channel);
+                consumer.Received += (model, ea) =>
                 {
-                    channel.ExchangeDeclare(exchange: exchangeName, type: ExchangeType.Fanout);
+                    var body = ea.Body;
+                    var message = Encoding.UTF8.GetString(body);
+                    Console.WriteLine(" [x] {0}", message);
+                };
 
-                    var queueName = channel.QueueDeclare().QueueName;
-                    channel.QueueBind(queue: queueName,
-                        exchange: exchangeName,
-                        routingKey: "");
+                channel.BasicConsume(queue: queueName,
+                    autoAck: true,
+                    consumer: consumer);
 
-                    Console.WriteLine(" [*] Waiting for logs.");
-
-                    var consumer = new EventingBasicConsumer(channel);
-                    consumer.Received += (model, ea) =>
-                    {
-                        var body = ea.Body;
-                        var message = Encoding.UTF8.GetString(body);
-                        Console.WriteLine(" [x] {0}", message);
-                    };
-
-                    channel.BasicConsume(queue: queueName,
-                        autoAck: true,
-                        consumer: consumer);
-
-                    Console.WriteLine(" Press [enter] to exit.");
-                    Console.ReadLine();
-                }
+                Console.WriteLine(" Press [enter] to exit.");
+                Console.ReadLine();
             }
-            catch (Exception e)
+        }
+
+        public void CreateQueueExchange(string exchangeName, string retryName, string deadLetterName)
+        {
+            using (var connection = _connectionFactory.CreateConnection())
+            using (var channel = connection.CreateModel())
             {
-                Console.WriteLine(e);
-                throw;
+                channel.ExchangeDeclare("domain_event", "direct");
+
+                var queue = channel.QueueDeclare(queue: exchangeName,
+                    durable: true,
+                    exclusive: false,
+                    autoDelete: false);
+
+                var retryQueue = channel.QueueDeclare(queue: retryName, durable: true,
+                    exclusive: false,
+                    autoDelete: false,
+                    arguments: new Dictionary<string, object>
+                    {
+                        {"x-dead-letter-exchange", "domain_event"},
+                        {"x-dead-letter-routing-key", exchangeName},
+                        {"x-message-ttl", 1000},
+                    });
+
+                var deadLetterQueue = channel.QueueDeclare(queue: deadLetterName, durable: true,
+                    exclusive: false,
+                    autoDelete: false);
+
+                channel.QueueBind(queue, "domain_event", exchangeName);
+                channel.QueueBind(retryQueue, "domain_event", exchangeName);
+                channel.QueueBind(deadLetterQueue, "domain_event", exchangeName);
             }
         }
     }

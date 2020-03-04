@@ -5,11 +5,11 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event
     using System.Linq;
     using Domain.Bus.Event;
 
-    public class DomainEventInformation
+    public class DomainEventsInformation
     {
         private Dictionary<string, Type> IndexedDomainEvents = new Dictionary<string, Type>();
 
-        public DomainEventInformation()
+        public DomainEventsInformation()
         {
             GetDomainTypes().ForEach(eventType => this.IndexedDomainEvents.Add(this.GetEventName(eventType), eventType));
         }

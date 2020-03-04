@@ -30,8 +30,8 @@ namespace CodelyTv.Apps.Mooc.Backend.Extension.DependencyInjection
             // Failover
             services.AddScoped<MsSqlEventBus, MsSqlEventBus>();
 
-            services.AddScoped<IDomainEventsConsumer, MsSqlDomainEventsConsumer>();
-            services.AddScoped<DomainEventInformation, DomainEventInformation>();
+            services.AddScoped<RabbitMqDomainEventsConsumer, RabbitMqDomainEventsConsumer>();
+            services.AddScoped<DomainEventsInformation, DomainEventsInformation>();
 
             services.AddScoped<DbContext, MoocContext>();
             services.AddDbContext<MoocContext>(options =>

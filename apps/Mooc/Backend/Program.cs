@@ -10,6 +10,8 @@
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Shared.Infrastructure.Bus.Event;
+    using Shared.Infrastructure.Bus.Event.RabbitMq;
 
     public static class Program
     {
@@ -39,6 +41,8 @@
 
             services.AddScoped<ConsumeRabbitMqDomainEventsCommand, ConsumeRabbitMqDomainEventsCommand>();
             services.AddScoped<ConsumeMsSqlDomainEventsCommand, ConsumeMsSqlDomainEventsCommand>();
+            services.AddScoped<DomainEventSubscribersInformation, DomainEventSubscribersInformation>();
+            services.AddScoped<RabbitMqEventBusConfiguration, RabbitMqEventBusConfiguration>();
 
             var serviceProvider = services.BuildServiceProvider();
             return serviceProvider;

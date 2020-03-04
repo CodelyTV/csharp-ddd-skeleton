@@ -5,15 +5,15 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq
 
     public class RabbitMqDomainEventsConsumer : IDomainEventsConsumer
     {
-        private readonly DomainEventInformation _domainEventInformation;
+        private readonly DomainEventsInformation _domainEventsInformation;
         private readonly InMemoryApplicationEventBus _bus;
         private readonly RabbitMqService _service;
 
         public RabbitMqDomainEventsConsumer(InMemoryApplicationEventBus bus,
-            DomainEventInformation domainEventInformation, RabbitMqService service)
+            DomainEventsInformation domainEventsInformation, RabbitMqService service)
         {
             _bus = bus;
-            _domainEventInformation = domainEventInformation;
+            _domainEventsInformation = domainEventsInformation;
             _service = service;
         }
 

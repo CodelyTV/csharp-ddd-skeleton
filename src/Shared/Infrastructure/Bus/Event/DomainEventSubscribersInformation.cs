@@ -2,6 +2,8 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
+    using Domain.Bus.Event;
 
     public class DomainEventSubscribersInformation
     {
@@ -10,18 +12,42 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event
         public DomainEventSubscribersInformation()
         {
             var subscribers = GetSubscribers();
-            FormatSubscribers(subscribers);
+            information = FormatSubscribers(subscribers);
+        }
+
+        public Dictionary<Type, DomainEventSubscriberInformation>.ValueCollection All()
+        {
+            return information.Values;
         }
 
         private List<Type> GetSubscribers()
         {
-            throw new NotImplementedException();
+            var types = AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(s => s.GetTypes())
+                .Where(p => p.GetCustomAttributes(typeof(DomainEventSubscriberAttribute), true).Length > 0);
+
+            return types.ToList();
         }
 
-        private void FormatSubscribers(List<Type> subscribers)
+        private Dictionary<Type, DomainEventSubscriberInformation> FormatSubscribers(List<Type> subscribers)
         {
-            throw new NotImplementedException();
+            var subscribersInformation = new Dictionary<Type, DomainEventSubscriberInformation>();
 
+            foreach (var subscriber in subscribers)
+            {
+                var attributes = Attribute.GetCustomAttributes(subscriber)
+                    .Where(x => x is DomainEventSubscriberAttribute);
+
+                foreach (Attribute attribute in attributes)
+                {
+                    DomainEventSubscriberAttribute subscriberAttribute = (DomainEventSubscriberAttribute) attribute;
+
+                    subscribersInformation.Add(subscriber,
+                        new DomainEventSubscriberInformation(subscriber, subscriberAttribute.Events()));
+                }
+            }
+
+            return subscribersInformation;
         }
     }
 }

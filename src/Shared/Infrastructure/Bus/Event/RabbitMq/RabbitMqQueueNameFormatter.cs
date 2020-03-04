@@ -7,7 +7,7 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq
         public static string Format(DomainEventSubscriberInformation information)
         {
             return
-                $"codelytv.{information.ContextName()}.{information.ModuleName()}.{Utils.ToSnake(information.ClassName())}";
+                $"codelytv.{information.ContextName.ToSnake()}.{information.ModuleName.ToSnake()}.{information.ClassName.ToSnake()}";
         }
 
         public static string FormatRetry(DomainEventSubscriberInformation information)

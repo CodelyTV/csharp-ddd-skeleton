@@ -34,7 +34,7 @@ namespace CodelyTv.Tests.Mooc
 
                 services.AddScoped<RabbitMqEventBus, RabbitMqEventBus>();
                 
-                services.AddScoped<DomainEventInformation, DomainEventInformation>();
+                services.AddScoped<DomainEventsInformation, DomainEventsInformation>();
                 services.AddScoped<IEventBus, InMemoryApplicationEventBus>();
 
                 services.AddDomainEventSubscribersServices(AppDomain.CurrentDomain.GetAssemblies()
