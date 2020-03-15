@@ -21,5 +21,11 @@ namespace CodelyTv.Shared.Domain
             return string.Concat(text.Select((x, i) => i > 0 && char.IsUpper(x) ? "_" + x : x.ToString()))
                 .ToLowerInvariant();
         }
+
+        public static string ToCamelFirstUpper(this string text)
+        {
+            TextInfo textInfo = new CultureInfo(CultureInfo.CurrentCulture.ToString(), false).TextInfo;
+            return textInfo.ToTitleCase(text).Replace("_", string.Empty);
+        }
     }
 }

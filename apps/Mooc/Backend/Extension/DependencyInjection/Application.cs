@@ -15,7 +15,8 @@ namespace CodelyTv.Apps.Mooc.Backend.Extension.DependencyInjection
 
             services.AddScoped<CoursesCounterIncrementer, CoursesCounterIncrementer>();
             services.AddScoped<CoursesCounterFinder, CoursesCounterFinder>();
-            
+            services.AddScoped<IncrementCoursesCounterOnCourseCreated, IncrementCoursesCounterOnCourseCreated>();
+
             services.AddDomainEventSubscribersServices(AppDomain.CurrentDomain.GetAssemblies()
                 .FirstOrDefault(x => x.FullName.Contains("CodelyTv.Mooc")));
 
