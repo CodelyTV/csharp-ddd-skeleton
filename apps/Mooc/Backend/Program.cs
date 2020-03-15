@@ -19,7 +19,7 @@
         {
             if (!args.Any()) CreateWebHostBuilder(args).Build().Run();
 
-            var serviceProvider = ServicesProvider();
+            var serviceProvider = CommandServicesProvider();
             var command = Commands().FirstOrDefault(cmd => args.Contains(cmd.Key));
 
             if (command.Key == null) throw new SystemException("arguments does not match with any command");
@@ -33,7 +33,7 @@
                 .UseStartup<Startup>();
         }
 
-        private static ServiceProvider ServicesProvider()
+        private static ServiceProvider CommandServicesProvider()
         {
             var services = new ServiceCollection();
             services.AddApplication();
@@ -43,7 +43,8 @@
             services.AddScoped<ConsumeMsSqlDomainEventsCommand, ConsumeMsSqlDomainEventsCommand>();
             services.AddScoped<DomainEventSubscribersInformation, DomainEventSubscribersInformation>();
             services.AddScoped<RabbitMqEventBusConfiguration, RabbitMqEventBusConfiguration>();
-
+            services.AddScoped<DomainEventJsonDeserializer, DomainEventJsonDeserializer>();
+            
             var serviceProvider = services.BuildServiceProvider();
             return serviceProvider;
         }

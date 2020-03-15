@@ -9,23 +9,14 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq
 
     public class RabbitMqService
     {
-        private readonly RabbitMqConfig _rabbitMqConfig;
         private readonly ConnectionFactory _connectionFactory;
 
-        public RabbitMqService(IOptions<RabbitMqConfig> rabbitMqConfig)
+        public RabbitMqService(RabbitMqConfig config)
         {
-            this._rabbitMqConfig = rabbitMqConfig.Value;
-
-            _connectionFactory = new ConnectionFactory()
-            {
-                HostName = _rabbitMqConfig.HostName,
-                UserName = _rabbitMqConfig.Username,
-                Password = _rabbitMqConfig.Password,
-                Port = _rabbitMqConfig.Port
-            };
+            this._connectionFactory = config.ConnectionFactory;
         }
 
-        public void PublishMessage(string exchangeName, string message)
+        public void PublishMessage(string exchangeName, string eventName, string message)
         {
             using (var connection = _connectionFactory.CreateConnection())
             using (var channel = connection.CreateModel())
@@ -35,7 +26,7 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq
                 var body = Encoding.UTF8.GetBytes(message);
 
                 channel.BasicPublish(exchange: exchangeName,
-                    routingKey: "",
+                    routingKey: eventName,
                     basicProperties: null,
                     body: body);
 
@@ -43,67 +34,48 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq
             }
         }
 
-        public void GetMessages(string exchangeName)
+        public void CreateQueueExchange(
+            string domainEventsExchange,
+            string retryDomainEventsExchange,
+            string deadLetterDomainEventsExchange)
         {
             using (var connection = _connectionFactory.CreateConnection())
             using (var channel = connection.CreateModel())
             {
-                channel.ExchangeDeclare(exchange: exchangeName, type: ExchangeType.Fanout);
+                channel.ExchangeDeclare("domain_events", ExchangeType.Topic);
 
-                var queueName = channel.QueueDeclare().QueueName;
-                channel.QueueBind(queue: queueName,
-                    exchange: exchangeName,
-                    routingKey: "");
-
-                Console.WriteLine(" [*] Waiting for logs.");
-
-                var consumer = new EventingBasicConsumer(channel);
-                consumer.Received += (model, ea) =>
-                {
-                    var body = ea.Body;
-                    var message = Encoding.UTF8.GetString(body);
-                    Console.WriteLine(" [x] {0}", message);
-                };
-
-                channel.BasicConsume(queue: queueName,
-                    autoAck: true,
-                    consumer: consumer);
-
-                Console.WriteLine(" Press [enter] to exit.");
-                Console.ReadLine();
-            }
-        }
-
-        public void CreateQueueExchange(string exchangeName, string retryName, string deadLetterName)
-        {
-            using (var connection = _connectionFactory.CreateConnection())
-            using (var channel = connection.CreateModel())
-            {
-                channel.ExchangeDeclare("domain_event", "direct");
-
-                var queue = channel.QueueDeclare(queue: exchangeName,
+                var queue = channel.QueueDeclare(queue: domainEventsExchange,
                     durable: true,
                     exclusive: false,
                     autoDelete: false);
 
-                var retryQueue = channel.QueueDeclare(queue: retryName, durable: true,
+                var retryQueue = channel.QueueDeclare(queue: retryDomainEventsExchange, durable: true,
                     exclusive: false,
                     autoDelete: false,
-                    arguments: new Dictionary<string, object>
-                    {
-                        {"x-dead-letter-exchange", "domain_event"},
-                        {"x-dead-letter-routing-key", exchangeName},
-                        {"x-message-ttl", 1000},
-                    });
+                    arguments: RetryQueueArguments("domain_events", domainEventsExchange));
 
-                var deadLetterQueue = channel.QueueDeclare(queue: deadLetterName, durable: true,
+                var deadLetterQueue = channel.QueueDeclare(queue: deadLetterDomainEventsExchange, durable: true,
                     exclusive: false,
                     autoDelete: false);
 
-                channel.QueueBind(queue, "domain_event", exchangeName);
-                channel.QueueBind(retryQueue, "domain_event", exchangeName);
-                channel.QueueBind(deadLetterQueue, "domain_event", exchangeName);
+                channel.QueueBind(queue, "domain_events", domainEventsExchange);
+                channel.QueueBind(retryQueue, "domain_events", domainEventsExchange);
+                channel.QueueBind(deadLetterQueue, "domain_events", domainEventsExchange);
+
+                // Todo Add all events
+                channel.QueueBind(queue, "domain_events", "course.created");
             }
+        }
+
+        private IDictionary<string, object> RetryQueueArguments(string eventsExchange,
+            string domainEventsExchange)
+        {
+            return new Dictionary<string, object>
+            {
+                {"x-dead-letter-exchange", eventsExchange},
+                {"x-dead-letter-routing-key", domainEventsExchange},
+                {"x-message-ttl", 1000},
+            };
         }
     }
 }

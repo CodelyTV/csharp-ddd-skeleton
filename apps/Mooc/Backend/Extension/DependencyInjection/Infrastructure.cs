@@ -26,7 +26,7 @@ namespace CodelyTv.Apps.Mooc.Backend.Extension.DependencyInjection
             services.AddScoped<ICourseRepository, MsSqlCourseRepository>();
             services.AddScoped<IEventBus, RabbitMqEventBus>();
             services.AddScoped<InMemoryApplicationEventBus, InMemoryApplicationEventBus>();
-            
+
             // Failover
             services.AddScoped<MsSqlEventBus, MsSqlEventBus>();
 
@@ -38,8 +38,10 @@ namespace CodelyTv.Apps.Mooc.Backend.Extension.DependencyInjection
                 options.UseSqlServer(configuration.GetConnectionString("MoocDatabase")));
 
             services.AddScoped<RabbitMqService, RabbitMqService>();
-            services.Configure<RabbitMqConfig>(configuration.GetSection("RabbitMq"));
-            
+            services.AddScoped<RabbitMqConfig, RabbitMqConfig>();
+            services.AddScoped<RabbitMqEventBusConfiguration, RabbitMqEventBusConfiguration>();
+            services.Configure<RabbitMqConfigParams>(configuration.GetSection("RabbitMq"));
+
             return services;
         }
     }

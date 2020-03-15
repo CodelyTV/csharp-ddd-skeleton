@@ -12,6 +12,8 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq
             DomainEventSubscribersInformation = domainEventSubscribersInformation;
             _service = service;
             this._exchangeName = "domain_events";
+            
+            this.SetUp();
         }
 
         public void SetUp()
@@ -20,12 +22,12 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq
 
             foreach (var domainEventSubscriberInformation in subscribersInformation)
             {
-                var exchangeName = RabbitMqQueueNameFormatter.Format(domainEventSubscriberInformation);
+                var domainEventsExchange = RabbitMqQueueNameFormatter.Format(domainEventSubscriberInformation);
                 var retryExchangeName = RabbitMqQueueNameFormatter.FormatRetry(domainEventSubscriberInformation);
                 var deadLetterExchangeName =
                     RabbitMqQueueNameFormatter.FormatDeadLetter(domainEventSubscriberInformation);
 
-                _service.CreateQueueExchange(exchangeName, retryExchangeName, deadLetterExchangeName);
+                _service.CreateQueueExchange(domainEventsExchange, retryExchangeName, deadLetterExchangeName);
             }
         }
     }

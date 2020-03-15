@@ -49,5 +49,10 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event
 
             return subscribersInformation;
         }
+
+        public List<string> RabbitMqFormattedNames()
+        {
+            return information.Values.Select(x => x.FormatRabbitMqQueueName()).ToList();
+        }
     }
 }

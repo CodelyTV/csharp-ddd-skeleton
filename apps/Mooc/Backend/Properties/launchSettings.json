@@ -19,7 +19,7 @@
     },
     "Backend": {
       "commandName": "Project",
-      "launchBrowser": true,
+      "launchBrowser": false,
       "launchUrl": "health-check",
       "applicationUrl": "https://localhost:8031;http://localhost:8030",
       "environmentVariables": {

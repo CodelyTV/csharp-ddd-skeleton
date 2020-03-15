@@ -11,10 +11,10 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq
         private readonly string _exchangeName;
         private readonly MsSqlEventBus _failOverPublisher;
 
-        public RabbitMqEventBus(RabbitMqService rabbitMqService, MsSqlEventBus msSqlEventBus)
+        public RabbitMqEventBus(RabbitMqService rabbitMqService, MsSqlEventBus failOverPublisher)
         {
             _rabbitMqService = rabbitMqService;
-            _failOverPublisher = msSqlEventBus;
+            _failOverPublisher = failOverPublisher;
             _exchangeName = "domain_events";
         }
 
@@ -28,7 +28,7 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq
             try
             {
                 var serializedDomainEvent = DomainEventJsonSerializer.Serialize(domainEvent);
-                this._rabbitMqService.PublishMessage(_exchangeName, serializedDomainEvent);
+                this._rabbitMqService.PublishMessage(_exchangeName, domainEvent.EventName(), serializedDomainEvent);
             }
             catch (RabbitMQClientException e)
             {
