@@ -50,7 +50,7 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event.MsSql
                     domainEventPrimitive.OccurredOn
                 });
 
-            _bus.Publish(new List<DomainEvent> {result}).Wait();
+            await _bus.Publish(new List<DomainEvent> {result});
             
             _context.Set<DomainEventPrimitive>().Remove(domainEventPrimitive);
             _context.SaveChanges();

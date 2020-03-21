@@ -41,10 +41,7 @@
 
             services.AddScoped<ConsumeRabbitMqDomainEventsCommand, ConsumeRabbitMqDomainEventsCommand>();
             services.AddScoped<ConsumeMsSqlDomainEventsCommand, ConsumeMsSqlDomainEventsCommand>();
-            services.AddScoped<DomainEventSubscribersInformation, DomainEventSubscribersInformation>();
-            services.AddScoped<RabbitMqEventBusConfiguration, RabbitMqEventBusConfiguration>();
-            services.AddScoped<DomainEventJsonDeserializer, DomainEventJsonDeserializer>();
-            
+
             var serviceProvider = services.BuildServiceProvider();
             return serviceProvider;
         }

@@ -4,12 +4,10 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
-    using System.Runtime.CompilerServices;
     using System.Text;
     using System.Threading.Tasks;
     using Domain;
     using Domain.Bus.Event;
-    using Microsoft.EntityFrameworkCore.Metadata.Internal;
     using Microsoft.Extensions.DependencyInjection;
     using RabbitMQ.Client;
     using RabbitMQ.Client.Events;
@@ -20,8 +18,7 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq
         private readonly ConnectionFactory _connectionFactory;
         private readonly DomainEventJsonDeserializer _deserializer;
         private readonly IServiceProvider _serviceProvider;
-
-
+        
         private Dictionary<string, object> DomainEventSubscribers = new Dictionary<string, object>();
 
         public RabbitMqDomainEventsConsumer(InMemoryApplicationEventBus bus,
