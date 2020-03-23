@@ -19,7 +19,7 @@ namespace CodelyTv.Apps.Mooc.Backend.Controller.CoursesCounter
         [Produces("application/json")]
         public async Task<IActionResult> Index()
         {
-            CoursesCounterResponse response = _finder.Find();
+            CoursesCounterResponse response = await _finder.Find();
 
             return Ok(new Dictionary<string, int>()
             {

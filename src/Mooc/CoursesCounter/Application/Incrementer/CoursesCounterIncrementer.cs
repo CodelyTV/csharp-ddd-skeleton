@@ -18,7 +18,7 @@ namespace CodelyTv.Mooc.CoursesCounter.Application.Incrementer
 
         public async Task Increment(CourseId id)
         {
-            CoursesCounter counter = repository.Search() ?? InitializeCounter();
+            CoursesCounter counter = await repository.Search() ?? InitializeCounter();
 
             if (!counter.HasIncremented(id))
             {

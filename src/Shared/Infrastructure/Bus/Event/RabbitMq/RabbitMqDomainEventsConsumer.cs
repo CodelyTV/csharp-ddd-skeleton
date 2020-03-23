@@ -15,55 +15,54 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq
     public class RabbitMqDomainEventsConsumer : IDomainEventsConsumer
     {
         private readonly DomainEventSubscribersInformation _information;
-        private readonly ConnectionFactory _connectionFactory;
+        private readonly RabbitMqConfig _config;
         private readonly DomainEventJsonDeserializer _deserializer;
         private readonly IServiceProvider _serviceProvider;
-        
+       
         private Dictionary<string, object> DomainEventSubscribers = new Dictionary<string, object>();
 
-        public RabbitMqDomainEventsConsumer(InMemoryApplicationEventBus bus,
-            DomainEventSubscribersInformation information, RabbitMqConfig config,
-            DomainEventJsonDeserializer deserializer, IServiceProvider serviceProvider)
+        public RabbitMqDomainEventsConsumer(
+            DomainEventSubscribersInformation information,
+            DomainEventJsonDeserializer deserializer,
+            IServiceProvider serviceProvider,
+            RabbitMqConfig config)
         {
             _information = information;
             _deserializer = deserializer;
             _serviceProvider = serviceProvider;
-            this._connectionFactory = config.ConnectionFactory;
+            _config = config;
         }
 
-        public Task Consume()
+        public async Task Consume()
         {
             _information.RabbitMqFormattedNames().ForEach(async queue => await ConsumeMessages(queue));
-            return Task.CompletedTask;
         }
 
-        public async Task ConsumeMessages(string queueName)
+        public async Task ConsumeMessages(string queue, ushort prefetchCount = 10)
         {
-            using (var connection = _connectionFactory.CreateConnection())
-            using (var channel = connection.CreateModel())
+            var channel = _config.Channel();
+            
+            DeclareQueue(channel, queue);
+
+            channel.BasicQos(prefetchSize: 0, prefetchCount: prefetchCount, global: false);
+            var scope = _serviceProvider.CreateScope();
+            var consumer = new EventingBasicConsumer(channel);
+            consumer.Received += (model, ea) =>
             {
-                var consumer = new EventingBasicConsumer(channel);
-                
-                BasicGetResult result = channel.BasicGet(queueName, false);
-                if (result != null)
-                {
-                    var body = result.Body;
-                    var message = Encoding.UTF8.GetString(body);
-                    var @event = this._deserializer.Deserialize(message);
+                var body = ea.Body;
+                var message = Encoding.UTF8.GetString(body);
+                var @event = this._deserializer.Deserialize(message);
 
-                    using IServiceScope scope = _serviceProvider.CreateScope();
-                    {
-                        object subscriber = DomainEventSubscribers.ContainsKey(queueName)
-                            ? DomainEventSubscribers[queueName]
-                            : SubscribeFor(queueName, scope);
+                object subscriber = DomainEventSubscribers.ContainsKey(queue)
+                    ? DomainEventSubscribers[queue]
+                    : SubscribeFor(queue, scope);
 
-                        await ((IDomainEventSubscriberBase) subscriber).On(@event);
-                        channel.BasicAck(result.DeliveryTag, false);
-                    }
-                }
-            }
+                ((IDomainEventSubscriberBase) subscriber).On(@event);
+                channel.BasicAck(deliveryTag: ea.DeliveryTag, multiple: false);
+            };
+
+            string consumerId = channel.BasicConsume(queue: queue, autoAck: false, consumer: consumer);
         }
-
 
         private object SubscribeFor(string queue, IServiceScope scope)
         {
@@ -87,6 +86,15 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq
             return AppDomain.CurrentDomain.GetAssemblies()
                 .SingleOrDefault(assembly =>
                     assembly.GetName().Name.Equals(assemblyName, StringComparison.CurrentCultureIgnoreCase));
+        }
+
+        private void DeclareQueue(IModel channel, string queue)
+        {
+            channel.QueueDeclare(queue: queue,
+                durable: true,
+                exclusive: false,
+                autoDelete: false
+            );
         }
     }
 }

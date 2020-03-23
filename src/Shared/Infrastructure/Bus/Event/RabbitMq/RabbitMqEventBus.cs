@@ -18,10 +18,9 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq
             _exchangeName = "domain_events";
         }
 
-        public Task Publish(List<DomainEvent> events)
+        public async Task Publish(List<DomainEvent> events)
         {
             events.ForEach(async e => await this.Publish(e));
-            return Task.CompletedTask;
         }
 
         private async Task Publish(DomainEvent domainEvent)

@@ -1,5 +1,6 @@
 namespace CodelyTv.Mooc.CoursesCounter.Application.Find
 {
+    using System.Threading.Tasks;
     using Domain;
 
     public class CoursesCounterFinder
@@ -11,9 +12,9 @@ namespace CodelyTv.Mooc.CoursesCounter.Application.Find
             _repository = repository;
         }
 
-        public CoursesCounterResponse Find()
+        public async Task<CoursesCounterResponse> Find()
         {
-            CoursesCounter coursesCounter = this._repository.Search() ?? throw new CoursesCounterNotInitialized();
+            CoursesCounter coursesCounter = await this._repository.Search() ?? throw new CoursesCounterNotInitialized();
 
             return new CoursesCounterResponse(coursesCounter.Total.Value);
         }

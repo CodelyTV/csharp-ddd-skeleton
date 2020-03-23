@@ -3,6 +3,7 @@ namespace CodelyTv.Mooc.Courses.Infrastructure.Persistence
     using System.Linq;
     using System.Threading.Tasks;
     using Domain;
+    using Microsoft.EntityFrameworkCore;
     using Shared.Infrastructure.Persistence.EntityFramework;
 
     public class MsSqlCourseRepository : ICourseRepository
@@ -20,9 +21,9 @@ namespace CodelyTv.Mooc.Courses.Infrastructure.Persistence
             await this._context.SaveChangesAsync();
         }
 
-        public Course Search(CourseId id)
+        public async Task<Course> Search(CourseId id)
         {
-            return this._context.Courses.FirstOrDefault(c => c.Id.Equals(id));
+            return await this._context.Courses.FirstOrDefaultAsync(c => c.Id.Equals(id));
         }
     }
 }

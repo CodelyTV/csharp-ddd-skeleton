@@ -35,10 +35,10 @@ namespace CodelyTv.Apps.Mooc.Backend.Extension.DependencyInjection
 
             services.AddScoped<DbContext, MoocContext>();
             services.AddDbContext<MoocContext>(options =>
-                options.UseSqlServer(configuration.GetConnectionString("MoocDatabase")));
+                options.UseSqlServer(configuration.GetConnectionString("MoocDatabase")), ServiceLifetime.Transient);
 
             services.AddRabbitMq(configuration);
-            
+
             services.AddScoped<DomainEventSubscribersInformation, DomainEventSubscribersInformation>();
             services.AddScoped<DomainEventJsonDeserializer, DomainEventJsonDeserializer>();
 

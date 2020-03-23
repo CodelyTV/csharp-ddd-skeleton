@@ -1,5 +1,6 @@
 namespace CodelyTv.Tests.Mooc.CoursesCounter
 {
+    using System.Threading.Tasks;
     using CodelyTv.Mooc.CoursesCounter.Domain;
     using Moq;
     using Test.Shared.Infrastructure;
@@ -20,12 +21,12 @@ namespace CodelyTv.Tests.Mooc.CoursesCounter
 
         protected void ShouldSearch(CoursesCounter counter)
         {
-            this.Repository.Setup(x => x.Search()).Returns(counter);
+            this.Repository.Setup(x => x.Search()).ReturnsAsync(counter);
         }
 
         protected void ShouldSearch()
         {
-            this.Repository.Setup(x => x.Search()).Returns((CoursesCounter) null);
+            this.Repository.Setup(x => x.Search()).ReturnsAsync((CoursesCounter) null);
         }
     }
 }
