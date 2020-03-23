@@ -6,12 +6,9 @@ namespace CodelyTv.Apps.Mooc.Backend.Command
     public class ConsumeRabbitMqDomainEventsCommand : Command
     {
         private readonly RabbitMqDomainEventsConsumer _consumer;
-        private readonly RabbitMqEventBusConfiguration _configuration;
-        public ConsumeRabbitMqDomainEventsCommand(RabbitMqDomainEventsConsumer consumer, RabbitMqEventBusConfiguration configuration)
+        public ConsumeRabbitMqDomainEventsCommand(RabbitMqDomainEventsConsumer consumer)
         {
             _consumer = consumer;
-            _configuration = configuration;
-            _configuration.SetUp();
         }
 
         public override void Execute(string[] args)

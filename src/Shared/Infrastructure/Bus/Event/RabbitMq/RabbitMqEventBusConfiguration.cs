@@ -1,33 +1,30 @@
 namespace CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq
 {
-    public class RabbitMqEventBusConfiguration
+    using System.Linq;
+
+    public class RabbitMqEventBusConfiguration : IEventBusConfiguration
     {
-        private DomainEventSubscribersInformation DomainEventSubscribersInformation;
-        private string _exchangeName;
+        private readonly DomainEventSubscribersInformation _domainEventSubscribersInformation;
         private readonly RabbitMqService _service;
 
         public RabbitMqEventBusConfiguration(DomainEventSubscribersInformation domainEventSubscribersInformation,
             RabbitMqService service)
         {
-            DomainEventSubscribersInformation = domainEventSubscribersInformation;
+            _domainEventSubscribersInformation = domainEventSubscribersInformation;
             _service = service;
-            this._exchangeName = "domain_events";
-            
-            this.SetUp();
         }
 
-        public void SetUp()
+        public void Configure()
         {
-            var subscribersInformation = DomainEventSubscribersInformation.All();
-
-            foreach (var domainEventSubscriberInformation in subscribersInformation)
+            foreach (var subscriberInformation in _domainEventSubscribersInformation.All())
             {
-                var domainEventsExchange = RabbitMqQueueNameFormatter.Format(domainEventSubscriberInformation);
-                var retryExchangeName = RabbitMqQueueNameFormatter.FormatRetry(domainEventSubscriberInformation);
-                var deadLetterExchangeName =
-                    RabbitMqQueueNameFormatter.FormatDeadLetter(domainEventSubscriberInformation);
+                var domainEventsExchange = RabbitMqQueueNameFormatter.Format(subscriberInformation);
+                var retryExchangeName = RabbitMqQueueNameFormatter.FormatRetry(subscriberInformation);
+                var deadLetterExchangeName = RabbitMqQueueNameFormatter.FormatDeadLetter(subscriberInformation);
+                var subscribedEvents = subscriberInformation.SubscribedEvents.Select(x => x.EventName()).ToList();
 
-                _service.CreateQueueExchange(domainEventsExchange, retryExchangeName, deadLetterExchangeName);
+                _service.CreateQueueExchange(domainEventsExchange, retryExchangeName, deadLetterExchangeName,
+                    subscribedEvents);
             }
         }
     }
