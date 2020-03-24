@@ -20,7 +20,7 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event
             var eventData = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, object>>>(body);
 
             var data = eventData["data"];
-            var attributes = ToDictionary<string>(data["attributes"]);
+            var attributes = JsonConvert.DeserializeObject<Dictionary<string, object>>(data["attributes"].ToString());
 
             var domainEventType = information.ForName((string) data["type"]);
 
@@ -38,13 +38,6 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event
                 });
 
             return domainEvent;
-        }
-
-        public static Dictionary<string, TValue> ToDictionary<TValue>(object obj)
-        {
-            var json = JsonConvert.SerializeObject(obj);
-            var dictionary = JsonConvert.DeserializeObject<Dictionary<string, TValue>>(json);
-            return dictionary;
         }
     }
 }
