@@ -1,5 +1,6 @@
 namespace CodelyTv.Tests.Mooc.CoursesCounter.Application.Find
 {
+    using System.Threading.Tasks;
     using CodelyTv.Mooc.CoursesCounter.Application.Find;
     using CodelyTv.Mooc.CoursesCounter.Domain;
     using Domain;
@@ -15,22 +16,22 @@ namespace CodelyTv.Tests.Mooc.CoursesCounter.Application.Find
         }
 
         [Fact]
-        public void it_should_find_an_existing_courses_counter()
+        public async Task it_should_find_an_existing_courses_counter()
         {
             CoursesCounter counter = CoursesCounterMother.Random();
             CoursesCounterResponse response = CoursesCounterResponseMother.Create(counter.Total.Value);
 
             ShouldSearch(counter);
 
-            Assert.Equal(response, _finder.Find());
+            Assert.Equal(response, await _finder.Find());
         }
 
         [Fact]
-        public void it_should_throw_an_exception_when_courses_counter_does_not_exists()
+        public async Task it_should_throw_an_exception_when_courses_counter_does_not_exists()
         {
             ShouldSearch();
 
-            Assert.Throws<CoursesCounterNotInitialized>(() => this._finder.Find());
+            await Assert.ThrowsAsync<CoursesCounterNotInitialized>(async() => await this._finder.Find());
         }
     }
 }

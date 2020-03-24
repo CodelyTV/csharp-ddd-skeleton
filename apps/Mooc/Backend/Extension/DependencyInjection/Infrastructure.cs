@@ -24,22 +24,36 @@ namespace CodelyTv.Apps.Mooc.Backend.Extension.DependencyInjection
             services.AddScoped<IUuidGenerator, CSharpUuidGenerator>();
             services.AddScoped<ICoursesCounterRepository, MsSqlCoursesCounterRepository>();
             services.AddScoped<ICourseRepository, MsSqlCourseRepository>();
+
             services.AddScoped<IEventBus, RabbitMqEventBus>();
+            services.AddScoped<IEventBusConfiguration, RabbitMqEventBusConfiguration>();
             services.AddScoped<InMemoryApplicationEventBus, InMemoryApplicationEventBus>();
             
             // Failover
             services.AddScoped<MsSqlEventBus, MsSqlEventBus>();
-
-            services.AddScoped<IDomainEventsConsumer, MsSqlDomainEventsConsumer>();
-            services.AddScoped<DomainEventInformation, DomainEventInformation>();
+            
+            services.AddScoped<RabbitMqDomainEventsConsumer, RabbitMqDomainEventsConsumer>();
+            services.AddScoped<DomainEventsInformation, DomainEventsInformation>();
 
             services.AddScoped<DbContext, MoocContext>();
             services.AddDbContext<MoocContext>(options =>
-                options.UseSqlServer(configuration.GetConnectionString("MoocDatabase")));
+                options.UseSqlServer(configuration.GetConnectionString("MoocDatabase")), ServiceLifetime.Transient);
 
+            services.AddRabbitMq(configuration);
+
+            services.AddScoped<DomainEventSubscribersInformation, DomainEventSubscribersInformation>();
+            services.AddScoped<DomainEventJsonDeserializer, DomainEventJsonDeserializer>();
+
+            return services;
+        }
+
+        private static IServiceCollection AddRabbitMq(this IServiceCollection services,
+            IConfiguration configuration)
+        {
             services.AddScoped<RabbitMqService, RabbitMqService>();
-            services.Configure<RabbitMqConfig>(configuration.GetSection("RabbitMq"));
-            
+            services.AddScoped<RabbitMqConfig, RabbitMqConfig>();
+            services.Configure<RabbitMqConfigParams>(configuration.GetSection("RabbitMq"));
+
             return services;
         }
     }

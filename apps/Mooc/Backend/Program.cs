@@ -4,14 +4,14 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    using System.Reflection;
     using Command;
     using Extension.DependencyInjection;
     using Microsoft.AspNetCore;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-    using Shared.Domain.Bus.Event;
+    using Shared.Infrastructure.Bus.Event;
+    using Shared.Infrastructure.Bus.Event.RabbitMq;
 
     public static class Program
     {
@@ -19,7 +19,7 @@
         {
             if (!args.Any()) CreateWebHostBuilder(args).Build().Run();
 
-            var serviceProvider = ServicesProvider();
+            var serviceProvider = CommandServicesProvider();
             var command = Commands().FirstOrDefault(cmd => args.Contains(cmd.Key));
 
             if (command.Key == null) throw new SystemException("arguments does not match with any command");
@@ -33,11 +33,14 @@
                 .UseStartup<Startup>();
         }
 
-        private static ServiceProvider ServicesProvider()
+        private static ServiceProvider CommandServicesProvider()
         {
             var services = new ServiceCollection();
             services.AddApplication();
             services.AddInfrastructure(Configuration());
+
+            services.AddScoped<ConsumeRabbitMqDomainEventsCommand, ConsumeRabbitMqDomainEventsCommand>();
+            services.AddScoped<ConsumeMsSqlDomainEventsCommand, ConsumeMsSqlDomainEventsCommand>();
 
             var serviceProvider = services.BuildServiceProvider();
             return serviceProvider;
@@ -46,23 +49,19 @@
         private static void ExecuteCommand(string[] args, KeyValuePair<string, Type> command,
             ServiceProvider serviceProvider)
         {
-            Type commandType = command.Value;
-            var instance = Activator.CreateInstance(commandType, serviceProvider.GetService<IDomainEventsConsumer>());
+            using IServiceScope scope = serviceProvider.CreateScope();
 
-            commandType
-                .GetTypeInfo()
-                .GetDeclaredMethod(nameof(Shared.Cli.Command.Execute))
-                .Invoke(instance, new object[]
-                {
-                    args
-                });
+            Type commandType = command.Value;
+            object service = scope.ServiceProvider.GetService(commandType);
+            ((Shared.Cli.Command) service).Execute(args);
         }
 
         private static Dictionary<string, Type> Commands()
         {
             return new Dictionary<string, Type>()
             {
-                {"domain-events:mysql:consume", typeof(ConsumeMsSqlDomainEventsCommand)}
+                {"domain-events:mysql:consume", typeof(ConsumeMsSqlDomainEventsCommand)},
+                {"domain-events:rabbitmq:consume", typeof(ConsumeRabbitMqDomainEventsCommand)}
             };
         }
 

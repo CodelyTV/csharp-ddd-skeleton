@@ -20,9 +20,15 @@ namespace CodelyTv.Mooc.Courses.Infrastructure
             });
         }
 
-        public Course Search(CourseId id)
+        public async Task<Course> Search(CourseId id)
         {
-            return File.Exists(FileName(id.Value)) ? JsonConvert.DeserializeObject<Course>(File.ReadAllText(FileName(id.Value))) : null;
+            if (File.Exists(FileName(id.Value)))
+            {
+                var text = await File.ReadAllTextAsync(FileName(id.Value));
+                return JsonConvert.DeserializeObject<Course>(text);
+            }
+
+            return null;
         }
 
         private string FileName(string id)

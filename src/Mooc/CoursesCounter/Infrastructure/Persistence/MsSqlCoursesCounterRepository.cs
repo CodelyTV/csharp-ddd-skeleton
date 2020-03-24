@@ -29,9 +29,9 @@ namespace CodelyTv.Mooc.CoursesCounter.Infrastructure.Persistence
             await this._context.SaveChangesAsync();
         }
 
-        public CoursesCounter Search()
+        public async Task<CoursesCounter> Search()
         {
-            return this._context.CoursesCounter.FirstOrDefault();
+            return await this._context.CoursesCounter.FirstOrDefaultAsync();
         }
     }
 }

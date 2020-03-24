@@ -5,6 +5,8 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
+    using Shared.Infrastructure.Bus.Event;
+    using Shared.Infrastructure.Bus.Event.RabbitMq;
 
     public class Startup
     {
@@ -23,7 +25,7 @@
             services.AddInfrastructure(_configuration);
         }
 
-        public static void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public static void Configure(IApplicationBuilder app, IHostingEnvironment env, IEventBusConfiguration bus)
         {
             if (env.IsDevelopment())
                 app.UseDeveloperExceptionPage();
@@ -37,6 +39,8 @@
             {
                 endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
             });
+            
+            bus.Configure();
         }
     }
 }

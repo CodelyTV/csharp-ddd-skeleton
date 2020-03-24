@@ -5,6 +5,6 @@ namespace CodelyTv.Mooc.CoursesCounter.Domain
     public interface ICoursesCounterRepository
     {
         Task Save(CoursesCounter counter);
-        CoursesCounter Search();
+        Task<CoursesCounter> Search();
     }
 }

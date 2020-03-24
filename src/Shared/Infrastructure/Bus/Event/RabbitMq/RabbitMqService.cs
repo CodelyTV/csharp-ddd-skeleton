@@ -1,43 +1,72 @@
 namespace CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq
 {
-    using System;
+    using System.Collections.Generic;
     using System.Text;
-    using Microsoft.Extensions.Options;
     using RabbitMQ.Client;
 
     public class RabbitMqService
     {
-        private readonly RabbitMqConfig _rabbitMqConfig;
-        private readonly ConnectionFactory _connectionFactory;
+        private readonly RabbitMqConfig _config;
+        private const string DomainEventExchange = "domain_events";
 
-        public RabbitMqService(IOptions<RabbitMqConfig> rabbitMqConfig)
+        public RabbitMqService(RabbitMqConfig config)
         {
-            this._rabbitMqConfig = rabbitMqConfig.Value;
-
-            _connectionFactory = new ConnectionFactory()
-            {
-                HostName = _rabbitMqConfig.HostName,
-                UserName = _rabbitMqConfig.Username,
-                Password = _rabbitMqConfig.Password,
-                Port = _rabbitMqConfig.Port
-            };
+            _config = config;
         }
-        public void PublishMessage(string exchangeName, string message)
+
+        public void PublishMessage(string exchangeName, string eventName, string message)
         {
-            using (var connection = _connectionFactory.CreateConnection())
-            using (var channel = connection.CreateModel())
+            var channel = _config.Channel();
+            channel.ExchangeDeclare(exchange: exchangeName, type: ExchangeType.Topic);
+
+            var body = Encoding.UTF8.GetBytes(message);
+
+            channel.BasicPublish(exchange: exchangeName,
+                routingKey: eventName,
+                basicProperties: null,
+                body: body);
+        }
+
+        public void CreateQueueExchange(
+            string domainEventQueue,
+            string retryDomainEventQueue,
+            string deadLetterDomainEventQueue,
+            List<string> subscribedEvents
+        )
+        {
+            var channel = _config.Channel();
+            channel.ExchangeDeclare(DomainEventExchange, ExchangeType.Topic);
+
+            var queue = channel.QueueDeclare(queue: domainEventQueue,
+                durable: true,
+                exclusive: false,
+                autoDelete: false);
+
+            var retryQueue = channel.QueueDeclare(queue: retryDomainEventQueue, durable: true,
+                exclusive: false,
+                autoDelete: false,
+                arguments: RetryQueueArguments(DomainEventExchange, domainEventQueue));
+
+            var deadLetterQueue = channel.QueueDeclare(queue: deadLetterDomainEventQueue, durable: true,
+                exclusive: false,
+                autoDelete: false);
+
+            channel.QueueBind(queue, DomainEventExchange, domainEventQueue);
+            channel.QueueBind(retryQueue, DomainEventExchange, domainEventQueue);
+            channel.QueueBind(deadLetterQueue, DomainEventExchange, domainEventQueue);
+
+            subscribedEvents?.ForEach(ev => channel.QueueBind(queue, DomainEventExchange, ev));
+        }
+
+        private IDictionary<string, object> RetryQueueArguments(string domainEventExchange,
+            string domainEventQueue)
+        {
+            return new Dictionary<string, object>
             {
-                channel.ExchangeDeclare(exchange: exchangeName, type: ExchangeType.Topic);
-
-                var body = Encoding.UTF8.GetBytes(message);
-
-                channel.BasicPublish(exchange: exchangeName,
-                    routingKey: "",
-                    basicProperties: null,
-                    body: body);
-
-                Console.WriteLine(" [x] Sent {0}", message);
-            }
+                {"x-dead-letter-exchange", domainEventExchange},
+                {"x-dead-letter-routing-key", domainEventQueue},
+                {"x-message-ttl", 1000}
+            };
         }
     }
 }
