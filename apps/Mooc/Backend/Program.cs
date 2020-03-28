@@ -6,10 +6,12 @@
     using System.Linq;
     using Command;
     using Extension.DependencyInjection;
+    using Helper;
     using Microsoft.AspNetCore;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Shared;
 
     public static class Program
     {
@@ -36,6 +38,7 @@
             var services = new ServiceCollection();
             services.AddApplication();
             services.AddInfrastructure(Configuration());
+            services.AddDomainEventSubscriberInformationService(AssemblyHelper.Instance());
 
             services.AddScoped<ConsumeRabbitMqDomainEventsCommand, ConsumeRabbitMqDomainEventsCommand>();
             services.AddScoped<ConsumeMsSqlDomainEventsCommand, ConsumeMsSqlDomainEventsCommand>();

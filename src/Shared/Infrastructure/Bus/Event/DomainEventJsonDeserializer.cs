@@ -20,7 +20,7 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event
             var eventData = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, object>>>(body);
 
             var data = eventData["data"];
-            var attributes = JsonConvert.DeserializeObject<Dictionary<string, object>>(data["attributes"].ToString());
+            var attributes = JsonConvert.DeserializeObject<Dictionary<string, string>>(data["attributes"].ToString());
 
             var domainEventType = information.ForName((string) data["type"]);
 
