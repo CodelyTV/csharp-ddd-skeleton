@@ -1,18 +1,16 @@
 namespace CodelyTv.Shared.Infrastructure.Bus.Event
 {
     using System;
-    using System.Collections.Generic;
     using Domain;
-    using Domain.Bus.Event;
 
     public class DomainEventSubscriberInformation
     {
         private readonly Type _subscriberClass;
-        public List<DomainEvent> SubscribedEvents { get; }
+        public Type SubscribedEvent { get; private set; }    
 
-        public DomainEventSubscriberInformation(Type subscriberClass, List<DomainEvent> subscribedEvents)
+        public DomainEventSubscriberInformation(Type subscriberClass, Type subscribedEvent)
         {
-            SubscribedEvents = subscribedEvents;
+            SubscribedEvent = subscribedEvent;
             _subscriberClass = subscriberClass;
         }
 

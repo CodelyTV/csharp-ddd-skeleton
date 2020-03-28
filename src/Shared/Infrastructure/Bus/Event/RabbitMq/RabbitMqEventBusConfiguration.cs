@@ -1,6 +1,6 @@
 namespace CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq
 {
-    using System.Linq;
+    using System;
 
     public class RabbitMqEventBusConfiguration : IEventBusConfiguration
     {
@@ -21,11 +21,17 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq
                 var domainEventsExchange = RabbitMqQueueNameFormatter.Format(subscriberInformation);
                 var retryExchangeName = RabbitMqQueueNameFormatter.FormatRetry(subscriberInformation);
                 var deadLetterExchangeName = RabbitMqQueueNameFormatter.FormatDeadLetter(subscriberInformation);
-                var subscribedEvents = subscriberInformation.SubscribedEvents.Select(x => x.EventName()).ToList();
+                var subscribedEvent = EventNameSubscribed(subscriberInformation);
 
                 _service.CreateQueueExchange(domainEventsExchange, retryExchangeName, deadLetterExchangeName,
-                    subscribedEvents);
+                    subscribedEvent);
             }
+        }
+
+        private string EventNameSubscribed(DomainEventSubscriberInformation subscriberInformation)
+        {
+            dynamic domainEvent = Activator.CreateInstance(subscriberInformation.SubscribedEvent);
+            return domainEvent.EventName();
         }
     }
 }

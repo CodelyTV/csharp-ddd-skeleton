@@ -41,7 +41,6 @@ namespace CodelyTv.Apps.Mooc.Backend.Extension.DependencyInjection
 
             services.AddRabbitMq(configuration);
 
-            services.AddScoped<DomainEventSubscribersInformation, DomainEventSubscribersInformation>();
             services.AddScoped<DomainEventJsonDeserializer, DomainEventJsonDeserializer>();
 
             return services;

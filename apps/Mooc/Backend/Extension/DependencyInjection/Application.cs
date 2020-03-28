@@ -1,10 +1,9 @@
 namespace CodelyTv.Apps.Mooc.Backend.Extension.DependencyInjection
 {
-    using System;
-    using System.Linq;
     using CodelyTv.Mooc.Courses.Application.Create;
     using CodelyTv.Mooc.CoursesCounter.Application.Find;
     using CodelyTv.Mooc.CoursesCounter.Application.Incrementer;
+    using Helper;
     using Microsoft.Extensions.DependencyInjection;
 
     public static class Application
@@ -16,9 +15,7 @@ namespace CodelyTv.Apps.Mooc.Backend.Extension.DependencyInjection
             services.AddScoped<CoursesCounterIncrementer, CoursesCounterIncrementer>();
             services.AddScoped<CoursesCounterFinder, CoursesCounterFinder>();
             services.AddScoped<IncrementCoursesCounterOnCourseCreated, IncrementCoursesCounterOnCourseCreated>();
-
-            services.AddDomainEventSubscribersServices(AppDomain.CurrentDomain.GetAssemblies()
-                .FirstOrDefault(x => x.FullName.Contains("CodelyTv.Mooc")));
+            services.AddDomainEventSubscribersServices(AssemblyHelper.Instance());
 
             return services;
         }
