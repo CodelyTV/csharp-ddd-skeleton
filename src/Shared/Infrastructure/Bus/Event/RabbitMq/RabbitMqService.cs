@@ -31,7 +31,7 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq
             string domainEventQueue,
             string retryDomainEventQueue,
             string deadLetterDomainEventQueue,
-            List<string> subscribedEvents
+            string subscribedEvents
         )
         {
             var channel = _config.Channel();
@@ -55,7 +55,7 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq
             channel.QueueBind(retryQueue, DomainEventExchange, domainEventQueue);
             channel.QueueBind(deadLetterQueue, DomainEventExchange, domainEventQueue);
 
-            subscribedEvents?.ForEach(ev => channel.QueueBind(queue, DomainEventExchange, ev));
+            channel.QueueBind(queue, DomainEventExchange, subscribedEvents);
         }
 
         private IDictionary<string, object> RetryQueueArguments(string domainEventExchange,

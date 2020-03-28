@@ -1,12 +1,13 @@
 ﻿namespace CodelyTv.Apps.Mooc.Backend
 {
     using Extension.DependencyInjection;
+    using Helper;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
+    using Shared;
     using Shared.Infrastructure.Bus.Event;
-    using Shared.Infrastructure.Bus.Event.RabbitMq;
 
     public class Startup
     {
@@ -23,6 +24,7 @@
             services.AddControllersWithViews();
             services.AddApplication();
             services.AddInfrastructure(_configuration);
+            services.AddDomainEventSubscriberInformationService(AssemblyHelper.Instance());
         }
 
         public static void Configure(IApplicationBuilder app, IHostingEnvironment env, IEventBusConfiguration bus)
@@ -39,7 +41,7 @@
             {
                 endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
             });
-            
+
             bus.Configure();
         }
     }
