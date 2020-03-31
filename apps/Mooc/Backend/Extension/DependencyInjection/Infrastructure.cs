@@ -49,7 +49,7 @@ namespace CodelyTv.Apps.Mooc.Backend.Extension.DependencyInjection
         private static IServiceCollection AddRabbitMq(this IServiceCollection services,
             IConfiguration configuration)
         {
-            services.AddScoped<RabbitMqService, RabbitMqService>();
+            services.AddScoped<RabbitMqPublisher, RabbitMqPublisher>();
             services.AddScoped<RabbitMqConfig, RabbitMqConfig>();
             services.Configure<RabbitMqConfigParams>(configuration.GetSection("RabbitMq"));
 
