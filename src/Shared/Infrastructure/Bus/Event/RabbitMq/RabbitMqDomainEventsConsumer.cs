@@ -62,7 +62,6 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq
 
                 try
                 {
-                    throw new Exception();
                     ((IDomainEventSubscriberBase) subscriber).On(@event);
                 }
                 catch
