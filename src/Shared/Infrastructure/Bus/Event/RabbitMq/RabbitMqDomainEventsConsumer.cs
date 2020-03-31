@@ -18,8 +18,10 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq
         private readonly RabbitMqConfig _config;
         private readonly DomainEventJsonDeserializer _deserializer;
         private readonly IServiceProvider _serviceProvider;
-       
+
         private Dictionary<string, object> DomainEventSubscribers = new Dictionary<string, object>();
+        private const int MaxRetries = 2;
+        private const string HeaderRedelivery = "redelivery_count";
 
         public RabbitMqDomainEventsConsumer(
             DomainEventSubscribersInformation information,
@@ -41,7 +43,7 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq
         public async Task ConsumeMessages(string queue, ushort prefetchCount = 10)
         {
             var channel = _config.Channel();
-            
+
             DeclareQueue(channel, queue);
 
             channel.BasicQos(prefetchSize: 0, prefetchCount: prefetchCount, global: false);
@@ -57,7 +59,15 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq
                     ? DomainEventSubscribers[queue]
                     : SubscribeFor(queue, scope);
 
-                ((IDomainEventSubscriberBase) subscriber).On(@event);
+                try
+                {
+                    ((IDomainEventSubscriberBase) subscriber).On(@event);
+                }
+                catch (Exception e)
+                {
+                    HandleConsumptionError(ea, @event, queue);
+                }
+                
                 channel.BasicAck(deliveryTag: ea.DeliveryTag, multiple: false);
             };
 
@@ -78,7 +88,7 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq
             return subscriber;
         }
 
-        public static Assembly GetAssemblyByQueueName(string[] name)
+        private static Assembly GetAssemblyByQueueName(string[] name)
         {
             if (name == null) return null;
             string assemblyName = $"{name[0]}.{name[1]}".ToCamelFirstUpper();
@@ -95,6 +105,46 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq
                 exclusive: false,
                 autoDelete: false
             );
+        }
+
+        private void HandleConsumptionError(BasicDeliverEventArgs ea, DomainEvent @event, string queue)
+        {
+            if (HasBeenRedeliveredTooMuch(ea.BasicProperties.Headers))
+                SendToDeadLetter(ea, queue);
+            else
+                SendToRetry(ea, queue);
+        }
+
+        private bool HasBeenRedeliveredTooMuch(IDictionary<string, object> headers)
+        {
+            return (int) (headers[HeaderRedelivery] ?? 0) >= MaxRetries;
+        }
+
+        private void SendToRetry(BasicDeliverEventArgs ea, string queue)
+        {
+            SendMessageTo(RabbitMqExchangeNameFormatter.Retry("domain_events"), ea, queue);
+        }
+
+        private void SendToDeadLetter(BasicDeliverEventArgs ea, string queue)
+        {
+            SendMessageTo(RabbitMqExchangeNameFormatter.DeadLetter("domain_events"), ea, queue);
+        }
+
+        private void SendMessageTo(string exchange, BasicDeliverEventArgs ea, string queue)
+        {
+            var channel = _config.Channel();
+            channel.ExchangeDeclare(exchange: exchange, type: ExchangeType.Topic);
+
+            var body = ea.Body;
+            var properties = ea.BasicProperties;
+            var headers = ea.BasicProperties.Headers;
+            headers[HeaderRedelivery] = (int) headers[HeaderRedelivery] + 1;
+            properties.Headers = headers;
+
+            channel.BasicPublish(exchange: exchange,
+                routingKey: queue,
+                basicProperties: properties,
+                body: body);
         }
     }
 }
