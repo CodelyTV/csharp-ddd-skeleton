@@ -35,12 +35,13 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq
             _config = config;
         }
 
-        public async Task Consume()
+        public Task Consume()
         {
-            _information.RabbitMqFormattedNames().ForEach(async queue => await ConsumeMessages(queue));
+            _information.RabbitMqFormattedNames().ForEach(queue => ConsumeMessages(queue));
+            return Task.CompletedTask;
         }
 
-        public async Task ConsumeMessages(string queue, ushort prefetchCount = 10)
+        public void ConsumeMessages(string queue, ushort prefetchCount = 10)
         {
             var channel = _config.Channel();
 
@@ -61,13 +62,14 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq
 
                 try
                 {
+                    throw new Exception();
                     ((IDomainEventSubscriberBase) subscriber).On(@event);
                 }
-                catch (Exception e)
+                catch
                 {
                     HandleConsumptionError(ea, @event, queue);
                 }
-                
+
                 channel.BasicAck(deliveryTag: ea.DeliveryTag, multiple: false);
             };
 
