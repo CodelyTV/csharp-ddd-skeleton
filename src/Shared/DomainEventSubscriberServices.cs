@@ -46,7 +46,7 @@ namespace CodelyTv.Shared
 
             foreach (var handlerClassType in handlerClassTypes)
             {
-                information.Add(eventType,
+                information.Add(handlerClassType,
                     new DomainEventSubscriberInformation(handlerClassType, eventType));
             }
         }
