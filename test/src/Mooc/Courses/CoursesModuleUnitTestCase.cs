@@ -1,4 +1,4 @@
-namespace CodelyTv.Tests.Mooc.Courses
+namespace CodelyTv.Test.Mooc.Courses
 {
     using CodelyTv.Mooc.Courses.Domain;
     using Moq;

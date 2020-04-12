@@ -1,4 +1,4 @@
-namespace CodelyTv.Apps.Mooc.Backend.Extension
+namespace CodelyTv.Apps.Mooc.Backend.Extension.DependencyInjection
 {
     using System;
     using System.Collections.Generic;

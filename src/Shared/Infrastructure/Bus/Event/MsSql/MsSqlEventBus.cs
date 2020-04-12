@@ -1,11 +1,9 @@
-namespace CodelyTv.Shared.Infrastructure.Bus.Event
+namespace CodelyTv.Shared.Infrastructure.Bus.Event.MsSql
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Domain.Bus.Event;
-    using Microsoft.Data.SqlClient;
     using Microsoft.EntityFrameworkCore;
-    using Newtonsoft.Json;
 
     public class MsSqlEventBus : IEventBus
     {

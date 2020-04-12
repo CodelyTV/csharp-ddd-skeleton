@@ -1,4 +1,4 @@
-namespace CodelyTv.Tests.Mooc.Courses.Infrastructure.Persistence
+namespace CodelyTv.Test.Mooc.Courses.Infrastructure.Persistence
 {
     using System.Threading.Tasks;
     using Domain;

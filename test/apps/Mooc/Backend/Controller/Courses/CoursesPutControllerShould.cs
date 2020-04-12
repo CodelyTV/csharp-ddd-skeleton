@@ -3,8 +3,7 @@ namespace MoocTest.apps.Backend.Controller.Courses
     using System.Net.Http;
     using System.Threading.Tasks;
     using CodelyTv.Apps.Mooc.Backend;
-    using CodelyTv.Tests.Mooc;
-    using CodelyTv.Tests.Mooc.Shared;
+    using CodelyTv.Test.Mooc;
     using Xunit;
 
     public class CoursesPutControllerShould : MoocContextApplicationTestCase

@@ -6,7 +6,7 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event
     public class DomainEventSubscriberInformation
     {
         private readonly Type _subscriberClass;
-        public Type SubscribedEvent { get; private set; }    
+        public Type SubscribedEvent { get; private set; }
 
         public DomainEventSubscriberInformation(Type subscriberClass, Type subscribedEvent)
         {

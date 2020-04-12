@@ -1,4 +1,4 @@
-namespace CodelyTv.Tests.Mooc
+namespace CodelyTv.Test.Mooc
 {
     using System;
     using System.Collections.Generic;

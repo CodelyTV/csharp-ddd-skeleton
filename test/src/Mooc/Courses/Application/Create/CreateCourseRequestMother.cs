@@ -1,4 +1,4 @@
-namespace CodelyTv.Tests.Mooc.Courses.Application.Create
+namespace CodelyTv.Test.Mooc.Courses.Application.Create
 {
     using CodelyTv.Mooc.Courses.Application.Create;
     using CodelyTv.Mooc.Courses.Domain;

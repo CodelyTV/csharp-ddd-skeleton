@@ -1,4 +1,4 @@
-namespace CodelyTv.Tests.Mooc.CoursesCounter.Application.Increment
+namespace CodelyTv.Test.Mooc.CoursesCounter.Application.Increment
 {
     using CodelyTv.Mooc.Courses.Domain;
     using CodelyTv.Mooc.CoursesCounter.Application.Incrementer;
