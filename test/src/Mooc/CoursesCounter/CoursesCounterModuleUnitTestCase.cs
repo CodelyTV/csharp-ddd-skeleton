@@ -1,6 +1,5 @@
-namespace CodelyTv.Tests.Mooc.CoursesCounter
+namespace CodelyTv.Test.Mooc.CoursesCounter
 {
-    using System.Threading.Tasks;
     using CodelyTv.Mooc.CoursesCounter.Domain;
     using Moq;
     using Test.Shared.Infrastructure;

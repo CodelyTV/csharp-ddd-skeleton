@@ -3,8 +3,8 @@
     <PropertyGroup>
         <TargetFramework>netcoreapp3.1</TargetFramework>
         <IsPackable>false</IsPackable>
-        <AssemblyName>CodelyTv.Tests.Mooc</AssemblyName>
-        <RootNamespace>CodelyTv.Tests.Mooc</RootNamespace>
+        <AssemblyName>CodelyTv.Test.Mooc</AssemblyName>
+        <RootNamespace>CodelyTv.Test.Mooc</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

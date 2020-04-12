@@ -25,7 +25,7 @@ namespace CodelyTv.Shared
                 foreach (var handlerInterfaceType in interfaces.Where(i =>
                     i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IDomainEventSubscriber<>)))
                 {
-                    FormatSubscribers(handlerInterfaceType, information);
+                    FormatSubscribers(assembly, handlerInterfaceType, information);
                 }
             }
 
@@ -33,12 +33,11 @@ namespace CodelyTv.Shared
             return services;
         }
 
-        private static void FormatSubscribers(TypeInfo handlerInterfaceType,
+        private static void FormatSubscribers(Assembly assembly, TypeInfo handlerInterfaceType,
             Dictionary<Type, DomainEventSubscriberInformation> information)
         {
-            var handlerClassTypes = AppDomain.CurrentDomain.GetAssemblies()
-                .SelectMany(s=> s.GetLoadableTypes())
-                .Where(p => handlerInterfaceType.IsAssignableFrom(p));
+            var handlerClassTypes = assembly.GetLoadableTypes()
+                .Where(handlerInterfaceType.IsAssignableFrom);
 
             var eventType = handlerInterfaceType.GenericTypeArguments.FirstOrDefault();
 
@@ -46,7 +45,7 @@ namespace CodelyTv.Shared
 
             foreach (var handlerClassType in handlerClassTypes)
             {
-                information.Add(eventType,
+                information.Add(handlerClassType,
                     new DomainEventSubscriberInformation(handlerClassType, eventType));
             }
         }

@@ -1,21 +1,92 @@
-namespace CodelyTv.Tests.Mooc.Shared.Infrastructure.Bus.Event.RabbitMq
+namespace CodelyTv.Test.Mooc.Shared.Infrastructure.Bus.Event.RabbitMq
 {
+    using System;
     using System.Collections.Generic;
+    using System.Threading.Tasks;
     using CodelyTv.Mooc.Courses.Domain;
     using CodelyTv.Shared.Domain.Bus.Event;
+    using CodelyTv.Shared.Infrastructure.Bus.Event;
     using CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq;
     using Courses.Domain;
+    using RabbitMQ.Client;
     using Xunit;
 
     public class RabbitMqEventBusShould : MoocContextInfrastructureTestCase
     {
-        [Fact]
-        public void PublishDomainEventFromRabbitMq()
+        private readonly RabbitMqEventBus _bus;
+        private readonly RabbitMqDomainEventsConsumer _consumer;
+        private readonly TestAllWorksOnRabbitMqEventsPublished _subscriber;
+        private const string TestDomainEvents = "test_domain_events";
+
+        public RabbitMqEventBusShould()
         {
-            var bus = GetService<RabbitMqEventBus>();
+            _subscriber = GetService<TestAllWorksOnRabbitMqEventsPublished>();
+
+            _bus = GetService<RabbitMqEventBus>();
+            _consumer = GetService<RabbitMqDomainEventsConsumer>();
+            var config = GetService<RabbitMqConfig>();
+
+            var channel = config.Channel();
+
+            var fakeSubscriber = FakeSubscriber();
+
+            CleanEnvironment(channel, fakeSubscriber);
+            channel.ExchangeDeclare(TestDomainEvents, ExchangeType.Topic);
+            CreateQueue(channel, fakeSubscriber);
+
+            _consumer.WithSubscribersInformation(fakeSubscriber);
+        }
+
+        [Fact]
+        public async Task PublishDomainEventFromRabbitMq()
+        {
             CourseCreatedDomainEvent domainEvent = CourseCreatedDomainEventMother.Random();
 
-            bus.Publish(new List<DomainEvent>() {domainEvent});
+            await _bus.Publish(new List<DomainEvent>() {domainEvent});
+
+            await _consumer.Consume();
+
+            Eventually(() => Assert.True(_subscriber.HasBeenExecuted));
+        }
+
+        private static DomainEventSubscribersInformation FakeSubscriber()
+        {
+            return new DomainEventSubscribersInformation(
+                new Dictionary<Type, DomainEventSubscriberInformation>()
+                {
+                    {
+                        typeof(TestAllWorksOnRabbitMqEventsPublished),
+                        new DomainEventSubscriberInformation(
+                            typeof(TestAllWorksOnRabbitMqEventsPublished),
+                            typeof(CourseCreatedDomainEvent)
+                        )
+                    }
+                });
+        }
+
+        private static void CreateQueue(IModel channel,
+            DomainEventSubscribersInformation domainEventSubscribersInformation)
+        {
+            foreach (var subscriberInformation in domainEventSubscribersInformation.All())
+            {
+                var domainEventsQueueName = RabbitMqQueueNameFormatter.Format(subscriberInformation);
+                var queue = channel.QueueDeclare(queue: domainEventsQueueName,
+                    durable: true,
+                    exclusive: false,
+                    autoDelete: false);
+                dynamic domainEvent = Activator.CreateInstance(subscriberInformation.SubscribedEvent);
+                channel.QueueBind(queue, TestDomainEvents, (string) domainEvent.EventName());
+            }
+        }
+
+        private void CleanEnvironment(IModel channel, DomainEventSubscribersInformation information)
+        {
+            channel.ExchangeDelete(TestDomainEvents);
+
+            foreach (var domainEventSubscriberInformation in information.All())
+            {
+                channel.QueueDelete(RabbitMqQueueNameFormatter.Format(domainEventSubscriberInformation));
+            }
         }
     }
 }

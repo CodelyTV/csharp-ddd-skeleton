@@ -1,4 +1,4 @@
-namespace CodelyTv.Tests.Mooc.CoursesCounter.Application.Find
+namespace CodelyTv.Test.Mooc.CoursesCounter.Application.Find
 {
     using CodelyTv.Mooc.CoursesCounter.Application.Find;
     using Test.Shared.Domain;

@@ -1,4 +1,4 @@
-namespace CodelyTv.Tests.Mooc.CoursesCounter.Domain
+namespace CodelyTv.Test.Mooc.CoursesCounter.Domain
 {
     using CodelyTv.Mooc.CoursesCounter.Domain;
     using Test.Shared.Domain;
