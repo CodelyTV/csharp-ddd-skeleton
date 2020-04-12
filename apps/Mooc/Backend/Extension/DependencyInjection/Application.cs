@@ -3,7 +3,7 @@ namespace CodelyTv.Apps.Mooc.Backend.Extension.DependencyInjection
     using CodelyTv.Mooc.Courses.Application.Create;
     using CodelyTv.Mooc.CoursesCounter.Application.Find;
     using CodelyTv.Mooc.CoursesCounter.Application.Incrementer;
-    using Helper;
+    using CodelyTv.Mooc.Helper;
     using Microsoft.Extensions.DependencyInjection;
 
     public static class Application

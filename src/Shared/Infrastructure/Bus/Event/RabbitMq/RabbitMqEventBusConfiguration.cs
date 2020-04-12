@@ -9,23 +9,24 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq
         private readonly DomainEventSubscribersInformation _domainEventSubscribersInformation;
         private readonly RabbitMqConfig _config;
 
-        private const string DomainEventExchange = "domain_events";
+        private readonly string _domainEventExchange;
 
         public RabbitMqEventBusConfiguration(DomainEventSubscribersInformation domainEventSubscribersInformation,
-            RabbitMqConfig config)
+            RabbitMqConfig config, string domainEventExchange = "domain_events")
         {
             _domainEventSubscribersInformation = domainEventSubscribersInformation;
             _config = config;
+            _domainEventExchange = domainEventExchange;
         }
 
         public void Configure()
         {
             var channel = _config.Channel();
 
-            var retryDomainEventExchange = RabbitMqExchangeNameFormatter.Retry(DomainEventExchange);
-            var deadLetterDomainEventExchange = RabbitMqExchangeNameFormatter.DeadLetter(DomainEventExchange);
+            var retryDomainEventExchange = RabbitMqExchangeNameFormatter.Retry(_domainEventExchange);
+            var deadLetterDomainEventExchange = RabbitMqExchangeNameFormatter.DeadLetter(_domainEventExchange);
 
-            channel.ExchangeDeclare(DomainEventExchange, ExchangeType.Topic);
+            channel.ExchangeDeclare(_domainEventExchange, ExchangeType.Topic);
             channel.ExchangeDeclare(retryDomainEventExchange, ExchangeType.Topic);
             channel.ExchangeDeclare(deadLetterDomainEventExchange, ExchangeType.Topic);
 
@@ -44,17 +45,17 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq
                 var retryQueue = channel.QueueDeclare(queue: retryQueueName, (bool) true,
                     (bool) false,
                     (bool) false,
-                    (IDictionary<string, object>) RetryQueueArguments(DomainEventExchange, domainEventsQueueName));
+                    (IDictionary<string, object>) RetryQueueArguments(_domainEventExchange, domainEventsQueueName));
 
                 var deadLetterQueue = channel.QueueDeclare(queue: deadLetterQueueName, durable: true,
                     exclusive: false,
                     autoDelete: false);
 
-                channel.QueueBind(queue, DomainEventExchange, domainEventsQueueName);
+                channel.QueueBind(queue, _domainEventExchange, domainEventsQueueName);
                 channel.QueueBind(retryQueue, retryDomainEventExchange, domainEventsQueueName);
                 channel.QueueBind(deadLetterQueue, deadLetterDomainEventExchange, domainEventsQueueName);
 
-                channel.QueueBind(queue, DomainEventExchange, subscribedEvent);
+                channel.QueueBind(queue, _domainEventExchange, subscribedEvent);
             }
         }
 

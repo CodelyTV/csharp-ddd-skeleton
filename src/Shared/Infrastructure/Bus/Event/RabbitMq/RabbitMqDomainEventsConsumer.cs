@@ -2,8 +2,6 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Reflection;
     using System.Text;
     using System.Threading.Tasks;
     using Domain;
@@ -14,7 +12,7 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq
 
     public class RabbitMqDomainEventsConsumer : IDomainEventsConsumer
     {
-        private readonly DomainEventSubscribersInformation _information;
+        private DomainEventSubscribersInformation _information;
         private readonly RabbitMqConfig _config;
         private readonly DomainEventJsonDeserializer _deserializer;
         private readonly IServiceProvider _serviceProvider;
@@ -50,7 +48,7 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq
             channel.BasicQos(prefetchSize: 0, prefetchCount: prefetchCount, global: false);
             var scope = _serviceProvider.CreateScope();
             var consumer = new EventingBasicConsumer(channel);
-            consumer.Received += (model, ea) =>
+            consumer.Received += async (model, ea) =>
             {
                 var body = ea.Body;
                 var message = Encoding.UTF8.GetString(body);
@@ -62,7 +60,7 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq
 
                 try
                 {
-                    ((IDomainEventSubscriberBase) subscriber).On(@event);
+                    await ((IDomainEventSubscriberBase) subscriber).On(@event);
                 }
                 catch
                 {
@@ -75,28 +73,21 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq
             string consumerId = channel.BasicConsume(queue: queue, autoAck: false, consumer: consumer);
         }
 
+        public void WithSubscribersInformation(DomainEventSubscribersInformation information)
+        {
+            this._information = information;
+        }
+
         private object SubscribeFor(string queue, IServiceScope scope)
         {
             var queueParts = queue.Split(".");
             var subscriberName = queueParts[^1].ToCamelFirstUpper();
 
-            Type t = GetAssemblyByQueueName(queueParts).GetTypes()
-                .FirstOrDefault(type => type.Name.Equals(subscriberName));
+            Type t = ReflectionHelper.GetType(subscriberName);
 
             Object subscriber = scope.ServiceProvider.GetRequiredService(t);
-
             this.DomainEventSubscribers.Add(queue, subscriber);
             return subscriber;
-        }
-
-        private static Assembly GetAssemblyByQueueName(string[] name)
-        {
-            if (name == null) return null;
-            string assemblyName = $"{name[0]}.{name[1]}".ToCamelFirstUpper();
-
-            return AppDomain.CurrentDomain.GetAssemblies()
-                .SingleOrDefault(assembly =>
-                    assembly.GetName().Name.Equals(assemblyName, StringComparison.CurrentCultureIgnoreCase));
         }
 
         private void DeclareQueue(IModel channel, string queue)

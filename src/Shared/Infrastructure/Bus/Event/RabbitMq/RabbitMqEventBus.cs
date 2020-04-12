@@ -3,6 +3,7 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Domain.Bus.Event;
+    using MsSql;
     using RabbitMQ.Client.Exceptions;
 
     public class RabbitMqEventBus : IEventBus
@@ -11,11 +12,11 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq
         private readonly string _exchangeName;
         private readonly MsSqlEventBus _failOverPublisher;
 
-        public RabbitMqEventBus(RabbitMqPublisher rabbitMqPublisher, MsSqlEventBus failOverPublisher)
+        public RabbitMqEventBus(RabbitMqPublisher rabbitMqPublisher, MsSqlEventBus failOverPublisher, string exchangeName = "domain_events")
         {
             _rabbitMqPublisher = rabbitMqPublisher;
             _failOverPublisher = failOverPublisher;
-            _exchangeName = "domain_events";
+            _exchangeName = exchangeName;
         }
 
         public async Task Publish(List<DomainEvent> events)

@@ -1,7 +1,8 @@
 ﻿namespace CodelyTv.Apps.Mooc.Backend
 {
+    using CodelyTv.Mooc;
+    using CodelyTv.Mooc.Helper;
     using Extension.DependencyInjection;
-    using Helper;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
