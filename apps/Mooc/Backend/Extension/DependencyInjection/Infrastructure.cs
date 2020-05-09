@@ -9,8 +9,10 @@ namespace CodelyTv.Apps.Mooc.Backend.Extension.DependencyInjection
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Shared.Domain;
+    using Shared.Domain.Bus.Command;
     using Shared.Domain.Bus.Event;
     using Shared.Infrastructure;
+    using Shared.Infrastructure.Bus.Command;
     using Shared.Infrastructure.Bus.Event;
     using Shared.Infrastructure.Bus.Event.MsSql;
     using Shared.Infrastructure.Bus.Event.RabbitMq;
@@ -42,6 +44,7 @@ namespace CodelyTv.Apps.Mooc.Backend.Extension.DependencyInjection
             services.AddRabbitMq(configuration);
 
             services.AddScoped<DomainEventJsonDeserializer, DomainEventJsonDeserializer>();
+            services.AddScoped<ICommandBus, InMemoryCommandBus>();
 
             return services;
         }
