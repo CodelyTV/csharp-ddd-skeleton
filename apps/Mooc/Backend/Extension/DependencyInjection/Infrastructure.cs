@@ -11,11 +11,13 @@ namespace CodelyTv.Apps.Mooc.Backend.Extension.DependencyInjection
     using Shared.Domain;
     using Shared.Domain.Bus.Command;
     using Shared.Domain.Bus.Event;
+    using Shared.Domain.Bus.Query;
     using Shared.Infrastructure;
     using Shared.Infrastructure.Bus.Command;
     using Shared.Infrastructure.Bus.Event;
     using Shared.Infrastructure.Bus.Event.MsSql;
     using Shared.Infrastructure.Bus.Event.RabbitMq;
+    using Shared.Infrastructure.Bus.Query;
 
     public static class Infrastructure
     {
@@ -45,6 +47,7 @@ namespace CodelyTv.Apps.Mooc.Backend.Extension.DependencyInjection
 
             services.AddScoped<DomainEventJsonDeserializer, DomainEventJsonDeserializer>();
             services.AddScoped<ICommandBus, InMemoryCommandBus>();
+            services.AddScoped<IQueryBus, InMemoryQueryBus>();
 
             return services;
         }
