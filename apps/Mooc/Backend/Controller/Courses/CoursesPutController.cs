@@ -5,15 +5,16 @@ namespace CodelyTv.Apps.Mooc.Backend.Controller.Courses
     using CodelyTv.Mooc.Courses.Application.Create;
     using Microsoft.AspNetCore.Mvc;
     using Newtonsoft.Json;
+    using Shared.Domain.Bus.Command;
 
     [Route("courses")]
     public class CoursesPutController : Controller
     {
-        private readonly CourseCreator _creator;
+        private readonly ICommandBus _bus;
 
-        public CoursesPutController(CourseCreator creator)
+        public CoursesPutController(ICommandBus bus)
         {
-            _creator = creator;
+            _bus = bus;
         }
 
         [HttpPut("{id}")]
@@ -21,7 +22,7 @@ namespace CodelyTv.Apps.Mooc.Backend.Controller.Courses
         {
             body = JsonConvert.DeserializeObject(Convert.ToString(body));
 
-            await this._creator.Invoke(new CreateCourseRequest(id, body["name"].ToString(), body["duration"].ToString()));
+            await this._bus.Dispatch(new CreateCourseCommand(id, body["name"].ToString(), body["duration"].ToString()));
 
             return StatusCode(201);
         }

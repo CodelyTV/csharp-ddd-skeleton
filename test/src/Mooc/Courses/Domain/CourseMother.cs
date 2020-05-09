@@ -10,7 +10,7 @@ namespace CodelyTv.Test.Mooc.Courses.Domain
             return new Course(id, name, duration);
         }
 
-        public static Course FromRequest(CreateCourseRequest request)
+        public static Course FromRequest(CreateCourseCommand request)
         {
             return Create(CourseIdMother.Create(request.Id), CourseNameMother.Create(request.Name), CourseDurationMother.Create(request.Duration));
         }

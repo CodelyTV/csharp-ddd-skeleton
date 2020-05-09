@@ -1,12 +1,14 @@
 namespace CodelyTv.Mooc.Courses.Application.Create
 {
-    public class CreateCourseRequest
+    using CodelyTv.Shared.Domain.Bus.Command;
+
+    public class CreateCourseCommand : Command
     {
         public string Id { get; }
         public string Name { get; }
         public string Duration { get; }
 
-        public CreateCourseRequest(string id, string name, string duration)
+        public CreateCourseCommand(string id, string name, string duration)
         {
             Id = id;
             Name = name;
