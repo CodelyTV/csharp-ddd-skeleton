@@ -4,6 +4,6 @@ namespace CodelyTv.Shared.Domain.Bus.Query
 
     public interface IQueryBus
     {
-        Task<TResponse> Send<TResponse>(Query request);
+        Task<TResponse> Ask<TResponse>(Query request);
     }
 }

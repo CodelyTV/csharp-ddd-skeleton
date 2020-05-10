@@ -6,32 +6,36 @@ namespace CodelyTv.Test.Mooc.CoursesCounter.Application.Find
     using Domain;
     using Xunit;
 
-    public class CoursesCounterFinderShould : CoursesCounterModuleUnitTestCase
+    public class FindCoursesCounterQueryHandlerShould : CoursesCounterModuleUnitTestCase
     {
-        private readonly CoursesCounterFinder _finder;
+        private readonly FindCoursesCounterQueryHandler _handler;
 
-        public CoursesCounterFinderShould()
+        public FindCoursesCounterQueryHandlerShould()
         {
-            _finder = new CoursesCounterFinder(this.Repository.Object);
+            _handler = new FindCoursesCounterQueryHandler(new CoursesCounterFinder(this.Repository.Object));
         }
 
         [Fact]
         public async Task it_should_find_an_existing_courses_counter()
         {
             CoursesCounter counter = CoursesCounterMother.Random();
+            FindCoursesCounterQuery query = new FindCoursesCounterQuery();
+
             CoursesCounterResponse response = CoursesCounterResponseMother.Create(counter.Total.Value);
 
             ShouldSearch(counter);
 
-            Assert.Equal(response, await _finder.Find());
+            Assert.Equal(response, await _handler.Handle(query));
         }
 
         [Fact]
         public async Task it_should_throw_an_exception_when_courses_counter_does_not_exists()
         {
+            FindCoursesCounterQuery query = new FindCoursesCounterQuery();
+
             ShouldSearch();
 
-            await Assert.ThrowsAsync<CoursesCounterNotInitialized>(async() => await this._finder.Find());
+            await Assert.ThrowsAsync<CoursesCounterNotInitialized>(async () => await _handler.Handle(query));
         }
     }
 }

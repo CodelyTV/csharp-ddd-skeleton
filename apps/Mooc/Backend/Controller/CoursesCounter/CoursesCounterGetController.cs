@@ -4,22 +4,23 @@ namespace CodelyTv.Apps.Mooc.Backend.Controller.CoursesCounter
     using System.Threading.Tasks;
     using CodelyTv.Mooc.CoursesCounter.Application.Find;
     using Microsoft.AspNetCore.Mvc;
+    using Shared.Domain.Bus.Query;
 
     [Route("courses-counter")]
     public class CoursesCounterGetController : Controller
     {
-        private readonly CoursesCounterFinder _finder;
+        private readonly IQueryBus _bus;
 
-        public CoursesCounterGetController(CoursesCounterFinder finder)
+        public CoursesCounterGetController(IQueryBus bus)
         {
-            this._finder = finder;
+            _bus = bus;
         }
 
         [HttpGet]
         [Produces("application/json")]
         public async Task<IActionResult> Index()
         {
-            CoursesCounterResponse response = await _finder.Find();
+            CoursesCounterResponse response = await _bus.Ask<CoursesCounterResponse>(new FindCoursesCounterQuery());
 
             return Ok(new Dictionary<string, int>()
             {

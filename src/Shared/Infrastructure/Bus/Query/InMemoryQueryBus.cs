@@ -18,7 +18,7 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Query
             _provider = provider;
         }
 
-        public async Task<TResponse> Send<TResponse>(Query query)
+        public async Task<TResponse> Ask<TResponse>(Query query)
         {
             var handler = GetWrappedHandlers<TResponse>(query);
             
