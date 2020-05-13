@@ -1,25 +1,20 @@
 namespace CodelyTv.Shared.Domain.Bus.Command
 {
+    using System;
     using System.Threading.Tasks;
 
     internal abstract class CommandHandlerWrapper
     {
-        public abstract Task Handle(Command command);
+        public abstract Task Handle(Command command, IServiceProvider provider);
     }
 
     internal class CommandHandlerWrapper<TCommand> : CommandHandlerWrapper
         where TCommand : Command
     {
-        private readonly ICommandHandler<TCommand> _handler;
-
-        public CommandHandlerWrapper(ICommandHandler<TCommand> handler)
+        public override Task Handle(Command domainEvent, IServiceProvider provider)
         {
-            _handler = handler;
-        }
-
-        public override Task Handle(Command domainEvent)
-        {
-            return _handler.Handle((TCommand) domainEvent);
+            var handler = (ICommandHandler<TCommand>) provider.GetService(typeof(ICommandHandler<TCommand>));
+            return handler.Handle((TCommand) domainEvent);
         }
     }
 }

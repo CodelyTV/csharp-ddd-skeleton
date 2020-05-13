@@ -24,7 +24,7 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Query
             
             if(handler == null) throw new QueryNotRegisteredError(query);
 
-            return await handler.Handle(query);
+            return await handler.Handle(query, _provider);
         }
         
         private QueryHandlerWrapper<TResponse> GetWrappedHandlers<TResponse>(Query query)
@@ -39,7 +39,7 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Query
 
 
             var wrappedHandlers = (QueryHandlerWrapper<TResponse>)_queryHandlers.GetOrAdd(query.GetType(), handlers.Cast<object>()
-                .Select(handler => (QueryHandlerWrapper<TResponse>) Activator.CreateInstance(wrapperType, handler)).FirstOrDefault());
+                .Select(handler => (QueryHandlerWrapper<TResponse>) Activator.CreateInstance(wrapperType)).FirstOrDefault());
 
             return wrappedHandlers;
         }
