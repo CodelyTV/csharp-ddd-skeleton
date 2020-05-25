@@ -25,6 +25,7 @@ namespace CodelyTv.Shared
                 foreach (var handlerInterfaceType in interfaces.Where(i =>
                     i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IDomainEventSubscriber<>)))
                 {
+                    services.AddScoped(handlerInterfaceType.AsType(), type.AsType());
                     FormatSubscribers(assembly, handlerInterfaceType, information);
                 }
             }

@@ -39,7 +39,7 @@
             var services = new ServiceCollection();
             services.AddApplication();
             services.AddInfrastructure(Configuration());
-            services.AddDomainEventSubscriberInformationService(AssemblyHelper.Instance());
+            services.AddDomainEventSubscriberInformationService(MoocAssemblyHelper.Instance());
 
             services.AddScoped<ConsumeRabbitMqDomainEventsCommand, ConsumeRabbitMqDomainEventsCommand>();
             services.AddScoped<ConsumeMsSqlDomainEventsCommand, ConsumeMsSqlDomainEventsCommand>();

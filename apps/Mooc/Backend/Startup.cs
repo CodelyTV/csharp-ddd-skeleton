@@ -25,7 +25,6 @@
             services.AddControllersWithViews();
             services.AddApplication();
             services.AddInfrastructure(_configuration);
-            services.AddDomainEventSubscriberInformationService(AssemblyHelper.Instance());
         }
 
         public static void Configure(IApplicationBuilder app, IHostingEnvironment env, IEventBusConfiguration bus)

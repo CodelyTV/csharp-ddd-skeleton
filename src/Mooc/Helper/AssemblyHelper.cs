@@ -1,11 +1,9 @@
 namespace CodelyTv.Mooc.Helper
 {
-    using System;
-    using System.Linq;
     using System.Reflection;
     using CodelyTv.Shared.Domain;
 
-    public static class AssemblyHelper
+    public static class MoocAssemblyHelper
     {
         private const string AssemblyName = "CodelyTv.Mooc";
         private static Assembly _instance;

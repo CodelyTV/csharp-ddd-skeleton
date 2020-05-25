@@ -11,10 +11,10 @@ namespace CodelyTv.Shared.Domain.Bus.Command
     internal class CommandHandlerWrapper<TCommand> : CommandHandlerWrapper
         where TCommand : Command
     {
-        public override Task Handle(Command domainEvent, IServiceProvider provider)
+        public override async Task Handle(Command domainEvent, IServiceProvider provider)
         {
             var handler = (ICommandHandler<TCommand>) provider.GetService(typeof(ICommandHandler<TCommand>));
-            return handler.Handle((TCommand) domainEvent);
+            await handler.Handle((TCommand) domainEvent);
         }
     }
 }

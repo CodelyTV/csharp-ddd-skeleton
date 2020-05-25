@@ -2,7 +2,6 @@ namespace CodelyTv.Apps.Mooc.Backend.Extension.DependencyInjection
 {
     using CodelyTv.Mooc.Courses.Domain;
     using CodelyTv.Mooc.Courses.Infrastructure.Persistence;
-    using CodelyTv.Mooc.CoursesCounter.Application.Find;
     using CodelyTv.Mooc.CoursesCounter.Domain;
     using CodelyTv.Mooc.CoursesCounter.Infrastructure.Persistence;
     using CodelyTv.Mooc.Shared.Infrastructure.Persistence.EntityFramework;
@@ -49,7 +48,7 @@ namespace CodelyTv.Apps.Mooc.Backend.Extension.DependencyInjection
             services.AddScoped<DomainEventJsonDeserializer, DomainEventJsonDeserializer>();
             services.AddScoped<ICommandBus, InMemoryCommandBus>();
             services.AddScoped<IQueryBus, InMemoryQueryBus>();
-            services.AddScoped<IQueryHandler<FindCoursesCounterQuery, CoursesCounterResponse>, FindCoursesCounterQueryHandler>();
+            
             return services;
         }
 

@@ -11,11 +11,11 @@ namespace CodelyTv.Shared.Domain.Bus.Query
     internal class QueryHandlerWrapper<TQuery, TResponse> : QueryHandlerWrapper<TResponse>
         where TQuery : Query
     {
-        public override Task<TResponse> Handle(Query query, IServiceProvider provider)
+        public override async Task<TResponse> Handle(Query query, IServiceProvider provider)
         {
             var handler = (IQueryHandler<TQuery, TResponse>) provider.GetService(typeof(IQueryHandler<TQuery, TResponse>));
 
-            return handler.Handle((TQuery) query);
+            return await handler.Handle((TQuery) query);
         }
     }
 }

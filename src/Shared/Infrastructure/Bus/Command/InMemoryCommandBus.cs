@@ -26,7 +26,7 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Command
             
             foreach (CommandHandlerWrapper handler in wrappedHandlers)
             {
-                await handler.Handle(command, _provider).ConfigureAwait(false);
+                await handler.Handle(command, _provider);
             }
         }
 
