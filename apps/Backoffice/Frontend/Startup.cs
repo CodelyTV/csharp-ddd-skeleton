@@ -1,11 +1,11 @@
 namespace CodelyTv.Apps.Backoffice.Frontend
 {
+    using Extension.DependencyInjection;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
-    using Mooc.Backend.Extension.DependencyInjection;
 
     public class Startup
     {
@@ -15,8 +15,6 @@ namespace CodelyTv.Apps.Backoffice.Frontend
         {
             _configuration = configuration;
         }
-
-        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
