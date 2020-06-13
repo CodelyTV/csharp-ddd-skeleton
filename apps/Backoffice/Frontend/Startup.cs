@@ -5,8 +5,6 @@ namespace Frontend
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
-
-
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -43,9 +41,10 @@ namespace Frontend
 
             app.UseAuthorization();
 
+
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapControllerRoute("default", "{controller=HomeGetWeb}/{action=Index}/{id?}");
                 endpoints.MapHealthChecks("/health-check");
             });
         }
