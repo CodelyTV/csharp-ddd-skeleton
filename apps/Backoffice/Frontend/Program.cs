@@ -1,4 +1,4 @@
-namespace Frontend
+namespace CodelyTv.Apps.Backoffice.Frontend
 {
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Hosting;

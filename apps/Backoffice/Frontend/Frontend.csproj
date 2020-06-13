@@ -2,6 +2,8 @@
 
     <PropertyGroup>
         <TargetFramework>netcoreapp3.1</TargetFramework>
+        <AssemblyName>CodelyTv.Apps.Backoffice.Frontend</AssemblyName>
+        <RootNamespace>CodelyTv.Apps.Backoffice.Frontend</RootNamespace>
     </PropertyGroup>    
 
     <ItemGroup>

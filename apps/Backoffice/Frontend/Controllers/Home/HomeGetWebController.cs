@@ -1,4 +1,4 @@
-namespace Frontend.Controllers.Home
+namespace CodelyTv.Apps.Backoffice.Frontend.Controllers.Home
 {
     using Microsoft.AspNetCore.Mvc;
 

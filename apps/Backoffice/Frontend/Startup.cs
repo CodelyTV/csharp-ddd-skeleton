@@ -1,11 +1,11 @@
-namespace Frontend
+namespace CodelyTv.Apps.Backoffice.Frontend
 {
-    using CodelyTv.Apps.Mooc.Backend.Extension.DependencyInjection;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
+    using Mooc.Backend.Extension.DependencyInjection;
 
     public class Startup
     {

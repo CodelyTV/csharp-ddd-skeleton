@@ -1,9 +1,9 @@
-namespace Frontend.Controllers.Courses
+namespace CodelyTv.Apps.Backoffice.Frontend.Controllers.Courses
 {
     using System.Threading.Tasks;
     using CodelyTv.Mooc.CoursesCounter.Application.Find;
-    using CodelyTv.Shared.Domain.Bus.Query;
     using Microsoft.AspNetCore.Mvc;
+    using Shared.Domain.Bus.Query;
 
     [Route("Courses")]
     public class CoursesGetWebController : Controller
