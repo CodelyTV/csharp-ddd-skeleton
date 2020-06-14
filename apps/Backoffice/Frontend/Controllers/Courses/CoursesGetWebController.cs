@@ -1,8 +1,9 @@
 namespace CodelyTv.Apps.Backoffice.Frontend.Controllers.Courses
 {
+    using System;
     using System.Threading.Tasks;
-    using CodelyTv.Mooc.CoursesCounter.Application.Find;
     using Microsoft.AspNetCore.Mvc;
+    using Mooc.CoursesCounter.Application.Find;
     using Shared.Domain.Bus.Query;
 
     [Route("Courses")]
@@ -15,6 +16,7 @@ namespace CodelyTv.Apps.Backoffice.Frontend.Controllers.Courses
             _bus = bus;
         }
 
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             CoursesCounterResponse counterResponse =
@@ -23,7 +25,8 @@ namespace CodelyTv.Apps.Backoffice.Frontend.Controllers.Courses
             ViewBag.Title = "Welcome";
             ViewBag.Description = "CodelyTV - Backoffice";
             ViewBag.CoursesCounter = counterResponse.Total;
-            return View("/Views/Courses/Index.cshtml");
+            ViewBag.UUID = Guid.NewGuid().ToString();
+            return View("/Views/Courses/Courses.cshtml");
         }
     }
 }
