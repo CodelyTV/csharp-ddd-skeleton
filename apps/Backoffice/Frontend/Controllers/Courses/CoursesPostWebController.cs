@@ -15,11 +15,16 @@ namespace CodelyTv.Apps.Backoffice.Frontend.Controllers.Courses
         }
 
         [HttpPost]
-        public async Task<IActionResult> Index(string id, string name, string duration)
+        public async Task<IActionResult> Index(CoursesPostWebModel model)
         {
-            await _bus.Dispatch(new CreateCourseCommand(id, name, duration));
+            if (ModelState.IsValid)
+            {
+                await _bus.Dispatch(new CreateCourseCommand(model.Id, model.Name, model.Duration));
 
-            return RedirectToAction("Index", "CoursesGetWeb");
+                return RedirectToAction("Index", "CoursesGetWeb");
+            }
+
+            return View("Views/Courses/Courses.cshtml");
         }
     }
 }
