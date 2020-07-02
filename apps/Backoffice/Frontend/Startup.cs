@@ -1,6 +1,6 @@
 namespace CodelyTv.Apps.Backoffice.Frontend
 {
-    using Extension.DependencyInjection;
+    using CodelyTv.Apps.Backoffice.Frontend.Extension.DependencyInjection;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;

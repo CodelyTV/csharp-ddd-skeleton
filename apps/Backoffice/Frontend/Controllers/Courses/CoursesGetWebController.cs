@@ -2,14 +2,15 @@ namespace CodelyTv.Apps.Backoffice.Frontend.Controllers.Courses
 {
     using System;
     using System.Threading.Tasks;
+    using CodelyTv.Mooc.CoursesCounter.Application.Find;
+    using CodelyTv.Shared.Domain.Bus.Query;
     using Microsoft.AspNetCore.Mvc;
-    using Mooc.CoursesCounter.Application.Find;
-    using Shared.Domain.Bus.Query;
 
     [Route("Courses")]
     public class CoursesGetWebController : Controller
     {
         private readonly IQueryBus _bus;
+        private const string VIEW = "Views/Courses/Index.cshtml";
 
         public CoursesGetWebController(IQueryBus bus)
         {
@@ -26,7 +27,8 @@ namespace CodelyTv.Apps.Backoffice.Frontend.Controllers.Courses
             ViewBag.Description = "CodelyTV - Backoffice";
             ViewBag.CoursesCounter = counterResponse.Total;
             ViewBag.UUID = Guid.NewGuid().ToString();
-            return View("/Views/Courses/Courses.cshtml");
+
+            return View(VIEW);
         }
     }
 }
