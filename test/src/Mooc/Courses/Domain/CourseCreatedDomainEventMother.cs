@@ -1,6 +1,7 @@
 namespace CodelyTv.Test.Mooc.Courses.Domain
 {
     using CodelyTv.Mooc.Courses.Domain;
+    using CodelyTv.Shared.Domain.Courses;
 
     public class CourseCreatedDomainEventMother
     {

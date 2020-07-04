@@ -1,4 +1,4 @@
-namespace CodelyTv.Mooc.Courses.Domain
+namespace CodelyTv.Shared.Domain.Courses
 {
     using System;
     using System.Collections.Generic;
@@ -6,11 +6,11 @@ namespace CodelyTv.Mooc.Courses.Domain
 
     public class CourseCreatedDomainEvent : DomainEvent
     {
-        private string Name;
-        private string Duration;
+        public string Name { get; }
+        public string Duration { get; }
 
-        public CourseCreatedDomainEvent(string id, string name, string duration, string eventId = null, string occurredOn = null) :
-            base(id, eventId, occurredOn)
+        public CourseCreatedDomainEvent(string id, string name, string duration, string eventId = null,
+            string occurredOn = null) : base(id, eventId, occurredOn)
         {
             Name = name;
             Duration = duration;
@@ -34,7 +34,8 @@ namespace CodelyTv.Mooc.Courses.Domain
             };
         }
 
-        public override DomainEvent FromPrimitives(string aggregateId, Dictionary<string, string> body, string eventId, string occurredOn)
+        public override DomainEvent FromPrimitives(string aggregateId, Dictionary<string, string> body, string eventId,
+            string occurredOn)
         {
             return new CourseCreatedDomainEvent(aggregateId, body["name"], body["duration"], eventId, occurredOn);
         }

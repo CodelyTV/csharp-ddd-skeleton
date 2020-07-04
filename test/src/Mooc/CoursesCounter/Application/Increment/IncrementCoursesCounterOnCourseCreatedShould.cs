@@ -3,6 +3,7 @@ namespace CodelyTv.Test.Mooc.CoursesCounter.Application.Increment
     using CodelyTv.Mooc.Courses.Domain;
     using CodelyTv.Mooc.CoursesCounter.Application.Incrementer;
     using CodelyTv.Mooc.CoursesCounter.Domain;
+    using CodelyTv.Shared.Domain.Courses;
     using Courses.Domain;
     using Domain;
     using Xunit;

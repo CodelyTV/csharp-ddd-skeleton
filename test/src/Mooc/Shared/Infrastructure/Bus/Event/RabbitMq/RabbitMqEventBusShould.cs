@@ -3,11 +3,11 @@ namespace CodelyTv.Test.Mooc.Shared.Infrastructure.Bus.Event.RabbitMq
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using CodelyTv.Mooc.Courses.Domain;
     using CodelyTv.Shared.Domain.Bus.Event;
+    using CodelyTv.Shared.Domain.Courses;
     using CodelyTv.Shared.Infrastructure.Bus.Event;
     using CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq;
-    using Courses.Domain;
+    using CodelyTv.Test.Mooc.Courses.Domain;
     using RabbitMQ.Client;
     using Xunit;
 
