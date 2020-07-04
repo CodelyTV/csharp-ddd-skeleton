@@ -4,8 +4,8 @@ namespace MoocTest.apps.Backend.Controller.CoursesCounter
     using System.Net.Http;
     using System.Threading.Tasks;
     using CodelyTv.Apps.Mooc.Backend;
-    using CodelyTv.Mooc.Courses.Domain;
     using CodelyTv.Shared.Domain.Bus.Event;
+    using CodelyTv.Shared.Domain.Courses;
     using CodelyTv.Test.Mooc;
     using Xunit;
 

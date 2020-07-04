@@ -4,7 +4,7 @@ namespace CodelyTv.Shared.Domain.Bus.Event
 
     public interface IDomainEventSubscriber<TDomain> : IDomainEventSubscriberBase where TDomain : DomainEvent
     {
-        Task On(TDomain DomainEvent);
+        Task On(TDomain domainEvent);
 
         async Task IDomainEventSubscriberBase.On(DomainEvent @event)
         {

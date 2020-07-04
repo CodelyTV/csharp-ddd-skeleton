@@ -1,8 +1,8 @@
 namespace CodelyTv.Test.Mooc.Shared.Infrastructure.Bus.Event.RabbitMq
 {
     using System.Threading.Tasks;
-    using CodelyTv.Mooc.Courses.Domain;
     using CodelyTv.Shared.Domain.Bus.Event;
+    using CodelyTv.Shared.Domain.Courses;
 
     public class TestAllWorksOnRabbitMqEventsPublished : IDomainEventSubscriber<CourseCreatedDomainEvent>
     {
