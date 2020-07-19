@@ -46,9 +46,9 @@ namespace CodelyTv.Test.Mooc
 
                 services.AddScoped<TestAllWorksOnRabbitMqEventsPublished, TestAllWorksOnRabbitMqEventsPublished>();
 
-                services.AddDomainEventSubscriberInformationService(AssemblyHelper.GetInstance(Assemblies.Backoffice));
-                services.AddCommandServices(AssemblyHelper.GetInstance(Assemblies.Backoffice));
-                services.AddQueryServices(AssemblyHelper.GetInstance(Assemblies.Backoffice));
+                services.AddDomainEventSubscriberInformationService(AssemblyHelper.GetInstance(Assemblies.Mooc));
+                services.AddCommandServices(AssemblyHelper.GetInstance(Assemblies.Mooc));
+                services.AddQueryServices(AssemblyHelper.GetInstance(Assemblies.Mooc));
                 
                 services.AddDbContext<MoocContext>(options =>
                     options.UseSqlServer(configuration.GetConnectionString("MoocDatabase")));
