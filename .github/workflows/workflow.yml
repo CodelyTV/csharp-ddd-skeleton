@@ -19,8 +19,14 @@ jobs:
       - name: Build with dotnet
         run: dotnet build --configuration Release
 
-      - name: Init database
+      - name: Init databases
         run: docker exec codelytv-chsarp_ddd_skeleton-mssql /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P Your_password123 -d master -i init.sql
+        
+      - name: Init mooc database
+        run: docker exec codelytv-chsarp_ddd_skeleton-mssql /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P Your_password123 -d master -i mooc.sql
+        
+      - name: Init backoffice database
+        run: docker exec codelytv-chsarp_ddd_skeleton-mssql /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P Your_password123 -d master -i backoffice.sql
 
       - name: Unit Tests
         run: dotnet test CsharpDDDSkeleton.sln
