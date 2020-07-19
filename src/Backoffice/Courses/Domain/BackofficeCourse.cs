@@ -16,6 +16,10 @@ namespace CodelyTv.Backoffice.Courses.Domain
             Duration = duration;
         }
 
+        private BackofficeCourse()
+        {
+        }
+
         public Dictionary<string, string> ToPrimitives()
         {
             return new Dictionary<string, string>()

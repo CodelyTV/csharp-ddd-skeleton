@@ -1,6 +1,7 @@
 namespace CodelyTv.Backoffice.Shared.Infrastructure.Persistence.EntityFramework
 {
     using CodelyTv.Backoffice.Courses.Domain;
+    using CodelyTv.Backoffice.Shared.Infrastructure.Persistence.EntityFramework.EntityConfigurations;
     using Microsoft.EntityFrameworkCore;
 
     public class BackofficeContext : DbContext
@@ -13,6 +14,7 @@ namespace CodelyTv.Backoffice.Shared.Infrastructure.Persistence.EntityFramework
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.ApplyConfiguration(new BackofficeCourseConfiguration());
         }
     }
 }

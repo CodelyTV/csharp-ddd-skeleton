@@ -3,9 +3,9 @@ namespace CodelyTv.Apps.Mooc.Backend.Extension.DependencyInjection
     using CodelyTv.Mooc.Courses.Application.Create;
     using CodelyTv.Mooc.CoursesCounter.Application.Find;
     using CodelyTv.Mooc.CoursesCounter.Application.Incrementer;
-    using CodelyTv.Mooc.Helper;
+    using CodelyTv.Shared;
+    using CodelyTv.Shared.Helpers;
     using Microsoft.Extensions.DependencyInjection;
-    using Shared;
 
     public static class Application
     {

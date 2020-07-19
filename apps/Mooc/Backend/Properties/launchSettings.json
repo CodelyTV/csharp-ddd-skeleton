@@ -34,7 +34,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "RabbitMq Command consumer":{
+    "RabbitMq Mooc command consumer":{
       "commandName": "Project",
       "launchBrowser": false,
       "commandLineArgs": "domain-events:rabbitmq:consume",

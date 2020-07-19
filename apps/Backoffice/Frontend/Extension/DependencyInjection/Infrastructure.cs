@@ -1,23 +1,27 @@
 namespace CodelyTv.Apps.Backoffice.Frontend.Extension.DependencyInjection
 {
+    using CodelyTv.Backoffice.Courses.Domain;
+    using CodelyTv.Backoffice.Courses.Infrastructure.Persistence;
+    using CodelyTv.Backoffice.Shared.Infrastructure.Persistence.EntityFramework;
+    using CodelyTv.Mooc.Courses.Domain;
+    using CodelyTv.Mooc.Courses.Infrastructure.Persistence;
+    using CodelyTv.Mooc.CoursesCounter.Application.Find;
+    using CodelyTv.Mooc.CoursesCounter.Domain;
+    using CodelyTv.Mooc.CoursesCounter.Infrastructure.Persistence;
+    using CodelyTv.Mooc.Shared.Infrastructure.Persistence.EntityFramework;
+    using CodelyTv.Shared.Domain;
+    using CodelyTv.Shared.Domain.Bus.Command;
+    using CodelyTv.Shared.Domain.Bus.Event;
+    using CodelyTv.Shared.Domain.Bus.Query;
+    using CodelyTv.Shared.Infrastructure;
+    using CodelyTv.Shared.Infrastructure.Bus.Command;
+    using CodelyTv.Shared.Infrastructure.Bus.Event;
+    using CodelyTv.Shared.Infrastructure.Bus.Event.MsSql;
+    using CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq;
+    using CodelyTv.Shared.Infrastructure.Bus.Query;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-    using Mooc.Courses.Domain;
-    using Mooc.Courses.Infrastructure.Persistence;
-    using Mooc.CoursesCounter.Domain;
-    using Mooc.CoursesCounter.Infrastructure.Persistence;
-    using Mooc.Shared.Infrastructure.Persistence.EntityFramework;
-    using Shared.Domain;
-    using Shared.Domain.Bus.Command;
-    using Shared.Domain.Bus.Event;
-    using Shared.Domain.Bus.Query;
-    using Shared.Infrastructure;
-    using Shared.Infrastructure.Bus.Command;
-    using Shared.Infrastructure.Bus.Event;
-    using Shared.Infrastructure.Bus.Event.MsSql;
-    using Shared.Infrastructure.Bus.Event.RabbitMq;
-    using Shared.Infrastructure.Bus.Query;
 
     public static class Infrastructure
     {
@@ -26,9 +30,12 @@ namespace CodelyTv.Apps.Backoffice.Frontend.Extension.DependencyInjection
         {
             services.AddScoped<IRandomNumberGenerator, CSharpRandomNumberGenerator>();
             services.AddScoped<IUuidGenerator, CSharpUuidGenerator>();
+            services.AddScoped<IBackofficeCourseRepository, MsSqlBackofficeCourseRepository>();
             services.AddScoped<ICoursesCounterRepository, MsSqlCoursesCounterRepository>();
             services.AddScoped<ICourseRepository, MsSqlCourseRepository>();
 
+            services.AddScoped<CoursesCounterFinder, CoursesCounterFinder>();
+            
             services.AddScoped<IEventBus, RabbitMqEventBus>();
             services.AddScoped<IEventBusConfiguration, RabbitMqEventBusConfiguration>();
             services.AddScoped<InMemoryApplicationEventBus, InMemoryApplicationEventBus>();
@@ -39,7 +46,11 @@ namespace CodelyTv.Apps.Backoffice.Frontend.Extension.DependencyInjection
             services.AddScoped<RabbitMqDomainEventsConsumer, RabbitMqDomainEventsConsumer>();
             services.AddScoped<DomainEventsInformation, DomainEventsInformation>();
 
-            services.AddScoped<DbContext, MoocContext>();
+            services.AddScoped<DbContext, BackofficeContext>();
+            services.AddDbContext<BackofficeContext>(options =>
+                options.UseSqlServer(configuration.GetConnectionString("BackofficeDatabase")), ServiceLifetime.Transient);
+            
+            services.AddScoped<MoocContext, MoocContext>();
             services.AddDbContext<MoocContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("MoocDatabase")), ServiceLifetime.Transient);
 

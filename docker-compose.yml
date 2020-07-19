@@ -10,7 +10,7 @@ services:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=Your_password123
     volumes:
-      - ./database/mooc.sql:/init.sql
+      - ./database/init.sql:/init.sql
   rabbitmq:
     container_name: codelytv-chsarp_ddd_skeleton-rabbitmq
     image: 'rabbitmq:3.7-management'

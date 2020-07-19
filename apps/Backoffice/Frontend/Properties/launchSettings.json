@@ -22,6 +22,14 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
+    },
+    "RabbitMq Backoffice command consumer":{
+      "commandName": "Project",
+      "launchBrowser": false,
+      "commandLineArgs": "domain-events:rabbitmq:consume",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
     }
   }
 }
