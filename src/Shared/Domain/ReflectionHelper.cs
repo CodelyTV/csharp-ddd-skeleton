@@ -10,7 +10,7 @@ namespace CodelyTv.Shared.Domain
         public static Assembly GetAssemblyByName(string name)
         {
             if (name == null) return null;
-
+            
             name = name.ToUpper(CultureInfo.InvariantCulture);
             return AppDomain.CurrentDomain.GetAssemblies()
                 .FirstOrDefault(x => x.FullName.ToUpper(CultureInfo.InvariantCulture)

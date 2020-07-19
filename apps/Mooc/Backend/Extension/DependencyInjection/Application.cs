@@ -17,9 +17,9 @@ namespace CodelyTv.Apps.Mooc.Backend.Extension.DependencyInjection
             services.AddScoped<CoursesCounterFinder, CoursesCounterFinder>();
             services.AddScoped<IncrementCoursesCounterOnCourseCreated, IncrementCoursesCounterOnCourseCreated>();
             
-            services.AddDomainEventSubscriberInformationService(MoocAssemblyHelper.Instance());
-            services.AddCommandServices(MoocAssemblyHelper.Instance());
-            services.AddQueryServices(MoocAssemblyHelper.Instance());
+            services.AddDomainEventSubscriberInformationService(AssemblyHelper.GetInstance(Assemblies.Mooc));
+            services.AddCommandServices(AssemblyHelper.GetInstance(Assemblies.Mooc));
+            services.AddQueryServices(AssemblyHelper.GetInstance(Assemblies.Mooc));
             return services;
         }
     }

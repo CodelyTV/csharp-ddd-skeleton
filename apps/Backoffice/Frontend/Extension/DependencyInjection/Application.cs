@@ -15,6 +15,15 @@ namespace CodelyTv.Apps.Backoffice.Frontend.Extension.DependencyInjection
         {
             services.AddScoped<CreateBackofficeCourseOnCourseCreated, CreateBackofficeCourseOnCourseCreated>();
             services.AddScoped<CourseCreator, CourseCreator>();
+            services.AddScoped<BackofficeCourseCreator, BackofficeCourseCreator>();
+            services.AddScoped<AllBackofficeCoursesSearcher, AllBackofficeCoursesSearcher>();
+            
+            services.AddDomainEventSubscriberInformationService(AssemblyHelper.GetInstance(Assemblies.Backoffice));
+            services.AddCommandServices(AssemblyHelper.GetInstance(Assemblies.Backoffice));
+            services.AddQueryServices(AssemblyHelper.GetInstance(Assemblies.Backoffice));
+            
+            services.AddCommandServices(AssemblyHelper.GetInstance(Assemblies.Mooc));
+            services.AddQueryServices(AssemblyHelper.GetInstance(Assemblies.Mooc));
 
             services.AddScoped<CoursesCounterIncrementer, CoursesCounterIncrementer>();
             services.AddScoped<CoursesCounterFinder, CoursesCounterFinder>();
