@@ -3,6 +3,7 @@
     using CodelyTv.Apps.Mooc.Backend.Extension.DependencyInjection;
     using CodelyTv.Shared.Infrastructure.Bus.Event;
     using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
@@ -24,7 +25,7 @@
             services.AddInfrastructure(_configuration);
         }
 
-        public static void Configure(IApplicationBuilder app, IHostingEnvironment env, IEventBusConfiguration bus)
+        public static void Configure(IApplicationBuilder app, IWebHostEnvironment env, IEventBusConfiguration bus)
         {
             if (env.IsDevelopment())
                 app.UseDeveloperExceptionPage();
