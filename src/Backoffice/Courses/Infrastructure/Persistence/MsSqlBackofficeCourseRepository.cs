@@ -4,6 +4,8 @@ namespace CodelyTv.Backoffice.Courses.Infrastructure.Persistence
     using System.Threading.Tasks;
     using CodelyTv.Backoffice.Courses.Domain;
     using CodelyTv.Backoffice.Shared.Infrastructure.Persistence.EntityFramework;
+    using CodelyTv.Shared.Domain.FiltersByCriteria;
+    using CodelyTv.Shared.Infrastructure.Persistence.EntityFramework.Criteria;
     using Microsoft.EntityFrameworkCore;
 
     public class MsSqlBackofficeCourseRepository : IBackofficeCourseRepository
@@ -24,6 +26,11 @@ namespace CodelyTv.Backoffice.Courses.Infrastructure.Persistence
         public async Task<IEnumerable<BackofficeCourse>> SearchAll()
         {
             return await this._context.BackofficeCourses.ToListAsync();
+        }
+
+        public async Task<IEnumerable<BackofficeCourse>> Matching(Criteria criteria)
+        {
+            return await _context.BackofficeCourses.SearchByCriteria(criteria).ToListAsync();
         }
     }
 }

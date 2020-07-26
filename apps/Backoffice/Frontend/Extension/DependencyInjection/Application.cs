@@ -2,6 +2,7 @@ namespace CodelyTv.Apps.Backoffice.Frontend.Extension.DependencyInjection
 {
     using CodelyTv.Backoffice.Courses.Application.Create;
     using CodelyTv.Backoffice.Courses.Application.SearchAll;
+    using CodelyTv.Backoffice.Courses.Application.SearchByCriteria;
     using CodelyTv.Mooc.Courses.Application.Create;
     using CodelyTv.Mooc.CoursesCounter.Application.Find;
     using CodelyTv.Mooc.CoursesCounter.Application.Incrementer;
@@ -17,6 +18,7 @@ namespace CodelyTv.Apps.Backoffice.Frontend.Extension.DependencyInjection
             services.AddScoped<CourseCreator, CourseCreator>();
             services.AddScoped<BackofficeCourseCreator, BackofficeCourseCreator>();
             services.AddScoped<AllBackofficeCoursesSearcher, AllBackofficeCoursesSearcher>();
+            services.AddScoped<BackofficeCoursesByCriteriaSearcher, BackofficeCoursesByCriteriaSearcher>();
             
             services.AddDomainEventSubscriberInformationService(AssemblyHelper.GetInstance(Assemblies.Backoffice));
             services.AddCommandServices(AssemblyHelper.GetInstance(Assemblies.Backoffice));
