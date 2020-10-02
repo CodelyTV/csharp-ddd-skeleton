@@ -13,8 +13,8 @@ namespace CodelyTv.Apps.Backoffice.Frontend.Criteria
         
         public string Order { get; set; }
         
-        public int Limit { get; set; }
+        public int? Limit { get; set; }
         
-        public int Offset { get; set; }
+        public int? Offset { get; set; }
     }
 }

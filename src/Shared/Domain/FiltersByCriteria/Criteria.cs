@@ -1,5 +1,7 @@
 namespace CodelyTv.Shared.Domain.FiltersByCriteria
 {
+    using System.Linq;
+
     public class Criteria
     { 
         public Filters Filters { get; }
@@ -13,6 +15,16 @@ namespace CodelyTv.Shared.Domain.FiltersByCriteria
             Order = order;
             Limit = limit;
             Offset = offset;
+        }
+        
+        public bool HasFilters()
+        {
+            return Filters != null && Filters.Values.Any();
+        }
+
+        public bool HasOrder()
+        {
+            return Order != null && Order.OrderType != OrderType.NONE && string.IsNullOrEmpty(Order.OrderBy?.Value);
         }
     }
 }

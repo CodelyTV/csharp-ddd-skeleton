@@ -23,3 +23,12 @@ services:
     environment:
       - RABBITMQ_DEFAULT_USER=codelytv
       - RABBITMQ_DEFAULT_PASS=c0d3ly
+  elasticsearch:
+    container_name: codelytv-chsarp_ddd_skeleton-elasticsearch
+    image: 'elasticsearch:7.9.1'
+    restart: unless-stopped
+    ports:
+      - 9300:9300
+      - 9200:9200
+    environment:
+      - discovery.type=single-node

@@ -20,19 +20,21 @@ namespace CodelyTv.Backoffice.Courses.Domain
         {
         }
 
-        public Dictionary<string, string> ToPrimitives()
+        public Dictionary<string, object> ToPrimitives()
         {
-            return new Dictionary<string, string>()
+            var primitives = new Dictionary<string, object>()
             {
                 {"id", Id},
                 {"name", Name},
                 {"duration", Duration}
             };
+            
+            return primitives;
         }
 
-        public BackofficeCourse FromPrimitives(string aggregateId, Dictionary<string, string> body)
+        public static BackofficeCourse FromPrimitives(Dictionary<string, object> body)
         {
-            return new BackofficeCourse(aggregateId, body["name"], body["duration"]);
+            return new BackofficeCourse(Convert.ToString(body["id"]), Convert.ToString(body["name"]), Convert.ToString(body["duration"]));
         }
 
         public override bool Equals(object obj)

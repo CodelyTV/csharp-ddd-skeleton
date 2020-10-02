@@ -1,7 +1,8 @@
 namespace CodelyTv.Apps.Backoffice.Frontend.Extension.DependencyInjection
 {
     using CodelyTv.Backoffice.Courses.Domain;
-    using CodelyTv.Backoffice.Courses.Infrastructure.Persistence;
+    using CodelyTv.Backoffice.Courses.Infrastructure.Persistence.Elasticsearch;
+    using CodelyTv.Backoffice.Shared.Infrastructure.Persistence.Elasticsearch;
     using CodelyTv.Backoffice.Shared.Infrastructure.Persistence.EntityFramework;
     using CodelyTv.Mooc.Courses.Domain;
     using CodelyTv.Mooc.Courses.Infrastructure.Persistence;
@@ -30,7 +31,7 @@ namespace CodelyTv.Apps.Backoffice.Frontend.Extension.DependencyInjection
         {
             services.AddScoped<IRandomNumberGenerator, CSharpRandomNumberGenerator>();
             services.AddScoped<IUuidGenerator, CSharpUuidGenerator>();
-            services.AddScoped<IBackofficeCourseRepository, MsSqlBackofficeCourseRepository>();
+            services.AddScoped<IBackofficeCourseRepository, ElasticsearchBackofficeCourseRepository>();
             services.AddScoped<ICoursesCounterRepository, MsSqlCoursesCounterRepository>();
             services.AddScoped<ICourseRepository, MsSqlCourseRepository>();
 
@@ -55,11 +56,12 @@ namespace CodelyTv.Apps.Backoffice.Frontend.Extension.DependencyInjection
                 options.UseSqlServer(configuration.GetConnectionString("MoocDatabase")), ServiceLifetime.Transient);
 
             services.AddRabbitMq(configuration);
-
             services.AddScoped<DomainEventJsonDeserializer, DomainEventJsonDeserializer>();
             services.AddScoped<ICommandBus, InMemoryCommandBus>();
             services.AddScoped<IQueryBus, InMemoryQueryBus>();
             
+            services.AddElasticsearch(configuration);
+
             return services;
         }
 

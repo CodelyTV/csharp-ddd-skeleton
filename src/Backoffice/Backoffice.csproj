@@ -10,4 +10,8 @@
       <ProjectReference Include="..\Shared\Shared.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="NEST" Version="7.8.2" />
+    </ItemGroup>
+
 </Project>
