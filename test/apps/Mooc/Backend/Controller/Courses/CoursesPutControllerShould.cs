@@ -1,11 +1,11 @@
+using System.Net.Http;
+using System.Threading.Tasks;
+using CodelyTv.Apps.Mooc.Backend;
+using CodelyTv.Test.Mooc;
+using Xunit;
+
 namespace MoocTest.apps.Backend.Controller.Courses
 {
-    using System.Net.Http;
-    using System.Threading.Tasks;
-    using CodelyTv.Apps.Mooc.Backend;
-    using CodelyTv.Test.Mooc;
-    using Xunit;
-
     public class CoursesPutControllerShould : MoocContextApplicationTestCase
     {
         public CoursesPutControllerShould(MoocWebApplicationFactory<Startup> factory) : base(factory)

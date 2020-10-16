@@ -1,10 +1,10 @@
+using CodelyTv.Shared.Domain;
+using Microsoft.AspNetCore.Mvc;
+
 namespace CodelyTv.Apps.Mooc.Backend.Controller.HealthCheck
 {
-    using Microsoft.AspNetCore.Mvc;
-    using Shared.Domain;
-
     [Route("health-check")]
-    public class HealthCheckGetController : Controller
+    public class HealthCheckGetController : Microsoft.AspNetCore.Mvc.Controller
     {
         private readonly IRandomNumberGenerator _generator;
 

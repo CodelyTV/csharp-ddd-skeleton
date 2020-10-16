@@ -1,10 +1,10 @@
+using System.Linq;
+using System.Reflection;
+using CodelyTv.Shared.Domain.Bus.Query;
+using Microsoft.Extensions.DependencyInjection;
+
 namespace CodelyTv.Shared
 {
-    using System.Linq;
-    using System.Reflection;
-    using Domain.Bus.Query;
-    using Microsoft.Extensions.DependencyInjection;
-
     public static class QueryServiceExtension
     {
         public static IServiceCollection AddQueryServices(this IServiceCollection services,
@@ -18,11 +18,9 @@ namespace CodelyTv.Shared
 
                 foreach (var handlerInterfaceType in interfaces.Where(i =>
                     i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IQueryHandler<,>)))
-                {
                     services.AddScoped(handlerInterfaceType.AsType(), type.AsType());
-                }
             }
-            
+
             return services;
         }
     }

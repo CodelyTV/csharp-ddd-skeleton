@@ -1,7 +1,7 @@
+using System;
+
 namespace CodelyTv.Shared.Domain.FiltersByCriteria
 {
-    using System;
-
     public class Order
     {
         public OrderBy OrderBy { get; }
@@ -17,7 +17,9 @@ namespace CodelyTv.Shared.Domain.FiltersByCriteria
         {
             return new Order(
                 new OrderBy(orderBy),
-                !string.IsNullOrEmpty(orderType) ? Enum.Parse<OrderType>(orderType.ToUpper()) : OrderType.NONE);
+                !string.IsNullOrEmpty(orderType)
+                    ? Enum.Parse<OrderType>(orderType.ToUpperInvariant())
+                    : OrderType.NONE);
         }
     }
 }

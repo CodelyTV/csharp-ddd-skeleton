@@ -1,7 +1,7 @@
+using CodelyTv.Backoffice.Courses.Domain;
+
 namespace CodelyTv.Backoffice.Courses.Application
 {
-    using CodelyTv.Backoffice.Courses.Domain;
-
     public class BackofficeCourseResponse
     {
         public string Id { get; }

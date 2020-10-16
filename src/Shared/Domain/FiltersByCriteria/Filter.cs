@@ -1,7 +1,7 @@
+using System.Collections.Generic;
+
 namespace CodelyTv.Shared.Domain.FiltersByCriteria
 {
-    using System.Collections.Generic;
-
     public class Filter
     {
         public FilterField Field { get; }
@@ -18,10 +18,10 @@ namespace CodelyTv.Shared.Domain.FiltersByCriteria
         public static Filter FromValues(Dictionary<string, string> values)
         {
             return new Filter(
-                new FilterField(values["field"]), 
-                values["operator"].FilterOperatorFromValue(), 
+                new FilterField(values["field"]),
+                values["operator"].FilterOperatorFromValue(),
                 new FilterValue(values["value"])
-                );
+            );
         }
     }
 }

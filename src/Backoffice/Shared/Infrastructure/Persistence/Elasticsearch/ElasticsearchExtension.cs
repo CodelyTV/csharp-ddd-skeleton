@@ -1,13 +1,13 @@
+using System;
+using CodelyTv.Backoffice.Courses.Domain;
+using CodelyTv.Backoffice.Courses.Infrastructure.Persistence.Elasticsearch;
+using CodelyTv.Shared.Infrastructure.Elasticsearch;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Nest;
+
 namespace CodelyTv.Backoffice.Shared.Infrastructure.Persistence.Elasticsearch
 {
-    using System;
-    using CodelyTv.Backoffice.Courses.Domain;
-    using CodelyTv.Backoffice.Courses.Infrastructure.Persistence.Elasticsearch;
-    using CodelyTv.Shared.Infrastructure.Elasticsearch;
-    using Microsoft.Extensions.Configuration;
-    using Microsoft.Extensions.DependencyInjection;
-    using Nest;
-
     public static class ElasticsearchExtensions
     {
         public static void AddElasticsearch(this IServiceCollection services, IConfiguration configuration)
@@ -15,12 +15,13 @@ namespace CodelyTv.Backoffice.Shared.Infrastructure.Persistence.Elasticsearch
             var defaultIndex = configuration["Elasticsearch:IndexPrefix"];
             var url = $"{configuration["Elasticsearch:Host"]}:{configuration["Elasticsearch:Port"]}";
 
-            var settings = new ConnectionSettings(new Uri(url)).DefaultIndex(defaultIndex);;
+            var settings = new ConnectionSettings(new Uri(url)).DefaultIndex(defaultIndex);
+
             var client = new ElasticClient(settings);
             var elastic = new ElasticsearchClient(client, defaultIndex);
 
             GenerateIndexIfNotExist(elastic.IndexFor(nameof(BackofficeCourse)), elastic);
-            
+
             services.AddSingleton(elastic);
         }
 
@@ -32,7 +33,7 @@ namespace CodelyTv.Backoffice.Shared.Infrastructure.Persistence.Elasticsearch
             {
                 var descriptor = new CreateIndexDescriptor(defaultIndex)
                     .CreateBackofficeCourseDescriptor();
-                    
+
                 var createIndexResponse = elasticClient.Indices.Create(descriptor);
                 if (!createIndexResponse.IsValid)
                     throw new Exception(createIndexResponse.DebugInformation);

@@ -1,7 +1,7 @@
+using System.Threading.Tasks;
+
 namespace CodelyTv.Mooc.Courses.Domain
 {
-    using System.Threading.Tasks;
-
     public interface ICourseRepository
     {
         Task Save(Course course);

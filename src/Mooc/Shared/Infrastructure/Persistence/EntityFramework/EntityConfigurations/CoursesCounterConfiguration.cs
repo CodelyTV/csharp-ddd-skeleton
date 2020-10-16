@@ -1,11 +1,11 @@
+using CodelyTv.Mooc.CoursesCounters.Domain;
+using CodelyTv.Mooc.Shared.Infrastructure.Persistence.EntityFramework.ValueConverter;
+using CodelyTv.Shared.Infrastructure.Persistence.EntityFramework.Extension;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
 namespace CodelyTv.Mooc.Shared.Infrastructure.Persistence.EntityFramework.EntityConfigurations
 {
-    using CodelyTv.Shared.Infrastructure.Persistence.EntityFramework.Extension;
-    using CoursesCounter.Domain;
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.EntityFrameworkCore.Metadata.Builders;
-    using ValueConverter;
-
     public class CoursesCounterConfiguration : IEntityTypeConfiguration<CoursesCounter>
     {
         public void Configure(EntityTypeBuilder<CoursesCounter> builder)

@@ -1,31 +1,31 @@
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using CodelyTv.Backoffice.Courses.Domain;
+using CodelyTv.Backoffice.Shared.Infrastructure.Persistence.EntityFramework;
+using CodelyTv.Shared.Domain.FiltersByCriteria;
+using CodelyTv.Shared.Infrastructure.Persistence.EntityFramework.Criteria;
+using Microsoft.EntityFrameworkCore;
+
 namespace CodelyTv.Backoffice.Courses.Infrastructure.Persistence
 {
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-    using CodelyTv.Backoffice.Courses.Domain;
-    using CodelyTv.Backoffice.Shared.Infrastructure.Persistence.EntityFramework;
-    using CodelyTv.Shared.Domain.FiltersByCriteria;
-    using CodelyTv.Shared.Infrastructure.Persistence.EntityFramework.Criteria;
-    using Microsoft.EntityFrameworkCore;
-
     public class MsSqlBackofficeCourseRepository : IBackofficeCourseRepository
     {
-        private BackofficeContext _context;
+        private readonly BackofficeContext _context;
 
         public MsSqlBackofficeCourseRepository(BackofficeContext context)
         {
-            this._context = context;
+            _context = context;
         }
 
         public async Task Save(BackofficeCourse course)
         {
-            await this._context.BackofficeCourses.AddAsync(course);
-            await this._context.SaveChangesAsync();
+            await _context.BackofficeCourses.AddAsync(course);
+            await _context.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<BackofficeCourse>> SearchAll()
         {
-            return await this._context.BackofficeCourses.ToListAsync();
+            return await _context.BackofficeCourses.ToListAsync();
         }
 
         public async Task<IEnumerable<BackofficeCourse>> Matching(Criteria criteria)

@@ -1,11 +1,11 @@
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using CodelyTv.Shared.Domain.Bus.Event;
+using Microsoft.Extensions.DependencyInjection;
+
 namespace CodelyTv.Shared.Infrastructure.Bus.Event
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-    using Domain.Bus.Event;
-    using Microsoft.Extensions.DependencyInjection;
-
     public class InMemoryApplicationEventBus : IEventBus
     {
         private readonly IServiceProvider _serviceProvider;
@@ -20,22 +20,19 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event
             if (events == null)
                 return;
 
-            using IServiceScope scope = _serviceProvider.CreateScope();
+            using var scope = _serviceProvider.CreateScope();
             foreach (var @event in events)
             {
                 var subscribers = GetSubscribers(@event, scope);
 
-                foreach (object subscriber in subscribers)
-                {
-                    await ((IDomainEventSubscriberBase) subscriber).On(@event);
-                }
+                foreach (var subscriber in subscribers) await ((IDomainEventSubscriberBase) subscriber).On(@event);
             }
         }
 
         private static IEnumerable<object> GetSubscribers(DomainEvent @event, IServiceScope scope)
         {
-            Type eventType = @event.GetType();
-            Type subscriberType = typeof(IDomainEventSubscriber<>).MakeGenericType(eventType);
+            var eventType = @event.GetType();
+            var subscriberType = typeof(IDomainEventSubscriber<>).MakeGenericType(eventType);
             return scope.ServiceProvider.GetServices(subscriberType);
         }
     }

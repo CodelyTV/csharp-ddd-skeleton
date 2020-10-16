@@ -1,9 +1,9 @@
+using System;
+using System.Globalization;
+using System.Linq;
+
 namespace CodelyTv.Shared.Domain
 {
-    using System;
-    using System.Globalization;
-    using System.Linq;
-
     public static class Utils
     {
         public static string DateToString(DateTime date)
@@ -18,13 +18,14 @@ namespace CodelyTv.Shared.Domain
 
         public static string ToSnake(this string text)
         {
-            return string.Concat(text.Select((x, i) => i > 0 && char.IsUpper(x) ? "_" + x : x.ToString()))
+            return string.Concat(text.Select((x, i) =>
+                    i > 0 && char.IsUpper(x) ? "_" + x : x.ToString(CultureInfo.InvariantCulture)))
                 .ToLowerInvariant();
         }
 
         public static string ToCamelFirstUpper(this string text)
         {
-            TextInfo textInfo = new CultureInfo(CultureInfo.CurrentCulture.ToString(), false).TextInfo;
+            var textInfo = new CultureInfo(CultureInfo.CurrentCulture.ToString(), false).TextInfo;
             return textInfo.ToTitleCase(text).Replace("_", string.Empty);
         }
     }

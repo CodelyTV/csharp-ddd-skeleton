@@ -1,11 +1,11 @@
+using Microsoft.Extensions.Options;
+using RabbitMQ.Client;
+
 namespace CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq
 {
-    using Microsoft.Extensions.Options;
-    using RabbitMQ.Client;
-
     public class RabbitMqConfig
     {
-        public ConnectionFactory ConnectionFactory { get; private set; }
+        public ConnectionFactory ConnectionFactory { get; }
         private static IConnection _connection { get; set; }
         private static IModel _channel { get; set; }
 
@@ -13,7 +13,7 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq
         {
             var configParams = rabbitMqParams.Value;
 
-            ConnectionFactory = new ConnectionFactory()
+            ConnectionFactory = new ConnectionFactory
             {
                 HostName = configParams.HostName,
                 UserName = configParams.Username,

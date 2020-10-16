@@ -1,14 +1,14 @@
+using System;
+using CodelyTv.Shared.Domain.Aggregate;
+using CodelyTv.Shared.Domain.Courses.Domain;
+
 namespace CodelyTv.Mooc.Courses.Domain
 {
-    using System;
-    using CodelyTv.Shared.Domain.Aggregate;
-    using CodelyTv.Shared.Domain.Courses;
-
     public class Course : AggregateRoot
     {
-        public CourseId Id { get; private set; }
-        public CourseName Name { get; private set; }
-        public CourseDuration Duration { get; private set; }
+        public CourseId Id { get; }
+        public CourseName Name { get; }
+        public CourseDuration Duration { get; }
 
         public Course(CourseId id, CourseName name, CourseDuration duration)
         {
@@ -23,7 +23,7 @@ namespace CodelyTv.Mooc.Courses.Domain
 
         public static Course Create(CourseId id, CourseName name, CourseDuration duration)
         {
-            Course course = new Course(id, name, duration);
+            var course = new Course(id, name, duration);
 
             course.Record(new CourseCreatedDomainEvent(id.Value, name.Value, duration.Value));
 
@@ -37,12 +37,12 @@ namespace CodelyTv.Mooc.Courses.Domain
             var item = obj as Course;
             if (item == null) return false;
 
-            return this.Id.Equals(item.Id) && this.Name.Equals(item.Name) && this.Duration.Equals(item.Duration);
+            return Id.Equals(item.Id) && Name.Equals(item.Name) && Duration.Equals(item.Duration);
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(this.Id, this.Name, this.Duration);
+            return HashCode.Combine(Id, Name, Duration);
         }
     }
 }

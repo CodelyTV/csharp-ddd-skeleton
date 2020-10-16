@@ -1,9 +1,9 @@
+using System;
+using System.Collections.Generic;
+using CodelyTv.Shared.Domain.ValueObject;
+
 namespace CodelyTv.Shared.Domain.Bus.Event
 {
-    using System;
-    using System.Collections.Generic;
-    using ValueObject;
-
     public abstract class DomainEvent
     {
         public string AggregateId { get; }
@@ -23,6 +23,8 @@ namespace CodelyTv.Shared.Domain.Bus.Event
 
         public abstract string EventName();
         public abstract Dictionary<string, string> ToPrimitives();
-        public abstract DomainEvent FromPrimitives(string aggregateId, Dictionary<string, string> body, string eventId, string occurredOn);
+
+        public abstract DomainEvent FromPrimitives(string aggregateId, Dictionary<string, string> body, string eventId,
+            string occurredOn);
     }
 }

@@ -1,13 +1,13 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using CodelyTv.Shared.Domain.Bus.Event;
+using CodelyTv.Shared.Infrastructure.Bus.Event;
+using Microsoft.Extensions.DependencyInjection;
+
 namespace CodelyTv.Shared
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Reflection;
-    using Domain.Bus.Event;
-    using Infrastructure.Bus.Event;
-    using Microsoft.Extensions.DependencyInjection;
-
     public static class DomainEventSubscriberInformationService
     {
         public static IServiceCollection AddDomainEventSubscriberInformationService(this IServiceCollection services,
@@ -45,12 +45,10 @@ namespace CodelyTv.Shared
             if (eventType == null) return;
 
             foreach (var handlerClassType in handlerClassTypes)
-            {
                 information.Add(handlerClassType,
                     new DomainEventSubscriberInformation(handlerClassType, eventType));
-            }
         }
-        
+
         private static IEnumerable<Type> GetLoadableTypes(this Assembly assembly)
         {
             try

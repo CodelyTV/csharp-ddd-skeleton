@@ -1,14 +1,14 @@
+using System;
+using System.Collections.Generic;
+using CodelyTv.Apps.Backoffice.Frontend.Extension.DependencyInjection;
+using CodelyTv.Shared;
+using CodelyTv.Shared.Cli;
+using CodelyTv.Shared.Helpers;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+
 namespace CodelyTv.Apps.Backoffice.Frontend.Command
 {
-    using System;
-    using System.Collections.Generic;
-    using CodelyTv.Apps.Backoffice.Frontend.Extension.DependencyInjection;
-    using CodelyTv.Shared;
-    using CodelyTv.Shared.Cli;
-    using CodelyTv.Shared.Helpers;
-    using Microsoft.Extensions.Configuration;
-    using Microsoft.Extensions.DependencyInjection;
-
     public class BackofficeFrontendCommandBuilder : CommandBuilder<BackofficeFrontendCommandBuilder>
     {
         protected BackofficeFrontendCommandBuilder(string[] args) : base(args,

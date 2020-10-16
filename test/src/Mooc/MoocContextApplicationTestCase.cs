@@ -1,16 +1,16 @@
+using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
+using CodelyTv.Apps.Mooc.Backend;
+using CodelyTv.Shared.Domain.Bus.Event;
+using CodelyTv.Shared.Infrastructure.Bus.Event;
+using Microsoft.Extensions.DependencyInjection;
+using Xunit;
+
 namespace CodelyTv.Test.Mooc
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Net.Http;
-    using System.Text;
-    using System.Threading.Tasks;
-    using Apps.Mooc.Backend;
-    using CodelyTv.Shared.Domain.Bus.Event;
-    using CodelyTv.Shared.Infrastructure.Bus.Event;
-    using Microsoft.Extensions.DependencyInjection;
-    using Xunit;
-
     public class MoocContextApplicationTestCase : IClassFixture<MoocWebApplicationFactory<Startup>>
     {
         private readonly MoocWebApplicationFactory<Startup> _factory;

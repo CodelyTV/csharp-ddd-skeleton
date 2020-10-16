@@ -1,27 +1,27 @@
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading.Tasks;
+using CodelyTv.Apps.Mooc.Backend;
+using CodelyTv.Shared.Domain.Bus.Event;
+using CodelyTv.Shared.Domain.Courses.Domain;
+using CodelyTv.Test.Mooc;
+using Xunit;
+
 namespace MoocTest.apps.Backend.Controller.CoursesCounter
 {
-    using System.Collections.Generic;
-    using System.Net.Http;
-    using System.Threading.Tasks;
-    using CodelyTv.Apps.Mooc.Backend;
-    using CodelyTv.Shared.Domain.Bus.Event;
-    using CodelyTv.Shared.Domain.Courses;
-    using CodelyTv.Test.Mooc;
-    using Xunit;
-
     public class CoursesCounterGetControllerShould : MoocContextApplicationTestCase
     {
         public CoursesCounterGetControllerShould(MoocWebApplicationFactory<Startup> factory) : base(factory)
         {
             CreateAnonymousClient();
         }
-        
+
         [Fact]
         public async Task get_the_counter_with_one_course()
         {
             await GivenISendEventsToTheBus(new List<DomainEvent>
                 {
-                    new CourseCreatedDomainEvent("8f34bc99-e0e2-4296-a008-75f51f03aeb4", "DDD en Java", "7 days"),
+                    new CourseCreatedDomainEvent("8f34bc99-e0e2-4296-a008-75f51f03aeb4", "DDD en Java", "7 days")
                 }
             );
 

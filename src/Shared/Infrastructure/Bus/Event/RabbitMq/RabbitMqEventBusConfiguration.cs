@@ -1,15 +1,15 @@
+using System;
+using System.Collections.Generic;
+using RabbitMQ.Client;
+
 namespace CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq
 {
-    using System;
-    using System.Collections.Generic;
-    using RabbitMQ.Client;
-
     public class RabbitMqEventBusConfiguration : IEventBusConfiguration
     {
-        private readonly DomainEventSubscribersInformation _domainEventSubscribersInformation;
         private readonly RabbitMqConfig _config;
 
         private readonly string _domainEventExchange;
+        private readonly DomainEventSubscribersInformation _domainEventSubscribersInformation;
 
         public RabbitMqEventBusConfiguration(DomainEventSubscribersInformation domainEventSubscribersInformation,
             RabbitMqConfig config, string domainEventExchange = "domain_events")
@@ -37,19 +37,19 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq
                 var deadLetterQueueName = RabbitMqQueueNameFormatter.FormatDeadLetter(subscriberInformation);
                 var subscribedEvent = EventNameSubscribed(subscriberInformation);
 
-                var queue = channel.QueueDeclare(queue: domainEventsQueueName,
-                    durable: true,
-                    exclusive: false,
-                    autoDelete: false);
+                var queue = channel.QueueDeclare(domainEventsQueueName,
+                    true,
+                    false,
+                    false);
 
-                var retryQueue = channel.QueueDeclare(queue: retryQueueName, (bool) true,
-                    (bool) false,
-                    (bool) false,
-                    (IDictionary<string, object>) RetryQueueArguments(_domainEventExchange, domainEventsQueueName));
+                var retryQueue = channel.QueueDeclare(retryQueueName, true,
+                    false,
+                    false,
+                    RetryQueueArguments(_domainEventExchange, domainEventsQueueName));
 
-                var deadLetterQueue = channel.QueueDeclare(queue: deadLetterQueueName, durable: true,
-                    exclusive: false,
-                    autoDelete: false);
+                var deadLetterQueue = channel.QueueDeclare(deadLetterQueueName, true,
+                    false,
+                    false);
 
                 channel.QueueBind(queue, _domainEventExchange, domainEventsQueueName);
                 channel.QueueBind(retryQueue, retryDomainEventExchange, domainEventsQueueName);

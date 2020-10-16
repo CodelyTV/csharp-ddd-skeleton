@@ -1,16 +1,16 @@
+using System;
+using System.IO;
+using System.Linq;
+using CodelyTv.Apps.Backoffice.Frontend.Command;
+using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+
 namespace CodelyTv.Apps.Backoffice.Frontend
 {
-    using System;
-    using System.IO;
-    using System.Linq;
-    using CodelyTv.Apps.Backoffice.Frontend.Command;
-    using Microsoft.AspNetCore;
-    using Microsoft.AspNetCore.Hosting;
-    using Microsoft.Extensions.Configuration;
-
     public class Program
     {
-         public static void Main(string[] args)
+        public static void Main(string[] args)
         {
             if (!args.Any()) CreateWebHostBuilder(args).Build().Run();
 
@@ -22,12 +22,12 @@ namespace CodelyTv.Apps.Backoffice.Frontend
             return WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>();
         }
-        
+
         private static IConfigurationRoot Configuration()
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(Path.Combine(AppContext.BaseDirectory))
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+                .AddJsonFile("appsettings.json", true, true);
 
             return builder.Build();
         }

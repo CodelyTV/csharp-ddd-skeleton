@@ -1,8 +1,8 @@
+using System.Threading.Tasks;
+using CodelyTv.Backoffice.Courses.Domain;
+
 namespace CodelyTv.Backoffice.Courses.Application.Create
 {
-    using System.Threading.Tasks;
-    using CodelyTv.Backoffice.Courses.Domain;
-
     public class BackofficeCourseCreator
     {
         private readonly IBackofficeCourseRepository _repository;
@@ -14,7 +14,7 @@ namespace CodelyTv.Backoffice.Courses.Application.Create
 
         public async Task Create(string id, string name, string duration)
         {
-            await this._repository.Save(new BackofficeCourse(id, name, duration));
+            await _repository.Save(new BackofficeCourse(id, name, duration));
         }
     }
 }

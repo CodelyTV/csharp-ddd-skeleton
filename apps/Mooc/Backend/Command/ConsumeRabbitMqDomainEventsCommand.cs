@@ -1,11 +1,11 @@
+using CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq;
+
 namespace CodelyTv.Apps.Mooc.Backend.Command
 {
-    using Shared.Cli;
-    using Shared.Infrastructure.Bus.Event.RabbitMq;
-
-    public class ConsumeRabbitMqDomainEventsCommand : Command
+    public class ConsumeRabbitMqDomainEventsCommand : Shared.Cli.Command
     {
         private readonly RabbitMqDomainEventsConsumer _consumer;
+
         public ConsumeRabbitMqDomainEventsCommand(RabbitMqDomainEventsConsumer consumer)
         {
             _consumer = consumer;

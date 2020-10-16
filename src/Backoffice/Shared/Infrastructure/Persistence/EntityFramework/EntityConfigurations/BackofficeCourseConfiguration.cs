@@ -1,10 +1,10 @@
+using CodelyTv.Backoffice.Courses.Domain;
+using CodelyTv.Shared.Infrastructure.Persistence.EntityFramework.Extension;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
 namespace CodelyTv.Backoffice.Shared.Infrastructure.Persistence.EntityFramework.EntityConfigurations
 {
-    using CodelyTv.Backoffice.Courses.Domain;
-    using CodelyTv.Shared.Infrastructure.Persistence.EntityFramework.Extension;
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.EntityFrameworkCore.Metadata.Builders;
-
     public class BackofficeCourseConfiguration : IEntityTypeConfiguration<BackofficeCourse>
     {
         public void Configure(EntityTypeBuilder<BackofficeCourse> builder)

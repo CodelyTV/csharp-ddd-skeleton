@@ -1,30 +1,28 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+
 namespace CodelyTv.Shared.Domain.ValueObject
 {
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel;
-
     public class Uuid : ValueObject
     {
         public string Value { get; }
 
         public Uuid(string value)
         {
-            this.EnsureIsValidUuid(value);
+            EnsureIsValidUuid(value);
             Value = value;
         }
 
         private void EnsureIsValidUuid(string value)
         {
             if (!Guid.TryParse(value, out var Uuid))
-            {
                 throw new InvalidEnumArgumentException($"{value} is not a valid GUID");
-            }
         }
 
         public override string ToString()
         {
-            return this.Value;
+            return Value;
         }
 
         public static Uuid Random()
@@ -49,7 +47,7 @@ namespace CodelyTv.Shared.Domain.ValueObject
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(this.Value);
+            return HashCode.Combine(Value);
         }
     }
 }

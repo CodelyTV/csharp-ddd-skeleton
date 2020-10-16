@@ -1,25 +1,25 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Threading.Tasks;
+using CodelyTv.Shared.Domain;
+using CodelyTv.Shared.Domain.Bus.Event;
+using Microsoft.Extensions.DependencyInjection;
+using RabbitMQ.Client;
+using RabbitMQ.Client.Events;
+
 namespace CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
-    using System.Threading.Tasks;
-    using Domain;
-    using Domain.Bus.Event;
-    using Microsoft.Extensions.DependencyInjection;
-    using RabbitMQ.Client;
-    using RabbitMQ.Client.Events;
-
     public class RabbitMqDomainEventsConsumer : IDomainEventsConsumer
     {
-        private DomainEventSubscribersInformation _information;
+        private const int MaxRetries = 2;
+        private const string HeaderRedelivery = "redelivery_count";
         private readonly RabbitMqConfig _config;
         private readonly DomainEventJsonDeserializer _deserializer;
         private readonly IServiceProvider _serviceProvider;
 
-        private Dictionary<string, object> DomainEventSubscribers = new Dictionary<string, object>();
-        private const int MaxRetries = 2;
-        private const string HeaderRedelivery = "redelivery_count";
+        private readonly Dictionary<string, object> DomainEventSubscribers = new Dictionary<string, object>();
+        private DomainEventSubscribersInformation _information;
 
         public RabbitMqDomainEventsConsumer(
             DomainEventSubscribersInformation information,
@@ -45,16 +45,16 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq
 
             DeclareQueue(channel, queue);
 
-            channel.BasicQos(prefetchSize: 0, prefetchCount: prefetchCount, global: false);
+            channel.BasicQos(0, prefetchCount, false);
             var scope = _serviceProvider.CreateScope();
             var consumer = new EventingBasicConsumer(channel);
             consumer.Received += async (model, ea) =>
             {
                 var body = ea.Body;
                 var message = Encoding.UTF8.GetString(body);
-                var @event = this._deserializer.Deserialize(message);
+                var @event = _deserializer.Deserialize(message);
 
-                object subscriber = DomainEventSubscribers.ContainsKey(queue)
+                var subscriber = DomainEventSubscribers.ContainsKey(queue)
                     ? DomainEventSubscribers[queue]
                     : SubscribeFor(queue, scope);
 
@@ -67,15 +67,15 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq
                     HandleConsumptionError(ea, @event, queue);
                 }
 
-                channel.BasicAck(deliveryTag: ea.DeliveryTag, multiple: false);
+                channel.BasicAck(ea.DeliveryTag, false);
             };
 
-            string consumerId = channel.BasicConsume(queue: queue, autoAck: false, consumer: consumer);
+            var consumerId = channel.BasicConsume(queue, false, consumer);
         }
 
         public void WithSubscribersInformation(DomainEventSubscribersInformation information)
         {
-            this._information = information;
+            _information = information;
         }
 
         private object SubscribeFor(string queue, IServiceScope scope)
@@ -83,19 +83,19 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq
             var queueParts = queue.Split(".");
             var subscriberName = queueParts[^1].ToCamelFirstUpper();
 
-            Type t = ReflectionHelper.GetType(subscriberName);
+            var t = ReflectionHelper.GetType(subscriberName);
 
-            Object subscriber = scope.ServiceProvider.GetRequiredService(t);
-            this.DomainEventSubscribers.Add(queue, subscriber);
+            var subscriber = scope.ServiceProvider.GetRequiredService(t);
+            DomainEventSubscribers.Add(queue, subscriber);
             return subscriber;
         }
 
         private void DeclareQueue(IModel channel, string queue)
         {
-            channel.QueueDeclare(queue: queue,
-                durable: true,
-                exclusive: false,
-                autoDelete: false
+            channel.QueueDeclare(queue,
+                true,
+                false,
+                false
             );
         }
 
@@ -125,7 +125,7 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq
         private void SendMessageTo(string exchange, BasicDeliverEventArgs ea, string queue)
         {
             var channel = _config.Channel();
-            channel.ExchangeDeclare(exchange: exchange, type: ExchangeType.Topic);
+            channel.ExchangeDeclare(exchange, ExchangeType.Topic);
 
             var body = ea.Body;
             var properties = ea.BasicProperties;
@@ -133,10 +133,10 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq
             headers[HeaderRedelivery] = (int) headers[HeaderRedelivery] + 1;
             properties.Headers = headers;
 
-            channel.BasicPublish(exchange: exchange,
-                routingKey: queue,
-                basicProperties: properties,
-                body: body);
+            channel.BasicPublish(exchange,
+                queue,
+                properties,
+                body);
         }
     }
 }

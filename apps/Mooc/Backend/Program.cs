@@ -1,13 +1,13 @@
-﻿namespace CodelyTv.Apps.Mooc.Backend
-{
-    using System;
-    using System.IO;
-    using System.Linq;
-    using CodelyTv.Apps.Mooc.Backend.Command;
-    using Microsoft.AspNetCore;
-    using Microsoft.AspNetCore.Hosting;
-    using Microsoft.Extensions.Configuration;
+﻿using System;
+using System.IO;
+using System.Linq;
+using CodelyTv.Apps.Mooc.Backend.Command;
+using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 
+namespace CodelyTv.Apps.Mooc.Backend
+{
     public static class Program
     {
         public static void Main(string[] args)
@@ -22,12 +22,12 @@
             return WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>();
         }
-        
+
         private static IConfigurationRoot Configuration()
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(Path.Combine(AppContext.BaseDirectory))
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+                .AddJsonFile("appsettings.json", true, true);
 
             return builder.Build();
         }

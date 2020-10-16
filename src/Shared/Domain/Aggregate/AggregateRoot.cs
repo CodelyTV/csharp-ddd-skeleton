@@ -1,15 +1,15 @@
+using System.Collections.Generic;
+using CodelyTv.Shared.Domain.Bus.Event;
+
 namespace CodelyTv.Shared.Domain.Aggregate
 {
-    using System.Collections.Generic;
-    using Bus.Event;
-
     public abstract class AggregateRoot
     {
         private List<DomainEvent> _domainEvents = new List<DomainEvent>();
 
         public List<DomainEvent> PullDomainEvents()
         {
-            List<DomainEvent> events = _domainEvents;
+            var events = _domainEvents;
 
             _domainEvents = new List<DomainEvent>();
 
@@ -18,7 +18,7 @@ namespace CodelyTv.Shared.Domain.Aggregate
 
         protected void Record(DomainEvent domainEvent)
         {
-            this._domainEvents.Add(domainEvent);
+            _domainEvents.Add(domainEvent);
         }
     }
 }

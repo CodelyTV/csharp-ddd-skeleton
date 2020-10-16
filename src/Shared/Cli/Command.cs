@@ -1,7 +1,7 @@
+using System;
+
 namespace CodelyTv.Shared.Cli
 {
-    using System;
-
     public abstract class Command
     {
         private const string AnsiReset = "\u001B[0m";

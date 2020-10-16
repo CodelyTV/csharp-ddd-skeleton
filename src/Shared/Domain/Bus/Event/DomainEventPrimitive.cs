@@ -1,7 +1,7 @@
+using System.Collections.Generic;
+
 namespace CodelyTv.Shared.Domain.Bus.Event
 {
-    using System.Collections.Generic;
-
     public class DomainEventPrimitive
     {
         public string Id { get; set; }

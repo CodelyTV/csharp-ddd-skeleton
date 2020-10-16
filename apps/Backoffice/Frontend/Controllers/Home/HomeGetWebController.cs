@@ -1,7 +1,7 @@
+using Microsoft.AspNetCore.Mvc;
+
 namespace CodelyTv.Apps.Backoffice.Frontend.Controllers.Home
 {
-    using Microsoft.AspNetCore.Mvc;
-
     public class HomeGetWebController : Controller
     {
         public IActionResult Index()

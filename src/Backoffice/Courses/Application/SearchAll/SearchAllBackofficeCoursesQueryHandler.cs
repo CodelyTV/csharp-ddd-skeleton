@@ -3,7 +3,9 @@ using CodelyTv.Shared.Domain.Bus.Query;
 
 namespace CodelyTv.Backoffice.Courses.Application.SearchAll
 {
-    public class SearchAllBackofficeCoursesQueryHandler : IQueryHandler<SearchAllBackofficeCoursesQuery, BackofficeCoursesResponse>
+    public class
+        SearchAllBackofficeCoursesQueryHandler : IQueryHandler<SearchAllBackofficeCoursesQuery,
+            BackofficeCoursesResponse>
     {
         private readonly AllBackofficeCoursesSearcher _searcher;
 

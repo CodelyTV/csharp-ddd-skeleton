@@ -1,14 +1,14 @@
+using System;
+using System.Net.Http;
+using CodelyTv.Mooc.Shared.Infrastructure.Persistence.EntityFramework;
+using CodelyTv.Shared.Domain.Bus.Event;
+using CodelyTv.Shared.Infrastructure.Bus.Event;
+using CodelyTv.Test.Shared.Infrastructure;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+
 namespace CodelyTv.Test.Mooc
 {
-    using System;
-    using System.Net.Http;
-    using CodelyTv.Mooc.Shared.Infrastructure.Persistence.EntityFramework;
-    using CodelyTv.Shared.Domain.Bus.Event;
-    using CodelyTv.Shared.Infrastructure.Bus.Event;
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.Extensions.DependencyInjection;
-    using Test.Shared.Infrastructure;
-
     public class MoocWebApplicationFactory<TStartup> : ApplicationTestCase<TStartup> where TStartup : class
     {
         private string _databaseName;
@@ -21,7 +21,7 @@ namespace CodelyTv.Test.Mooc
 
         private void SetDatabaseName()
         {
-            this._databaseName = Guid.NewGuid().ToString();
+            _databaseName = Guid.NewGuid().ToString();
         }
 
         protected override Action<IServiceCollection> Services()

@@ -1,22 +1,22 @@
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using CodelyTv.Shared.Domain.Bus.Event;
+using CodelyTv.Shared.Domain.Courses.Domain;
+using CodelyTv.Shared.Infrastructure.Bus.Event;
+using CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq;
+using CodelyTv.Test.Mooc.Courses.Domain;
+using RabbitMQ.Client;
+using Xunit;
+
 namespace CodelyTv.Test.Mooc.Shared.Infrastructure.Bus.Event.RabbitMq
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-    using CodelyTv.Shared.Domain.Bus.Event;
-    using CodelyTv.Shared.Domain.Courses;
-    using CodelyTv.Shared.Infrastructure.Bus.Event;
-    using CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq;
-    using CodelyTv.Test.Mooc.Courses.Domain;
-    using RabbitMQ.Client;
-    using Xunit;
-
     public class RabbitMqEventBusShould : MoocContextInfrastructureTestCase
     {
+        private const string TestDomainEvents = "test_domain_events";
         private readonly RabbitMqEventBus _bus;
         private readonly RabbitMqDomainEventsConsumer _consumer;
         private readonly TestAllWorksOnRabbitMqEventsPublished _subscriber;
-        private const string TestDomainEvents = "test_domain_events";
 
         public RabbitMqEventBusShould()
         {
@@ -40,9 +40,9 @@ namespace CodelyTv.Test.Mooc.Shared.Infrastructure.Bus.Event.RabbitMq
         [Fact]
         public async Task PublishDomainEventFromRabbitMq()
         {
-            CourseCreatedDomainEvent domainEvent = CourseCreatedDomainEventMother.Random();
+            var domainEvent = CourseCreatedDomainEventMother.Random();
 
-            await _bus.Publish(new List<DomainEvent>() {domainEvent});
+            await _bus.Publish(new List<DomainEvent> {domainEvent});
 
             await _consumer.Consume();
 
@@ -52,7 +52,7 @@ namespace CodelyTv.Test.Mooc.Shared.Infrastructure.Bus.Event.RabbitMq
         private static DomainEventSubscribersInformation FakeSubscriber()
         {
             return new DomainEventSubscribersInformation(
-                new Dictionary<Type, DomainEventSubscriberInformation>()
+                new Dictionary<Type, DomainEventSubscriberInformation>
                 {
                     {
                         typeof(TestAllWorksOnRabbitMqEventsPublished),
@@ -70,10 +70,10 @@ namespace CodelyTv.Test.Mooc.Shared.Infrastructure.Bus.Event.RabbitMq
             foreach (var subscriberInformation in domainEventSubscribersInformation.All())
             {
                 var domainEventsQueueName = RabbitMqQueueNameFormatter.Format(subscriberInformation);
-                var queue = channel.QueueDeclare(queue: domainEventsQueueName,
-                    durable: true,
-                    exclusive: false,
-                    autoDelete: false);
+                var queue = channel.QueueDeclare(domainEventsQueueName,
+                    true,
+                    false,
+                    false);
                 dynamic domainEvent = Activator.CreateInstance(subscriberInformation.SubscribedEvent);
                 channel.QueueBind(queue, TestDomainEvents, (string) domainEvent.EventName());
             }
@@ -84,9 +84,7 @@ namespace CodelyTv.Test.Mooc.Shared.Infrastructure.Bus.Event.RabbitMq
             channel.ExchangeDelete(TestDomainEvents);
 
             foreach (var domainEventSubscriberInformation in information.All())
-            {
                 channel.QueueDelete(RabbitMqQueueNameFormatter.Format(domainEventSubscriberInformation));
-            }
         }
     }
 }

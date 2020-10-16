@@ -1,9 +1,9 @@
+using CodelyTv.Backoffice.Courses.Domain;
+using CodelyTv.Backoffice.Shared.Infrastructure.Persistence.EntityFramework.EntityConfigurations;
+using Microsoft.EntityFrameworkCore;
+
 namespace CodelyTv.Backoffice.Shared.Infrastructure.Persistence.EntityFramework
 {
-    using CodelyTv.Backoffice.Courses.Domain;
-    using CodelyTv.Backoffice.Shared.Infrastructure.Persistence.EntityFramework.EntityConfigurations;
-    using Microsoft.EntityFrameworkCore;
-
     public class BackofficeContext : DbContext
     {
         public DbSet<BackofficeCourse> BackofficeCourses { get; set; }

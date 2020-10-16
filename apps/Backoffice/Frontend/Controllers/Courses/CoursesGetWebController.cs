@@ -1,16 +1,16 @@
+using System;
+using System.Threading.Tasks;
+using CodelyTv.Mooc.CoursesCounters.Application.Find;
+using CodelyTv.Shared.Domain.Bus.Query;
+using Microsoft.AspNetCore.Mvc;
+
 namespace CodelyTv.Apps.Backoffice.Frontend.Controllers.Courses
 {
-    using System;
-    using System.Threading.Tasks;
-    using CodelyTv.Mooc.CoursesCounter.Application.Find;
-    using CodelyTv.Shared.Domain.Bus.Query;
-    using Microsoft.AspNetCore.Mvc;
-
     [Route("Courses")]
     public class CoursesGetWebController : Controller
     {
-        private readonly IQueryBus _bus;
         private const string VIEW = "Views/Courses/Index.cshtml";
+        private readonly IQueryBus _bus;
 
         public CoursesGetWebController(IQueryBus bus)
         {
@@ -20,7 +20,7 @@ namespace CodelyTv.Apps.Backoffice.Frontend.Controllers.Courses
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            CoursesCounterResponse counterResponse =
+            var counterResponse =
                 await _bus.Ask<CoursesCounterResponse>(new FindCoursesCounterQuery());
 
             ViewBag.Title = "Welcome";

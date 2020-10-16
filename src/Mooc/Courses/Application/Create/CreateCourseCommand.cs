@@ -1,7 +1,7 @@
+using CodelyTv.Shared.Domain.Bus.Command;
+
 namespace CodelyTv.Mooc.Courses.Application.Create
 {
-    using CodelyTv.Shared.Domain.Bus.Command;
-
     public class CreateCourseCommand : Command
     {
         public string Id { get; }

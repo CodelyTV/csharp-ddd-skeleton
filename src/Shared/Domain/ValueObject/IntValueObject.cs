@@ -1,12 +1,12 @@
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+
 namespace CodelyTv.Shared.Domain.ValueObject
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Globalization;
-
     public class IntValueObject : ValueObject
     {
-        public int Value { get; private set; }
+        public int Value { get; }
 
         public IntValueObject(int value)
         {
@@ -15,7 +15,7 @@ namespace CodelyTv.Shared.Domain.ValueObject
 
         public override string ToString()
         {
-            return this.Value.ToString(NumberFormatInfo.InvariantInfo);
+            return Value.ToString(NumberFormatInfo.InvariantInfo);
         }
 
         protected override IEnumerable<object> GetAtomicValues()
@@ -30,12 +30,12 @@ namespace CodelyTv.Shared.Domain.ValueObject
             var item = obj as IntValueObject;
             if (item == null) return false;
 
-            return this.Value == item.Value;
+            return Value == item.Value;
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(this.Value);
+            return HashCode.Combine(Value);
         }
     }
 }

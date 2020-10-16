@@ -1,13 +1,13 @@
-﻿namespace CodelyTv.Apps.Mooc.Backend
-{
-    using CodelyTv.Apps.Mooc.Backend.Extension.DependencyInjection;
-    using CodelyTv.Shared.Infrastructure.Bus.Event;
-    using Microsoft.AspNetCore.Builder;
-    using Microsoft.AspNetCore.Hosting;
-    using Microsoft.Extensions.Configuration;
-    using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Hosting;
+﻿using CodelyTv.Apps.Mooc.Backend.Extension.DependencyInjection;
+using CodelyTv.Shared.Infrastructure.Bus.Event;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
+namespace CodelyTv.Apps.Mooc.Backend
+{
     public class Startup
     {
         private readonly IConfiguration _configuration;

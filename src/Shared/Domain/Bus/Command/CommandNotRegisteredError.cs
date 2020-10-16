@@ -1,7 +1,7 @@
+using System;
+
 namespace CodelyTv.Shared.Domain.Bus.Command
 {
-    using System;
-
     public class CommandNotRegisteredError : Exception
     {
         public CommandNotRegisteredError(Command command) : base(

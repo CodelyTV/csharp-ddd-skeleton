@@ -1,17 +1,17 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using CodelyTv.Shared.Domain.Bus.Event;
+
 namespace CodelyTv.Shared.Infrastructure.Bus.Event
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using Domain.Bus.Event;
-
     public class DomainEventsInformation
     {
-        private Dictionary<string, Type> IndexedDomainEvents = new Dictionary<string, Type>();
+        private readonly Dictionary<string, Type> IndexedDomainEvents = new Dictionary<string, Type>();
 
         public DomainEventsInformation()
         {
-            GetDomainTypes().ForEach(eventType => this.IndexedDomainEvents.Add(this.GetEventName(eventType), eventType));
+            GetDomainTypes().ForEach(eventType => IndexedDomainEvents.Add(GetEventName(eventType), eventType));
         }
 
         public Type ForName(string name)
@@ -28,7 +28,7 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event
 
         private string GetEventName(Type eventType)
         {
-            DomainEvent instance = (DomainEvent) Activator.CreateInstance(eventType);
+            var instance = (DomainEvent) Activator.CreateInstance(eventType);
             return eventType.GetMethod("EventName").Invoke(instance, null).ToString();
         }
 

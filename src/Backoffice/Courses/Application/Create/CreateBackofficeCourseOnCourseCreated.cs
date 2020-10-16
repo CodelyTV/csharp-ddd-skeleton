@@ -1,9 +1,9 @@
+using System.Threading.Tasks;
+using CodelyTv.Shared.Domain.Bus.Event;
+using CodelyTv.Shared.Domain.Courses.Domain;
+
 namespace CodelyTv.Backoffice.Courses.Application.Create
 {
-    using System.Threading.Tasks;
-    using CodelyTv.Shared.Domain.Bus.Event;
-    using CodelyTv.Shared.Domain.Courses;
-
     public class CreateBackofficeCourseOnCourseCreated : IDomainEventSubscriber<CourseCreatedDomainEvent>
     {
         private readonly BackofficeCourseCreator _creator;
@@ -12,7 +12,7 @@ namespace CodelyTv.Backoffice.Courses.Application.Create
         {
             _creator = creator;
         }
-        
+
         public async Task On(CourseCreatedDomainEvent @event)
         {
             await _creator.Create(@event.AggregateId, @event.Name, @event.Duration);

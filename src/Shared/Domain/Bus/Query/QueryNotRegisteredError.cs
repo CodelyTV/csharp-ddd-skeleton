@@ -1,7 +1,7 @@
+using System;
+
 namespace CodelyTv.Shared.Domain.Bus.Query
 {
-    using System;
-
     public class QueryNotRegisteredError : Exception
     {
         public QueryNotRegisteredError(Query query) : base(

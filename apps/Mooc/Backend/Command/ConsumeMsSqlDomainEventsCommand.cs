@@ -1,10 +1,8 @@
+using CodelyTv.Shared.Infrastructure.Bus.Event.MsSql;
+
 namespace CodelyTv.Apps.Mooc.Backend.Command
 {
-    using Microsoft.Extensions.DependencyInjection;
-    using Shared.Cli;
-    using Shared.Infrastructure.Bus.Event.MsSql;
-
-    public class ConsumeMsSqlDomainEventsCommand : Command
+    public class ConsumeMsSqlDomainEventsCommand : Shared.Cli.Command
     {
         private readonly MsSqlDomainEventsConsumer _consumer;
 

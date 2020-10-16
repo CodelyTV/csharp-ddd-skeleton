@@ -1,8 +1,8 @@
+using CodelyTv.Backoffice.Courses.Domain;
+using Nest;
+
 namespace CodelyTv.Backoffice.Courses.Infrastructure.Persistence.Elasticsearch
 {
-    using CodelyTv.Backoffice.Courses.Domain;
-    using Nest;
-
     public static class BackofficeCourseElasticsearchDescriptor
     {
         public static CreateIndexDescriptor CreateBackofficeCourseDescriptor(this CreateIndexDescriptor descriptor)

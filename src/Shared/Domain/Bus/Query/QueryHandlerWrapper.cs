@@ -1,8 +1,8 @@
+using System;
+using System.Threading.Tasks;
+
 namespace CodelyTv.Shared.Domain.Bus.Query
 {
-    using System;
-    using System.Threading.Tasks;
-
     internal abstract class QueryHandlerWrapper<TResponse>
     {
         public abstract Task<TResponse> Handle(Query query, IServiceProvider provider);
@@ -13,7 +13,8 @@ namespace CodelyTv.Shared.Domain.Bus.Query
     {
         public override async Task<TResponse> Handle(Query query, IServiceProvider provider)
         {
-            var handler = (IQueryHandler<TQuery, TResponse>) provider.GetService(typeof(IQueryHandler<TQuery, TResponse>));
+            var handler =
+                (IQueryHandler<TQuery, TResponse>) provider.GetService(typeof(IQueryHandler<TQuery, TResponse>));
 
             return await handler.Handle((TQuery) query);
         }

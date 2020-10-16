@@ -1,14 +1,14 @@
+using System;
+using System.Collections.Generic;
+using CodelyTv.Apps.Mooc.Backend.Extension.DependencyInjection;
+using CodelyTv.Shared;
+using CodelyTv.Shared.Cli;
+using CodelyTv.Shared.Helpers;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+
 namespace CodelyTv.Apps.Mooc.Backend.Command
 {
-    using System;
-    using System.Collections.Generic;
-    using CodelyTv.Apps.Mooc.Backend.Extension.DependencyInjection;
-    using CodelyTv.Shared;
-    using CodelyTv.Shared.Cli;
-    using CodelyTv.Shared.Helpers;
-    using Microsoft.Extensions.Configuration;
-    using Microsoft.Extensions.DependencyInjection;
-
     public class MoocBackendCommandBuilder : CommandBuilder<MoocBackendCommandBuilder>
     {
         public MoocBackendCommandBuilder(string[] args) : base(args,

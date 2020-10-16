@@ -1,16 +1,16 @@
+using System.Collections.Generic;
+using System.Linq;
+using CodelyTv.Shared.Infrastructure.Persistence.EntityFramework.Extension;
+using Microsoft.EntityFrameworkCore;
+
 namespace CodelyTv.Test.Shared.Infrastructure.EntityFramework
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using CodelyTv.Shared.Infrastructure.Persistence.EntityFramework.Extension;
-    using Microsoft.EntityFrameworkCore;
-
     public class DatabaseCleaner
     {
         public void Invoke(DbContext context)
         {
-            var tables = this.Tables(context);
-            var truncateTablesSql = this.TruncateDatabaseSql(tables);
+            var tables = Tables(context);
+            var truncateTablesSql = TruncateDatabaseSql(tables);
             context.Database.ExecuteSqlCommand(truncateTablesSql);
         }
 

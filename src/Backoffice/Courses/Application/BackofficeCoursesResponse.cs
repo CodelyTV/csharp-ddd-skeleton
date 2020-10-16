@@ -1,7 +1,7 @@
+using System.Collections.Generic;
+
 namespace CodelyTv.Backoffice.Courses.Application
 {
-    using System.Collections.Generic;
-
     public class BackofficeCoursesResponse
     {
         public readonly IEnumerable<BackofficeCourseResponse> Courses;

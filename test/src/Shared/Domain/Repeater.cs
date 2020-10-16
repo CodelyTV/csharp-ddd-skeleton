@@ -1,9 +1,9 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
 namespace CodelyTv.Test.Shared.Domain
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-
     public class Repeater<T>
     {
         private static IEnumerable<T> Repeat(Func<T> method, int quantity)

@@ -1,24 +1,19 @@
+using System;
+using CodelyTv.Shared.Domain;
+
 namespace CodelyTv.Shared.Infrastructure.Bus.Event
 {
-    using System;
-    using Domain;
-
     public class DomainEventSubscriberInformation
     {
         private readonly Type _subscriberClass;
-        public Type SubscribedEvent { get; private set; }
 
-        public DomainEventSubscriberInformation(Type subscriberClass, Type subscribedEvent)
-        {
-            SubscribedEvent = subscribedEvent;
-            _subscriberClass = subscriberClass;
-        }
+        public Type SubscribedEvent { get; }
 
         public string ContextName
         {
             get
             {
-                string[] nameParts = _subscriberClass.FullName?.Split(".");
+                var nameParts = _subscriberClass.FullName?.Split(".");
                 return nameParts?[1];
             }
         }
@@ -27,7 +22,7 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event
         {
             get
             {
-                string[] nameParts = _subscriberClass.FullName?.Split(".");
+                var nameParts = _subscriberClass.FullName?.Split(".");
                 return nameParts?[2];
             }
         }
@@ -36,14 +31,20 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event
         {
             get
             {
-                string[] nameParts = _subscriberClass.FullName?.Split(".");
+                var nameParts = _subscriberClass.FullName?.Split(".");
                 return nameParts?[^1];
             }
         }
 
+        public DomainEventSubscriberInformation(Type subscriberClass, Type subscribedEvent)
+        {
+            SubscribedEvent = subscribedEvent;
+            _subscriberClass = subscriberClass;
+        }
+
         public string FormatRabbitMqQueueName()
         {
-            return $"codelytv.{this.ContextName.ToSnake()}.{this.ModuleName.ToSnake()}.{this.ClassName.ToSnake()}";
+            return $"codelytv.{ContextName.ToSnake()}.{ModuleName.ToSnake()}.{ClassName.ToSnake()}";
         }
     }
 }

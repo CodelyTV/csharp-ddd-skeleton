@@ -1,18 +1,15 @@
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Dynamic.Core;
+using CodelyTv.Shared.Domain.FiltersByCriteria;
+
 namespace CodelyTv.Shared.Infrastructure.Persistence.EntityFramework.Criteria
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Linq.Dynamic.Core;
-    using CodelyTv.Shared.Domain.FiltersByCriteria;
-
     public static class LinqBuilderByCriteria
     {
-        public static IQueryable<T> Where<T>(this IQueryable<T> collection, Criteria criteria)
+        public static IQueryable<T> Where<T>(this IQueryable<T> collection, Domain.FiltersByCriteria.Criteria criteria)
         {
-            if (criteria?.Filters == null || !criteria.Filters.Values.Any())
-            {
-                return collection;
-            }
+            if (criteria?.Filters == null || !criteria.Filters.Values.Any()) return collection;
 
             var queries = new List<string>();
             string query;
@@ -21,23 +18,18 @@ namespace CodelyTv.Shared.Infrastructure.Persistence.EntityFramework.Criteria
             {
                 query = GetQueryByFilter(filter);
 
-                if (!string.IsNullOrEmpty(query))
-                {
-                    queries.Add(query);
-                }
+                if (!string.IsNullOrEmpty(query)) queries.Add(query);
             }
 
             return collection.Where(string.Join(" && ", queries));
         }
 
         public static IQueryable<T> OrderBy<T>(this IQueryable<T> collection,
-            Criteria criteria)
+            Domain.FiltersByCriteria.Criteria criteria)
         {
             if (criteria == null || criteria.Order?.OrderBy?.Value == null ||
                 criteria.Order.OrderType == OrderType.NONE)
-            {
                 return collection;
-            }
 
             switch (criteria.Order.OrderType)
             {
@@ -51,23 +43,17 @@ namespace CodelyTv.Shared.Infrastructure.Persistence.EntityFramework.Criteria
         }
 
         public static IQueryable<T> Limit<T>(this IQueryable<T> collection,
-            Criteria criteria)
+            Domain.FiltersByCriteria.Criteria criteria)
         {
-            if (criteria?.Limit == null || criteria.Limit.Value == 0)
-            {
-                return collection;
-            }
+            if (criteria?.Limit == null || criteria.Limit.Value == 0) return collection;
 
             return collection.Take(criteria.Limit.GetValueOrDefault());
         }
 
         public static IQueryable<T> Offset<T>(this IQueryable<T> collection,
-            Criteria criteria)
+            Domain.FiltersByCriteria.Criteria criteria)
         {
-            if (criteria?.Offset == null)
-            {
-                return collection;
-            }
+            if (criteria?.Offset == null) return collection;
 
             return collection.Skip(criteria.Offset.GetValueOrDefault());
         }

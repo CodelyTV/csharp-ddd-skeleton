@@ -1,11 +1,11 @@
+using CodelyTv.Mooc.Courses.Domain;
+using CodelyTv.Mooc.CoursesCounters.Domain;
+using CodelyTv.Mooc.Shared.Infrastructure.Persistence.EntityFramework.EntityConfigurations;
+using CodelyTv.Shared.Domain.Bus.Event;
+using Microsoft.EntityFrameworkCore;
+
 namespace CodelyTv.Mooc.Shared.Infrastructure.Persistence.EntityFramework
 {
-    using CodelyTv.Shared.Domain.Bus.Event;
-    using Courses.Domain;
-    using CoursesCounter.Domain;
-    using EntityConfigurations;
-    using Microsoft.EntityFrameworkCore;
-
     public class MoocContext : DbContext
     {
         public DbSet<Course> Courses { get; set; }

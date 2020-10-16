@@ -1,13 +1,13 @@
+using System.Collections.Generic;
+using CodelyTv.Shared.Domain;
+using CodelyTv.Shared.Domain.Bus.Event;
+using CodelyTv.Shared.Infrastructure.Persistence.EntityFramework.Extension;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Newtonsoft.Json;
+
 namespace CodelyTv.Mooc.Shared.Infrastructure.Persistence.EntityFramework.EntityConfigurations
 {
-    using System.Collections.Generic;
-    using CodelyTv.Shared.Domain;
-    using CodelyTv.Shared.Domain.Bus.Event;
-    using CodelyTv.Shared.Infrastructure.Persistence.EntityFramework.Extension;
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.EntityFrameworkCore.Metadata.Builders;
-    using Newtonsoft.Json;
-
     public class DomainEventPrimitiveConfiguration : IEntityTypeConfiguration<DomainEventPrimitive>
     {
         public void Configure(EntityTypeBuilder<DomainEventPrimitive> builder)
@@ -22,7 +22,7 @@ namespace CodelyTv.Mooc.Shared.Infrastructure.Persistence.EntityFramework.Entity
 
             builder.Property(x => x.AggregateId)
                 .HasColumnName(nameof(DomainEventPrimitive.AggregateId).ToDatabaseFormat());
-            
+
             builder.Property(x => x.OccurredOn)
                 .HasConversion(v => Utils.StringToDate(v), v => Utils.DateToString(v))
                 .HasColumnName(nameof(DomainEventPrimitive.OccurredOn).ToDatabaseFormat());

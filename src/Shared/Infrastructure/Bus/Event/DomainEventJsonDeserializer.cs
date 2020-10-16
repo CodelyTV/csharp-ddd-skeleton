@@ -1,11 +1,11 @@
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using CodelyTv.Shared.Domain.Bus.Event;
+using Newtonsoft.Json;
+
 namespace CodelyTv.Shared.Infrastructure.Bus.Event
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Reflection;
-    using Domain.Bus.Event;
-    using Newtonsoft.Json;
-
     public class DomainEventJsonDeserializer
     {
         private readonly DomainEventsInformation information;
@@ -24,9 +24,9 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event
 
             var domainEventType = information.ForName((string) data["type"]);
 
-            DomainEvent instance = (DomainEvent) Activator.CreateInstance(domainEventType);
+            var instance = (DomainEvent) Activator.CreateInstance(domainEventType);
 
-            DomainEvent domainEvent = (DomainEvent) domainEventType
+            var domainEvent = (DomainEvent) domainEventType
                 .GetTypeInfo()
                 .GetDeclaredMethod(nameof(DomainEvent.FromPrimitives))
                 .Invoke(instance, new object[]

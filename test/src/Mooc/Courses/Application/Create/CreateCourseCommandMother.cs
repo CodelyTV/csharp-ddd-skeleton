@@ -1,9 +1,9 @@
+using CodelyTv.Mooc.Courses.Application.Create;
+using CodelyTv.Mooc.Courses.Domain;
+using CodelyTv.Test.Mooc.Courses.Domain;
+
 namespace CodelyTv.Test.Mooc.Courses.Application.Create
 {
-    using CodelyTv.Mooc.Courses.Application.Create;
-    using CodelyTv.Mooc.Courses.Domain;
-    using Domain;
-
     public static class CreateCourseCommandMother
     {
         public static CreateCourseCommand Create(CourseId id, CourseName name, CourseDuration duration)

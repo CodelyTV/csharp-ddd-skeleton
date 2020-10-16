@@ -1,8 +1,8 @@
+using System;
+using System.Collections.Generic;
+
 namespace CodelyTv.Shared.Domain.ValueObject
 {
-    using System;
-    using System.Collections.Generic;
-
     public class StringValueObject : ValueObject
     {
         public string Value { get; }
@@ -14,7 +14,7 @@ namespace CodelyTv.Shared.Domain.ValueObject
 
         public override string ToString()
         {
-            return this.Value;
+            return Value;
         }
 
         protected override IEnumerable<object> GetAtomicValues()
@@ -29,12 +29,12 @@ namespace CodelyTv.Shared.Domain.ValueObject
             var item = obj as StringValueObject;
             if (item == null) return false;
 
-            return this.Value == item.Value;
+            return Value == item.Value;
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(this.Value);
+            return HashCode.Combine(Value);
         }
     }
 }

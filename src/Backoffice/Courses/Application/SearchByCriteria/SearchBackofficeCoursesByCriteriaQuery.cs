@@ -1,8 +1,8 @@
+using System.Collections.Generic;
+using CodelyTv.Shared.Domain.Bus.Query;
+
 namespace CodelyTv.Backoffice.Courses.Application.SearchByCriteria
 {
-    using System.Collections.Generic;
-    using CodelyTv.Shared.Domain.Bus.Query;
-
     public class SearchBackofficeCoursesByCriteriaQuery : Query
     {
         public List<Dictionary<string, string>> Filters { get; }

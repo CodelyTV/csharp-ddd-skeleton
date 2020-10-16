@@ -1,16 +1,16 @@
+using CodelyTv.Mooc.Courses.Application.Create;
+using CodelyTv.Test.Mooc.Courses.Domain;
+using Xunit;
+
 namespace CodelyTv.Test.Mooc.Courses.Application.Create
 {
-    using CodelyTv.Mooc.Courses.Application.Create;
-    using Domain;
-    using Xunit;
-
     public class CreateCourseCommandHandlerShould : CoursesModuleUnitTestCase
     {
         private readonly CreateCourseCommandHandler _handler;
 
         public CreateCourseCommandHandlerShould()
         {
-            this._handler = new CreateCourseCommandHandler(new CourseCreator(Repository.Object, EventBus.Object));
+            _handler = new CreateCourseCommandHandler(new CourseCreator(Repository.Object, EventBus.Object));
         }
 
         [Fact]
@@ -20,10 +20,10 @@ namespace CodelyTv.Test.Mooc.Courses.Application.Create
             var course = CourseMother.FromRequest(command);
             var domainEvent = CourseCreatedDomainEventMother.FromCourse(course);
 
-            this._handler.Handle(command);
+            _handler.Handle(command);
 
-            this.ShouldHaveSave(course);
-            this.ShouldHavePublished(domainEvent);
+            ShouldHaveSave(course);
+            ShouldHavePublished(domainEvent);
         }
     }
 }

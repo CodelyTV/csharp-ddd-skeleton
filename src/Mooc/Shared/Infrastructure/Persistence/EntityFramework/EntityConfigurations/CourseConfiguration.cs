@@ -1,10 +1,10 @@
+using CodelyTv.Mooc.Courses.Domain;
+using CodelyTv.Shared.Infrastructure.Persistence.EntityFramework.Extension;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
 namespace CodelyTv.Mooc.Shared.Infrastructure.Persistence.EntityFramework.EntityConfigurations
 {
-    using CodelyTv.Shared.Infrastructure.Persistence.EntityFramework.Extension;
-    using Courses.Domain;
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.EntityFrameworkCore.Metadata.Builders;
-
     public class CourseConfiguration : IEntityTypeConfiguration<Course>
     {
         public void Configure(EntityTypeBuilder<Course> builder)

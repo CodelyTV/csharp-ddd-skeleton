@@ -1,18 +1,15 @@
+using System;
+using System.Collections.Generic;
+
 namespace CodelyTv.Test.Shared.Domain
 {
-    using System;
-    using System.Collections.Generic;
-
     public static class ListMother<T>
     {
         public static List<T> Create(int size, Func<T> creator)
         {
-            List<T> list = new List<T>();
+            var list = new List<T>();
 
-            for (int i = 0; i < size; i++)
-            {
-                list.Add(creator());
-            }
+            for (var i = 0; i < size; i++) list.Add(creator());
 
             return list;
         }
@@ -24,7 +21,7 @@ namespace CodelyTv.Test.Shared.Domain
 
         public static List<T> One(T element)
         {
-            return new List<T>() {element};
+            return new List<T> {element};
         }
     }
 }

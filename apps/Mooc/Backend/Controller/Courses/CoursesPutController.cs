@@ -1,14 +1,14 @@
+using System;
+using System.Threading.Tasks;
+using CodelyTv.Mooc.Courses.Application.Create;
+using CodelyTv.Shared.Domain.Bus.Command;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+
 namespace CodelyTv.Apps.Mooc.Backend.Controller.Courses
 {
-    using System;
-    using System.Threading.Tasks;
-    using CodelyTv.Mooc.Courses.Application.Create;
-    using Microsoft.AspNetCore.Mvc;
-    using Newtonsoft.Json;
-    using Shared.Domain.Bus.Command;
-
     [Route("courses")]
-    public class CoursesPutController : Controller
+    public class CoursesPutController : Microsoft.AspNetCore.Mvc.Controller
     {
         private readonly ICommandBus _bus;
 
@@ -22,7 +22,7 @@ namespace CodelyTv.Apps.Mooc.Backend.Controller.Courses
         {
             body = JsonConvert.DeserializeObject(Convert.ToString(body));
 
-            await this._bus.Dispatch(new CreateCourseCommand(id, body["name"].ToString(), body["duration"].ToString()));
+            await _bus.Dispatch(new CreateCourseCommand(id, body["name"].ToString(), body["duration"].ToString()));
 
             return StatusCode(201);
         }

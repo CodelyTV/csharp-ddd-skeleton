@@ -1,13 +1,13 @@
+using System.Collections.Generic;
+using System.Text;
+using RabbitMQ.Client;
+
 namespace CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq
 {
-    using System.Collections.Generic;
-    using System.Text;
-    using RabbitMQ.Client;
-
     public class RabbitMqPublisher
     {
-        private readonly RabbitMqConfig _config;
         private const string HeaderReDelivery = "redelivery_count";
+        private readonly RabbitMqConfig _config;
 
         public RabbitMqPublisher(RabbitMqConfig config)
         {
@@ -17,7 +17,7 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq
         public void Publish(string exchangeName, string eventName, string message)
         {
             var channel = _config.Channel();
-            channel.ExchangeDeclare(exchange: exchangeName, type: ExchangeType.Topic);
+            channel.ExchangeDeclare(exchangeName, ExchangeType.Topic);
 
             var body = Encoding.UTF8.GetBytes(message);
             var properties = channel.CreateBasicProperties();
@@ -26,10 +26,10 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq
                 {HeaderReDelivery, 0}
             };
 
-            channel.BasicPublish(exchange: exchangeName,
-                routingKey: eventName,
-                basicProperties: properties,
-                body: body);
+            channel.BasicPublish(exchangeName,
+                eventName,
+                properties,
+                body);
         }
     }
 }

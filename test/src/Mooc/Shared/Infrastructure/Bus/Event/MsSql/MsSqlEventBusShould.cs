@@ -1,12 +1,11 @@
+using System.Collections.Generic;
+using CodelyTv.Shared.Domain.Bus.Event;
+using CodelyTv.Shared.Infrastructure.Bus.Event.MsSql;
+using CodelyTv.Test.Mooc.Courses.Domain;
+using Xunit;
+
 namespace CodelyTv.Test.Mooc.Shared.Infrastructure.Bus.Event.MsSql
 {
-    using System.Collections.Generic;
-    using CodelyTv.Shared.Domain.Bus.Event;
-    using CodelyTv.Shared.Domain.Courses;
-    using CodelyTv.Shared.Infrastructure.Bus.Event.MsSql;
-    using CodelyTv.Test.Mooc.Courses.Domain;
-    using Xunit;
-
     public class MsSqlEventBusShould : MoocContextInfrastructureTestCase
     {
         [Fact]
@@ -14,9 +13,9 @@ namespace CodelyTv.Test.Mooc.Shared.Infrastructure.Bus.Event.MsSql
         {
             var bus = GetService<MsSqlEventBus>();
             var consumer = GetService<MsSqlDomainEventsConsumer>();
-            CourseCreatedDomainEvent domainEvent = CourseCreatedDomainEventMother.Random();
+            var domainEvent = CourseCreatedDomainEventMother.Random();
 
-            bus.Publish(new List<DomainEvent>() {domainEvent});
+            bus.Publish(new List<DomainEvent> {domainEvent});
             consumer.Consume();
         }
     }

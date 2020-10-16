@@ -15,7 +15,8 @@ namespace CodelyTv.Backoffice.Courses.Application.SearchAll
 
         public async Task<BackofficeCoursesResponse> Search()
         {
-            return new BackofficeCoursesResponse((await _repository.SearchAll()).Select(BackofficeCourseResponse.FromAggregate));
+            return new BackofficeCoursesResponse(
+                (await _repository.SearchAll()).Select(BackofficeCourseResponse.FromAggregate));
         }
     }
 }

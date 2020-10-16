@@ -1,9 +1,9 @@
+using System.Threading.Tasks;
+using CodelyTv.Mooc.Courses.Domain;
+using CodelyTv.Shared.Domain.Bus.Command;
+
 namespace CodelyTv.Mooc.Courses.Application.Create
 {
-    using System.Threading.Tasks;
-    using CodelyTv.Shared.Domain.Bus.Command;
-    using Domain;
-
     public class CreateCourseCommandHandler : ICommandHandler<CreateCourseCommand>
     {
         private readonly CourseCreator _creator;

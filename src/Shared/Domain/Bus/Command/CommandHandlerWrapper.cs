@@ -1,8 +1,8 @@
+using System;
+using System.Threading.Tasks;
+
 namespace CodelyTv.Shared.Domain.Bus.Command
 {
-    using System;
-    using System.Threading.Tasks;
-
     internal abstract class CommandHandlerWrapper
     {
         public abstract Task Handle(Command command, IServiceProvider provider);

@@ -1,24 +1,24 @@
+using CodelyTv.Mooc.Courses.Domain;
+using CodelyTv.Mooc.Courses.Infrastructure.Persistence;
+using CodelyTv.Mooc.CoursesCounters.Domain;
+using CodelyTv.Mooc.CoursesCounters.Infrastructure.Persistence;
+using CodelyTv.Mooc.Shared.Infrastructure.Persistence.EntityFramework;
+using CodelyTv.Shared.Domain;
+using CodelyTv.Shared.Domain.Bus.Command;
+using CodelyTv.Shared.Domain.Bus.Event;
+using CodelyTv.Shared.Domain.Bus.Query;
+using CodelyTv.Shared.Infrastructure;
+using CodelyTv.Shared.Infrastructure.Bus.Command;
+using CodelyTv.Shared.Infrastructure.Bus.Event;
+using CodelyTv.Shared.Infrastructure.Bus.Event.MsSql;
+using CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq;
+using CodelyTv.Shared.Infrastructure.Bus.Query;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+
 namespace CodelyTv.Apps.Mooc.Backend.Extension.DependencyInjection
 {
-    using CodelyTv.Mooc.Courses.Domain;
-    using CodelyTv.Mooc.Courses.Infrastructure.Persistence;
-    using CodelyTv.Mooc.CoursesCounter.Domain;
-    using CodelyTv.Mooc.CoursesCounter.Infrastructure.Persistence;
-    using CodelyTv.Mooc.Shared.Infrastructure.Persistence.EntityFramework;
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.Extensions.Configuration;
-    using Microsoft.Extensions.DependencyInjection;
-    using Shared.Domain;
-    using Shared.Domain.Bus.Command;
-    using Shared.Domain.Bus.Event;
-    using Shared.Domain.Bus.Query;
-    using Shared.Infrastructure;
-    using Shared.Infrastructure.Bus.Command;
-    using Shared.Infrastructure.Bus.Event;
-    using Shared.Infrastructure.Bus.Event.MsSql;
-    using Shared.Infrastructure.Bus.Event.RabbitMq;
-    using Shared.Infrastructure.Bus.Query;
-
     public static class Infrastructure
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services,
@@ -32,10 +32,10 @@ namespace CodelyTv.Apps.Mooc.Backend.Extension.DependencyInjection
             services.AddScoped<IEventBus, RabbitMqEventBus>();
             services.AddScoped<IEventBusConfiguration, RabbitMqEventBusConfiguration>();
             services.AddScoped<InMemoryApplicationEventBus, InMemoryApplicationEventBus>();
-            
+
             // Failover
             services.AddScoped<MsSqlEventBus, MsSqlEventBus>();
-            
+
             services.AddScoped<RabbitMqDomainEventsConsumer, RabbitMqDomainEventsConsumer>();
             services.AddScoped<DomainEventsInformation, DomainEventsInformation>();
 
@@ -48,7 +48,7 @@ namespace CodelyTv.Apps.Mooc.Backend.Extension.DependencyInjection
             services.AddScoped<DomainEventJsonDeserializer, DomainEventJsonDeserializer>();
             services.AddScoped<ICommandBus, InMemoryCommandBus>();
             services.AddScoped<IQueryBus, InMemoryQueryBus>();
-            
+
             return services;
         }
 

@@ -1,8 +1,8 @@
+using System;
+using System.Collections.Generic;
+
 namespace CodelyTv.Backoffice.Courses.Domain
 {
-    using System;
-    using System.Collections.Generic;
-
     public class BackofficeCourse
     {
         public string Id { get; }
@@ -22,19 +22,20 @@ namespace CodelyTv.Backoffice.Courses.Domain
 
         public Dictionary<string, object> ToPrimitives()
         {
-            var primitives = new Dictionary<string, object>()
+            var primitives = new Dictionary<string, object>
             {
                 {"id", Id},
                 {"name", Name},
                 {"duration", Duration}
             };
-            
+
             return primitives;
         }
 
         public static BackofficeCourse FromPrimitives(Dictionary<string, object> body)
         {
-            return new BackofficeCourse(Convert.ToString(body["id"]), Convert.ToString(body["name"]), Convert.ToString(body["duration"]));
+            return new BackofficeCourse(Convert.ToString(body["id"]), Convert.ToString(body["name"]),
+                Convert.ToString(body["duration"]));
         }
 
         public override bool Equals(object obj)

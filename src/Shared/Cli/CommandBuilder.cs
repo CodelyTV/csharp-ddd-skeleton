@@ -1,36 +1,37 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+
 namespace CodelyTv.Shared.Cli
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using Microsoft.Extensions.Configuration;
-    using Microsoft.Extensions.DependencyInjection;
-
     public abstract class CommandBuilder<T>
     {
-        protected ServiceProvider Provider { get; set; }
         private readonly string[] _args;
         private readonly Dictionary<string, Type> Commands;
+
+        protected ServiceProvider Provider { get; set; }
 
         protected CommandBuilder(string[] args, Dictionary<string, Type> commands)
         {
             _args = args;
             Commands = commands;
         }
+
         public abstract T Build(IConfigurationRoot config);
 
         public virtual void Run()
         {
-            var command = GetCommands();
+            var command = GetCommand();
 
-            using IServiceScope scope = Provider.CreateScope();
+            using var scope = Provider.CreateScope();
 
-            Type commandType = command;
-            object service = scope.ServiceProvider.GetService(commandType);
+            var service = scope.ServiceProvider.GetService(command);
             ((Command) service).Execute(_args);
         }
 
-        protected Type GetCommands()
+        protected Type GetCommand()
         {
             var command = Commands.FirstOrDefault(cmd => _args.Contains(cmd.Key));
             if (command.Value == null) throw new SystemException("arguments does not match with any command");

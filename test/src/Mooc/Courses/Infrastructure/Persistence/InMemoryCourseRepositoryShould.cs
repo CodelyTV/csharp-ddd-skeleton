@@ -1,10 +1,10 @@
+using System.Threading.Tasks;
+using CodelyTv.Test.Mooc.Courses.Domain;
+using Newtonsoft.Json;
+using Xunit;
+
 namespace CodelyTv.Test.Mooc.Courses.Infrastructure.Persistence
 {
-    using System.Threading.Tasks;
-    using Domain;
-    using Newtonsoft.Json;
-    using Xunit;
-
     public class InMemoryCourseRepositoryShould : CoursesModuleInfrastructureTestCase
     {
         [Fact]
@@ -21,7 +21,8 @@ namespace CodelyTv.Test.Mooc.Courses.Infrastructure.Persistence
 
             await Repository.Save(course);
 
-            Assert.Equal(JsonConvert.SerializeObject(course), JsonConvert.SerializeObject(await Repository.Search(course.Id)));
+            Assert.Equal(JsonConvert.SerializeObject(course),
+                JsonConvert.SerializeObject(await Repository.Search(course.Id)));
         }
 
         [Fact]

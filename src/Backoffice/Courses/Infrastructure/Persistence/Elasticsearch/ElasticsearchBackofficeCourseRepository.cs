@@ -1,13 +1,13 @@
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using CodelyTv.Backoffice.Courses.Domain;
+using CodelyTv.Shared.Domain.FiltersByCriteria;
+using CodelyTv.Shared.Infrastructure.Elasticsearch;
+using Newtonsoft.Json;
+
 namespace CodelyTv.Backoffice.Courses.Infrastructure.Persistence.Elasticsearch
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using CodelyTv.Backoffice.Courses.Domain;
-    using CodelyTv.Shared.Domain.FiltersByCriteria;
-    using CodelyTv.Shared.Infrastructure.Elasticsearch;
-    using Newtonsoft.Json;
-
     public class ElasticsearchBackofficeCourseRepository : ElasticsearchRepository<BackofficeCourse>,
         IBackofficeCourseRepository
     {

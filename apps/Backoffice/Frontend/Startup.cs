@@ -1,13 +1,13 @@
+using CodelyTv.Apps.Backoffice.Frontend.Extension.DependencyInjection;
+using CodelyTv.Shared.Infrastructure.Bus.Event;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+
 namespace CodelyTv.Apps.Backoffice.Frontend
 {
-    using CodelyTv.Apps.Backoffice.Frontend.Extension.DependencyInjection;
-    using CodelyTv.Shared.Infrastructure.Bus.Event;
-    using Microsoft.AspNetCore.Builder;
-    using Microsoft.AspNetCore.Hosting;
-    using Microsoft.Extensions.Configuration;
-    using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Hosting;
-
     public class Startup
     {
         private readonly IConfiguration _configuration;
@@ -28,7 +28,7 @@ namespace CodelyTv.Apps.Backoffice.Frontend
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env,  IEventBusConfiguration bus)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IEventBusConfiguration bus)
         {
             if (env.IsDevelopment())
             {
@@ -53,7 +53,7 @@ namespace CodelyTv.Apps.Backoffice.Frontend
                 endpoints.MapControllerRoute("default", "{controller=HomeGetWeb}/{action=Index}/{id?}");
                 endpoints.MapHealthChecks("/health-check");
             });
-            
+
             bus.Configure();
         }
     }

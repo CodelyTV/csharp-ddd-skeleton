@@ -1,9 +1,9 @@
-namespace CodelyTv.Shared.Domain.Courses
-{
-    using System;
-    using System.Collections.Generic;
-    using CodelyTv.Shared.Domain.Bus.Event;
+using System;
+using System.Collections.Generic;
+using CodelyTv.Shared.Domain.Bus.Event;
 
+namespace CodelyTv.Shared.Domain.Courses.Domain
+{
     public class CourseCreatedDomainEvent : DomainEvent
     {
         public string Name { get; }
@@ -27,10 +27,10 @@ namespace CodelyTv.Shared.Domain.Courses
 
         public override Dictionary<string, string> ToPrimitives()
         {
-            return new Dictionary<string, string>()
+            return new Dictionary<string, string>
             {
-                {"name", this.Name},
-                {"duration", this.Duration}
+                {"name", Name},
+                {"duration", Duration}
             };
         }
 
@@ -47,12 +47,12 @@ namespace CodelyTv.Shared.Domain.Courses
             var item = obj as CourseCreatedDomainEvent;
             if (item == null) return false;
 
-            return this.AggregateId.Equals(item.AggregateId) && this.Name.Equals(item.Name) && this.Duration.Equals(item.Duration);
+            return AggregateId.Equals(item.AggregateId) && Name.Equals(item.Name) && Duration.Equals(item.Duration);
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(this.AggregateId, this.Name, this.Duration);
+            return HashCode.Combine(AggregateId, Name, Duration);
         }
     }
 }

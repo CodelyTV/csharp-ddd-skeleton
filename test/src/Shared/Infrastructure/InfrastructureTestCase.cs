@@ -1,19 +1,19 @@
+using System;
+using System.IO;
+using System.Threading;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.TestHost;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+
 namespace CodelyTv.Test.Shared.Infrastructure
 {
-    using System;
-    using System.IO;
-    using System.Threading;
-    using Microsoft.AspNetCore.Hosting;
-    using Microsoft.AspNetCore.TestHost;
-    using Microsoft.Extensions.Configuration;
-    using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Hosting;
-
     public abstract class InfrastructureTestCase<TStartup> where TStartup : class
     {
-        private readonly IHost _host;
         private const int MaxAttempts = 5;
         private const int MillisToWaitBetweenRetries = 300;
+        private readonly IHost _host;
 
         public InfrastructureTestCase()
         {
@@ -37,24 +37,23 @@ namespace CodelyTv.Test.Shared.Infrastructure
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(Path.Combine(AppContext.BaseDirectory))
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+                .AddJsonFile("appsettings.json", true, true);
 
             return builder.Build();
         }
 
         protected T GetService<T>()
         {
-            return this._host.Services.GetService<T>();
+            return _host.Services.GetService<T>();
         }
 
         protected abstract Action<IServiceCollection> Services();
 
         protected void Eventually(Action function)
         {
-            int attempts = 0;
-            bool allOk = false;
+            var attempts = 0;
+            var allOk = false;
             while (attempts < MaxAttempts && !allOk)
-            {
                 try
                 {
                     function.Invoke();
@@ -69,7 +68,6 @@ namespace CodelyTv.Test.Shared.Infrastructure
 
                     Thread.Sleep(MillisToWaitBetweenRetries);
                 }
-            }
         }
     }
 }

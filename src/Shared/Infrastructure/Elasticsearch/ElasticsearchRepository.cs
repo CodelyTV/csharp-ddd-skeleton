@@ -1,10 +1,10 @@
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using CodelyTv.Shared.Domain.FiltersByCriteria;
+using Nest;
+
 namespace CodelyTv.Shared.Infrastructure.Elasticsearch
 {
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-    using CodelyTv.Shared.Domain.FiltersByCriteria;
-    using Nest;
-
     public abstract class ElasticsearchRepository<T> where T : class
     {
         private readonly ElasticsearchClient _client;
@@ -26,14 +26,14 @@ namespace CodelyTv.Shared.Infrastructure.Elasticsearch
 
             return (await _client.Client.SearchAsync<Dictionary<string, object>>(searchDescriptor))?.Documents;
         }
-        
+
         protected async Task<IReadOnlyCollection<Dictionary<string, object>>> SearchByCriteria(Criteria criteria)
         {
             var searchDescriptor = _criteriaConverter.Convert(criteria, _client.IndexFor(ModuleName()));
-            
+
             return (await _client.Client.SearchAsync<Dictionary<string, object>>(searchDescriptor))?.Documents;
         }
-        
+
         protected async Task Persist(string id, string json)
         {
             await _client.Persist(_client.IndexFor(ModuleName()), id, json);
