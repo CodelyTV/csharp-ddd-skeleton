@@ -9,9 +9,9 @@ namespace CodelyTv.Apps.Mooc.Backend.Controller.CoursesCounter
     [Route("courses-counter")]
     public class CoursesCounterGetController : Microsoft.AspNetCore.Mvc.Controller
     {
-        private readonly IQueryBus _bus;
+        private readonly QueryBus _bus;
 
-        public CoursesCounterGetController(IQueryBus bus)
+        public CoursesCounterGetController(QueryBus bus)
         {
             _bus = bus;
         }

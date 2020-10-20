@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 namespace CodelyTv.Backoffice.Courses.Infrastructure.Persistence.Elasticsearch
 {
     public class ElasticsearchBackofficeCourseRepository : ElasticsearchRepository<BackofficeCourse>,
-        IBackofficeCourseRepository
+        BackofficeCourseRepository
     {
         public ElasticsearchBackofficeCourseRepository(ElasticsearchClient client) : base(client)
         {

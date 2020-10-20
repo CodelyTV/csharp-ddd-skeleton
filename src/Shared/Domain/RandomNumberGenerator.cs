@@ -1,6 +1,6 @@
 namespace CodelyTv.Shared.Domain
 {
-    public interface IRandomNumberGenerator
+    public interface RandomNumberGenerator
     {
         int Generate();
     }

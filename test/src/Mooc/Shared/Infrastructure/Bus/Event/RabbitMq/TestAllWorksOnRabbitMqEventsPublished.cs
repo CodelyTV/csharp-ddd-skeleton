@@ -4,7 +4,7 @@ using CodelyTv.Shared.Domain.Courses.Domain;
 
 namespace CodelyTv.Test.Mooc.Shared.Infrastructure.Bus.Event.RabbitMq
 {
-    public class TestAllWorksOnRabbitMqEventsPublished : IDomainEventSubscriber<CourseCreatedDomainEvent>
+    public class TestAllWorksOnRabbitMqEventsPublished : DomainEventSubscriber<CourseCreatedDomainEvent>
     {
         public bool HasBeenExecuted;
 

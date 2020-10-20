@@ -3,7 +3,7 @@ using CodelyTv.Shared.Domain;
 
 namespace CodelyTv.Shared.Infrastructure
 {
-    public sealed class CSharpRandomNumberGenerator : IRandomNumberGenerator
+    public sealed class CSharpRandomNumberGenerator : RandomNumberGenerator
     {
         private readonly Random _random = new Random();
 

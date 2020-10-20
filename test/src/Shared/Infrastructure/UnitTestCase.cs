@@ -7,13 +7,13 @@ namespace CodelyTv.Test.Shared.Infrastructure
 {
     public class UnitTestCase
     {
-        protected readonly Mock<IEventBus> EventBus;
-        protected readonly Mock<IUuidGenerator> UuidGenerator;
+        protected readonly Mock<EventBus> EventBus;
+        protected readonly Mock<UuidGenerator> UuidGenerator;
 
         public UnitTestCase()
         {
-            EventBus = new Mock<IEventBus>();
-            UuidGenerator = new Mock<IUuidGenerator>();
+            EventBus = new Mock<EventBus>();
+            UuidGenerator = new Mock<UuidGenerator>();
         }
 
         public void ShouldHavePublished(List<DomainEvent> domainEvents)

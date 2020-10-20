@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace CodelyTv.Mooc.Courses.Infrastructure
 {
-    public class FileCourseRepository : ICourseRepository
+    public class FileCourseRepository : CourseRepository
     {
         private readonly string _filePath = Directory.GetCurrentDirectory() + "/courses";
 

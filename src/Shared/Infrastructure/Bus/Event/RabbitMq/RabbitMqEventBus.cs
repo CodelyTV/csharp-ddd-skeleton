@@ -6,7 +6,7 @@ using RabbitMQ.Client.Exceptions;
 
 namespace CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq
 {
-    public class RabbitMqEventBus : IEventBus
+    public class RabbitMqEventBus : EventBus
     {
         private readonly string _exchangeName;
         private readonly MsSqlEventBus _failOverPublisher;

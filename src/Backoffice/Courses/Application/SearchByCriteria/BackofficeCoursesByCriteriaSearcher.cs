@@ -7,9 +7,9 @@ namespace CodelyTv.Backoffice.Courses.Application.SearchByCriteria
 {
     public class BackofficeCoursesByCriteriaSearcher
     {
-        private readonly IBackofficeCourseRepository _repository;
+        private readonly BackofficeCourseRepository _repository;
 
-        public BackofficeCoursesByCriteriaSearcher(IBackofficeCourseRepository repository)
+        public BackofficeCoursesByCriteriaSearcher(BackofficeCourseRepository repository)
         {
             _repository = repository;
         }

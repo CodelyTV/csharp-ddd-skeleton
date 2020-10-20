@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CodelyTv.Shared.Infrastructure.Bus.Event.MsSql
 {
-    public class MsSqlDomainEventsConsumer : IDomainEventsConsumer
+    public class MsSqlDomainEventsConsumer : DomainEventsConsumer
     {
         private const int Chunk = 200;
         private readonly InMemoryApplicationEventBus _bus;

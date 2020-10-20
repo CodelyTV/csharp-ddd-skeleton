@@ -2,8 +2,8 @@ using System.Threading.Tasks;
 
 namespace CodelyTv.Shared.Domain.Bus.Event
 {
-    public interface IDomainEventsConsumer
+    public interface DomainEventSubscriberBase
     {
-        Task Consume();
+        Task On(DomainEvent @event);
     }
 }

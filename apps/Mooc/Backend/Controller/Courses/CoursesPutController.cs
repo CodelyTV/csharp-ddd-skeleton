@@ -10,9 +10,9 @@ namespace CodelyTv.Apps.Mooc.Backend.Controller.Courses
     [Route("courses")]
     public class CoursesPutController : Microsoft.AspNetCore.Mvc.Controller
     {
-        private readonly ICommandBus _bus;
+        private readonly CommandBus _bus;
 
-        public CoursesPutController(ICommandBus bus)
+        public CoursesPutController(CommandBus bus)
         {
             _bus = bus;
         }

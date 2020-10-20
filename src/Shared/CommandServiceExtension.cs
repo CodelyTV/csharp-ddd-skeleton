@@ -17,7 +17,7 @@ namespace CodelyTv.Shared
                 var interfaces = type.ImplementedInterfaces.Select(i => i.GetTypeInfo());
 
                 foreach (var handlerInterfaceType in interfaces.Where(i =>
-                    i.IsGenericType && i.GetGenericTypeDefinition() == typeof(ICommandHandler<>)))
+                    i.IsGenericType && i.GetGenericTypeDefinition() == typeof(CommandHandler<>)))
                     services.AddScoped(handlerInterfaceType.AsType(), type.AsType());
             }
 

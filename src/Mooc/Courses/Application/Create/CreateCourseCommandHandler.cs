@@ -4,7 +4,7 @@ using CodelyTv.Shared.Domain.Bus.Command;
 
 namespace CodelyTv.Mooc.Courses.Application.Create
 {
-    public class CreateCourseCommandHandler : ICommandHandler<CreateCourseCommand>
+    public class CreateCourseCommandHandler : CommandHandler<CreateCourseCommand>
     {
         private readonly CourseCreator _creator;
 

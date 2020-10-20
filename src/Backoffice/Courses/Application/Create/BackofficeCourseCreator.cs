@@ -5,9 +5,9 @@ namespace CodelyTv.Backoffice.Courses.Application.Create
 {
     public class BackofficeCourseCreator
     {
-        private readonly IBackofficeCourseRepository _repository;
+        private readonly BackofficeCourseRepository _repository;
 
-        public BackofficeCourseCreator(IBackofficeCourseRepository repository)
+        public BackofficeCourseCreator(BackofficeCourseRepository repository)
         {
             _repository = repository;
         }

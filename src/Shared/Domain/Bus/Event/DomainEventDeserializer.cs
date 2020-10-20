@@ -1,6 +1,6 @@
 namespace CodelyTv.Shared.Domain.Bus.Event
 {
-    public interface IDomainEventDeserializer
+    public interface DomainEventDeserializer
     {
         DomainEvent Deserialize(string domainEvent);
     }

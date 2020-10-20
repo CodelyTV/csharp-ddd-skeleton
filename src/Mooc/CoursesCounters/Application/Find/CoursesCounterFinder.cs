@@ -5,9 +5,9 @@ namespace CodelyTv.Mooc.CoursesCounters.Application.Find
 {
     public class CoursesCounterFinder
     {
-        private readonly ICoursesCounterRepository _repository;
+        private readonly CoursesCounterRepository _repository;
 
-        public CoursesCounterFinder(ICoursesCounterRepository repository)
+        public CoursesCounterFinder(CoursesCounterRepository repository)
         {
             _repository = repository;
         }

@@ -6,9 +6,9 @@ namespace CodelyTv.Apps.Mooc.Backend.Controller.HealthCheck
     [Route("health-check")]
     public class HealthCheckGetController : Microsoft.AspNetCore.Mvc.Controller
     {
-        private readonly IRandomNumberGenerator _generator;
+        private readonly RandomNumberGenerator _generator;
 
-        public HealthCheckGetController(IRandomNumberGenerator generator)
+        public HealthCheckGetController(RandomNumberGenerator generator)
         {
             _generator = generator;
         }

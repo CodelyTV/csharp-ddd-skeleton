@@ -8,7 +8,7 @@ using CodelyTv.Shared.Domain.Bus.Command;
 
 namespace CodelyTv.Shared.Infrastructure.Bus.Command
 {
-    public class InMemoryCommandBus : ICommandBus
+    public class InMemoryCommandBus : CommandBus
     {
         private static readonly ConcurrentDictionary<Type, IEnumerable<CommandHandlerWrapper>> _commandHandlers =
             new ConcurrentDictionary<Type, IEnumerable<CommandHandlerWrapper>>();
@@ -31,7 +31,7 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Command
 
         private IEnumerable<CommandHandlerWrapper> GetWrappedHandlers(Domain.Bus.Command.Command command)
         {
-            var handlerType = typeof(ICommandHandler<>).MakeGenericType(command.GetType());
+            var handlerType = typeof(CommandHandler<>).MakeGenericType(command.GetType());
             var wrapperType = typeof(CommandHandlerWrapper<>).MakeGenericType(command.GetType());
 
             var handlers =

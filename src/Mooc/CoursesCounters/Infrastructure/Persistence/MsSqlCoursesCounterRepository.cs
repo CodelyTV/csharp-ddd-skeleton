@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CodelyTv.Mooc.CoursesCounters.Infrastructure.Persistence
 {
-    public class MsSqlCoursesCounterRepository : ICoursesCounterRepository
+    public class MsSqlCoursesCounterRepository : CoursesCounterRepository
     {
         private readonly MoocContext _context;
 

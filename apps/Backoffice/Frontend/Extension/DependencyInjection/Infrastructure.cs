@@ -29,16 +29,16 @@ namespace CodelyTv.Apps.Backoffice.Frontend.Extension.DependencyInjection
         public static IServiceCollection AddInfrastructure(this IServiceCollection services,
             IConfiguration configuration)
         {
-            services.AddScoped<IRandomNumberGenerator, CSharpRandomNumberGenerator>();
-            services.AddScoped<IUuidGenerator, CSharpUuidGenerator>();
-            services.AddScoped<IBackofficeCourseRepository, ElasticsearchBackofficeCourseRepository>();
-            services.AddScoped<ICoursesCounterRepository, MsSqlCoursesCounterRepository>();
-            services.AddScoped<ICourseRepository, MsSqlCourseRepository>();
+            services.AddScoped<RandomNumberGenerator, CSharpRandomNumberGenerator>();
+            services.AddScoped<UuidGenerator, CSharpUuidGenerator>();
+            services.AddScoped<BackofficeCourseRepository, ElasticsearchBackofficeCourseRepository>();
+            services.AddScoped<CoursesCounterRepository, MsSqlCoursesCounterRepository>();
+            services.AddScoped<CourseRepository, MsSqlCourseRepository>();
 
             services.AddScoped<CoursesCounterFinder, CoursesCounterFinder>();
 
-            services.AddScoped<IEventBus, RabbitMqEventBus>();
-            services.AddScoped<IEventBusConfiguration, RabbitMqEventBusConfiguration>();
+            services.AddScoped<EventBus, RabbitMqEventBus>();
+            services.AddScoped<EventBusConfiguration, RabbitMqEventBusConfiguration>();
             services.AddScoped<InMemoryApplicationEventBus, InMemoryApplicationEventBus>();
 
             // Failover
@@ -58,8 +58,8 @@ namespace CodelyTv.Apps.Backoffice.Frontend.Extension.DependencyInjection
 
             services.AddRabbitMq(configuration);
             services.AddScoped<DomainEventJsonDeserializer, DomainEventJsonDeserializer>();
-            services.AddScoped<ICommandBus, InMemoryCommandBus>();
-            services.AddScoped<IQueryBus, InMemoryQueryBus>();
+            services.AddScoped<CommandBus, InMemoryCommandBus>();
+            services.AddScoped<QueryBus, InMemoryQueryBus>();
 
             services.AddElasticsearch(configuration);
 

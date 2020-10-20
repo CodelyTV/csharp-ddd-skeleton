@@ -9,9 +9,9 @@ namespace CodelyTv.Apps.Backoffice.Frontend.Controllers.Courses
     public class CoursesPostWebController : Controller
     {
         private const string VIEW = "Views/Courses/Index.cshtml";
-        private readonly ICommandBus _bus;
+        private readonly CommandBus _bus;
 
-        public CoursesPostWebController(ICommandBus bus)
+        public CoursesPostWebController(CommandBus bus)
         {
             _bus = bus;
         }

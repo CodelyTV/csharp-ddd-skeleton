@@ -1,6 +1,6 @@
 namespace CodelyTv.Shared.Domain
 {
-    public interface IUuidGenerator
+    public interface UuidGenerator
     {
         string Generate();
     }

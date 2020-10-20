@@ -4,6 +4,6 @@ namespace CodelyTv.Test.Mooc.CoursesCounters
 {
     public class CoursesCounterModuleInfrastructureTestCase : MoocContextInfrastructureTestCase
     {
-        protected ICoursesCounterRepository Repository => GetService<ICoursesCounterRepository>();
+        protected CoursesCounterRepository Repository => GetService<CoursesCounterRepository>();
     }
 }

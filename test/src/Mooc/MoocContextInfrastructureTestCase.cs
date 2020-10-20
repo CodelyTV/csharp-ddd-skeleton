@@ -40,7 +40,7 @@ namespace CodelyTv.Test.Mooc
                     return new RabbitMqEventBus(publisher, failOverBus, "test_domain_events");
                 });
 
-                services.AddScoped<IEventBusConfiguration, RabbitMqEventBusConfiguration>();
+                services.AddScoped<EventBusConfiguration, RabbitMqEventBusConfiguration>();
 
                 services.AddScoped<DomainEventsInformation, DomainEventsInformation>();
 

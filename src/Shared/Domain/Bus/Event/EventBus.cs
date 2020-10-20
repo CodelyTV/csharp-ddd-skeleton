@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace CodelyTv.Shared.Domain.Bus.Event
 {
-    public interface IEventBus
+    public interface EventBus
     {
         Task Publish(List<DomainEvent> events);
     }

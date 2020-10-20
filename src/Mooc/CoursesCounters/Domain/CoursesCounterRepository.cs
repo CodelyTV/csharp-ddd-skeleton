@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 
 namespace CodelyTv.Mooc.CoursesCounters.Domain
 {
-    public interface ICoursesCounterRepository
+    public interface CoursesCounterRepository
     {
         Task Save(CoursesCounter counter);
         Task<CoursesCounter> Search();

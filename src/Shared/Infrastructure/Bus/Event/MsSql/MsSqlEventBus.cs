@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CodelyTv.Shared.Infrastructure.Bus.Event.MsSql
 {
-    public class MsSqlEventBus : IEventBus
+    public class MsSqlEventBus : EventBus
     {
         private readonly DbContext _context;
 

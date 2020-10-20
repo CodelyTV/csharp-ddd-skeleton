@@ -6,10 +6,10 @@ namespace CodelyTv.Mooc.Courses.Application.Create
 {
     public class CourseCreator
     {
-        private readonly IEventBus _eventBus;
-        private readonly ICourseRepository _repository;
+        private readonly EventBus _eventBus;
+        private readonly CourseRepository _repository;
 
-        public CourseCreator(ICourseRepository repository, IEventBus eventBus)
+        public CourseCreator(CourseRepository repository, EventBus eventBus)
         {
             _repository = repository;
             _eventBus = eventBus;

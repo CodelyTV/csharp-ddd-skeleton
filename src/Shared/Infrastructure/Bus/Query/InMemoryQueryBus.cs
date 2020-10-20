@@ -8,7 +8,7 @@ using CodelyTv.Shared.Domain.Bus.Query;
 
 namespace CodelyTv.Shared.Infrastructure.Bus.Query
 {
-    public class InMemoryQueryBus : IQueryBus
+    public class InMemoryQueryBus : QueryBus
     {
         private static readonly ConcurrentDictionary<Type, object> _queryHandlers =
             new ConcurrentDictionary<Type, object>();
@@ -33,7 +33,7 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Query
         {
             Type[] typeArgs = {query.GetType(), typeof(TResponse)};
 
-            var handlerType = typeof(IQueryHandler<,>).MakeGenericType(typeArgs);
+            var handlerType = typeof(QueryHandler<,>).MakeGenericType(typeArgs);
             var wrapperType = typeof(QueryHandlerWrapper<,>).MakeGenericType(typeArgs);
 
             var handlers =

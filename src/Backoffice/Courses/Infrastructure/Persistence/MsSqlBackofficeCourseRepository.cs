@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CodelyTv.Backoffice.Courses.Infrastructure.Persistence
 {
-    public class MsSqlBackofficeCourseRepository : IBackofficeCourseRepository
+    public class MsSqlBackofficeCourseRepository : BackofficeCourseRepository
     {
         private readonly BackofficeContext _context;
 

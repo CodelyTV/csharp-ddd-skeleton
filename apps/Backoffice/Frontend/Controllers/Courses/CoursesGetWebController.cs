@@ -10,9 +10,9 @@ namespace CodelyTv.Apps.Backoffice.Frontend.Controllers.Courses
     public class CoursesGetWebController : Controller
     {
         private const string VIEW = "Views/Courses/Index.cshtml";
-        private readonly IQueryBus _bus;
+        private readonly QueryBus _bus;
 
-        public CoursesGetWebController(IQueryBus bus)
+        public CoursesGetWebController(QueryBus bus)
         {
             _bus = bus;
         }

@@ -4,7 +4,7 @@ using RabbitMQ.Client;
 
 namespace CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq
 {
-    public class RabbitMqEventBusConfiguration : IEventBusConfiguration
+    public class RabbitMqEventBusConfiguration : EventBusConfiguration
     {
         private readonly RabbitMqConfig _config;
 

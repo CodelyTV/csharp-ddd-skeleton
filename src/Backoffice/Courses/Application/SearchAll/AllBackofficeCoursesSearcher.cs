@@ -6,9 +6,9 @@ namespace CodelyTv.Backoffice.Courses.Application.SearchAll
 {
     public class AllBackofficeCoursesSearcher
     {
-        private readonly IBackofficeCourseRepository _repository;
+        private readonly BackofficeCourseRepository _repository;
 
-        public AllBackofficeCoursesSearcher(IBackofficeCourseRepository repository)
+        public AllBackofficeCoursesSearcher(BackofficeCourseRepository repository)
         {
             _repository = repository;
         }

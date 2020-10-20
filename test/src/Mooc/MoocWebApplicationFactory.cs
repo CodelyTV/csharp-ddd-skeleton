@@ -41,7 +41,7 @@ namespace CodelyTv.Test.Mooc
                     options.UseInternalServiceProvider(serviceProvider);
                 });
 
-                services.AddScoped<IEventBus, InMemoryApplicationEventBus>();
+                services.AddScoped<EventBus, InMemoryApplicationEventBus>();
 
                 var sp = services.BuildServiceProvider();
 

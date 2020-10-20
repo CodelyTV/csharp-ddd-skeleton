@@ -4,7 +4,7 @@ using CodelyTv.Shared.Domain.Courses.Domain;
 
 namespace CodelyTv.Backoffice.Courses.Application.Create
 {
-    public class CreateBackofficeCourseOnCourseCreated : IDomainEventSubscriber<CourseCreatedDomainEvent>
+    public class CreateBackofficeCourseOnCourseCreated : DomainEventSubscriber<CourseCreatedDomainEvent>
     {
         private readonly BackofficeCourseCreator _creator;
 

@@ -3,7 +3,7 @@ using CodelyTv.Shared.Domain.Bus.Query;
 
 namespace CodelyTv.Mooc.CoursesCounters.Application.Find
 {
-    public class FindCoursesCounterQueryHandler : IQueryHandler<FindCoursesCounterQuery, CoursesCounterResponse>
+    public class FindCoursesCounterQueryHandler : QueryHandler<FindCoursesCounterQuery, CoursesCounterResponse>
     {
         private readonly CoursesCounterFinder _finder;
 

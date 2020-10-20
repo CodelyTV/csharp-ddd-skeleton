@@ -3,7 +3,7 @@ using CodelyTv.Shared.Domain;
 
 namespace CodelyTv.Shared.Infrastructure
 {
-    public class CSharpUuidGenerator : IUuidGenerator
+    public class CSharpUuidGenerator : UuidGenerator
     {
         public string Generate()
         {

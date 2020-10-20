@@ -25,7 +25,7 @@ namespace CodelyTv.Apps.Mooc.Backend
             services.AddInfrastructure(_configuration);
         }
 
-        public static void Configure(IApplicationBuilder app, IWebHostEnvironment env, IEventBusConfiguration bus)
+        public static void Configure(IApplicationBuilder app, IWebHostEnvironment env, EventBusConfiguration bus)
         {
             if (env.IsDevelopment())
                 app.UseDeveloperExceptionPage();

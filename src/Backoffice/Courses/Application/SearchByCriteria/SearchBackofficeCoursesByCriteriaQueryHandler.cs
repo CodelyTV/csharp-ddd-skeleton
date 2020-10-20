@@ -5,7 +5,7 @@ using CodelyTv.Shared.Domain.FiltersByCriteria;
 namespace CodelyTv.Backoffice.Courses.Application.SearchByCriteria
 {
     public class
-        SearchBackofficeCoursesByCriteriaQueryHandler : IQueryHandler<SearchBackofficeCoursesByCriteriaQuery,
+        SearchBackofficeCoursesByCriteriaQueryHandler : QueryHandler<SearchBackofficeCoursesByCriteriaQuery,
             BackofficeCoursesResponse>
     {
         private readonly BackofficeCoursesByCriteriaSearcher _searcher;

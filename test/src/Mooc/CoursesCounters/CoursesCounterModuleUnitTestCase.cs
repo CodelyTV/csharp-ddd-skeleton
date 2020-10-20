@@ -6,11 +6,11 @@ namespace CodelyTv.Test.Mooc.CoursesCounters
 {
     public class CoursesCounterModuleUnitTestCase : UnitTestCase
     {
-        protected readonly Mock<ICoursesCounterRepository> Repository;
+        protected readonly Mock<CoursesCounterRepository> Repository;
 
         protected CoursesCounterModuleUnitTestCase()
         {
-            Repository = new Mock<ICoursesCounterRepository>();
+            Repository = new Mock<CoursesCounterRepository>();
         }
 
         protected void ShouldHaveSaved(CoursesCounter course)

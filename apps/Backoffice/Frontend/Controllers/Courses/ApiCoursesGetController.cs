@@ -12,9 +12,9 @@ namespace CodelyTv.Apps.Backoffice.Frontend.Controllers.Courses
     [Route("/api/courses")]
     public class ApiCoursesGetController : Controller
     {
-        private readonly IQueryBus _bus;
+        private readonly QueryBus _bus;
 
-        public ApiCoursesGetController(IQueryBus bus)
+        public ApiCoursesGetController(QueryBus bus)
         {
             _bus = bus;
         }

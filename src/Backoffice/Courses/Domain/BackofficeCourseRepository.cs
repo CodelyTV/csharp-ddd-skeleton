@@ -4,7 +4,7 @@ using CodelyTv.Shared.Domain.FiltersByCriteria;
 
 namespace CodelyTv.Backoffice.Courses.Domain
 {
-    public interface IBackofficeCourseRepository
+    public interface BackofficeCourseRepository
     {
         Task Save(BackofficeCourse course);
         Task<IEnumerable<BackofficeCourse>> SearchAll();

@@ -28,7 +28,7 @@ namespace CodelyTv.Apps.Backoffice.Frontend
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IEventBusConfiguration bus)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, EventBusConfiguration bus)
         {
             if (env.IsDevelopment())
             {

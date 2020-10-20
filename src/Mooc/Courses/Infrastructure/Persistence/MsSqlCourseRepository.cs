@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CodelyTv.Mooc.Courses.Infrastructure.Persistence
 {
-    public class MsSqlCourseRepository : ICourseRepository
+    public class MsSqlCourseRepository : CourseRepository
     {
         private readonly MoocContext _context;
 

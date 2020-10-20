@@ -14,7 +14,7 @@ namespace CodelyTv.Shared.Domain.Bus.Query
         public override async Task<TResponse> Handle(Query query, IServiceProvider provider)
         {
             var handler =
-                (IQueryHandler<TQuery, TResponse>) provider.GetService(typeof(IQueryHandler<TQuery, TResponse>));
+                (QueryHandler<TQuery, TResponse>) provider.GetService(typeof(QueryHandler<TQuery, TResponse>));
 
             return await handler.Handle((TQuery) query);
         }

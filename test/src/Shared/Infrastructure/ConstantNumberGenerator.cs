@@ -2,7 +2,7 @@ using CodelyTv.Shared.Domain;
 
 namespace CodelyTv.Test.Shared.Infrastructure
 {
-    public class ConstantNumberGenerator : IRandomNumberGenerator
+    public class ConstantNumberGenerator : RandomNumberGenerator
     {
         public int Generate()
         {

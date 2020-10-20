@@ -7,10 +7,10 @@ namespace CodelyTv.Mooc.CoursesCounters.Application.Incrementer
 {
     public class CoursesCounterIncrementer
     {
-        private readonly ICoursesCounterRepository _repository;
-        private readonly IUuidGenerator _uuidGenerator;
+        private readonly CoursesCounterRepository _repository;
+        private readonly UuidGenerator _uuidGenerator;
 
-        public CoursesCounterIncrementer(ICoursesCounterRepository repository, IUuidGenerator uuidGenerator)
+        public CoursesCounterIncrementer(CoursesCounterRepository repository, UuidGenerator uuidGenerator)
         {
             this._repository = repository;
             this._uuidGenerator = uuidGenerator;

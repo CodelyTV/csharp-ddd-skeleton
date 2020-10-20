@@ -10,7 +10,7 @@ using RabbitMQ.Client.Events;
 
 namespace CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq
 {
-    public class RabbitMqDomainEventsConsumer : IDomainEventsConsumer
+    public class RabbitMqDomainEventsConsumer : DomainEventsConsumer
     {
         private const int MaxRetries = 2;
         private const string HeaderRedelivery = "redelivery_count";
@@ -60,7 +60,7 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq
 
                 try
                 {
-                    await ((IDomainEventSubscriberBase) subscriber).On(@event);
+                    await ((DomainEventSubscriberBase) subscriber).On(@event);
                 }
                 catch
                 {
