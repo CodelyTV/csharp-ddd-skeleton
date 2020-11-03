@@ -116,10 +116,10 @@
             const inputs = Array.from(form.getElementsByTagName("input"))
                                 .concat(Array.from(form.getElementsByTagName("select")));
             const urlParts = inputs.map(input => input.name + "=" + input.value);
-            const url = '@Url.Action("Index", "ApiCoursesGet")?'+ urlParts.join("&");
+            const url = "http://localhost:8092/courses" + urlParts.join("&");
             addCoursesList(url);
         }
 </script>
 <script>
-    addCoursesList('@Url.Action("Index", "ApiCoursesGet")');
+    addCoursesList("http://localhost:8092/courses");
 </script>

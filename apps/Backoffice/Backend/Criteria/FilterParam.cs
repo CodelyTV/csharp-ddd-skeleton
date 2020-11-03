@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CodelyTv.Apps.Backoffice.Frontend.Criteria
+namespace CodelyTv.Apps.Backoffice.Backend.Criteria
 {
     public class FiltersParam
     {

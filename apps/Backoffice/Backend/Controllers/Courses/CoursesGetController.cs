@@ -1,20 +1,20 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using CodelyTv.Apps.Backoffice.Frontend.Criteria;
+using CodelyTv.Apps.Backoffice.Backend.Criteria;
 using CodelyTv.Backoffice.Courses.Application;
 using CodelyTv.Backoffice.Courses.Application.SearchByCriteria;
 using CodelyTv.Shared.Domain.Bus.Query;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CodelyTv.Apps.Backoffice.Frontend.Controllers.Courses
+namespace CodelyTv.Apps.Backoffice.Backend.Controllers.Courses
 {
     [ApiController]
-    [Route("/api/courses")]
-    public class ApiCoursesGetController : Controller
+    [Route("/courses")]
+    public class CoursesGetController : Controller
     {
         private readonly QueryBus _bus;
 
-        public ApiCoursesGetController(QueryBus bus)
+        public CoursesGetController(QueryBus bus)
         {
             _bus = bus;
         }
