@@ -15,8 +15,12 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace CodelyTv.Test.Mooc
 {
-    public class MoocContextInfrastructureTestCase : InfrastructureTestCase<Startup>
+    public class MoocContextInfrastructureTestCase : InfrastructureTestCase<Startup>, IDisposable
     {
+        protected override void Setup()
+        {
+        }
+
         protected override Action<IServiceCollection> Services()
         {
             return services =>
@@ -55,6 +59,11 @@ namespace CodelyTv.Test.Mooc
 
                 services.Configure<RabbitMqConfig>(configuration.GetSection("RabbitMq"));
             };
+        }
+
+        public void Dispose()
+        {
+            Finish();
         }
     }
 }

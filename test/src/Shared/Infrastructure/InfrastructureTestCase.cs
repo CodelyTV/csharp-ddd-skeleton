@@ -1,11 +1,14 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Xunit;
 
 namespace CodelyTv.Test.Shared.Infrastructure
 {
@@ -18,6 +21,14 @@ namespace CodelyTv.Test.Shared.Infrastructure
         public InfrastructureTestCase()
         {
             _host = CreateHost();
+            Setup();
+        }
+
+        protected abstract void Setup();
+
+        protected void Finish()
+        {
+            _host.Dispose();
         }
 
         protected IHost CreateHost()
@@ -58,6 +69,27 @@ namespace CodelyTv.Test.Shared.Infrastructure
                 {
                     function.Invoke();
                     allOk = true;
+                }
+                catch (Exception e)
+                {
+                    attempts++;
+
+                    if (attempts > MaxAttempts)
+                        throw new Exception($"Could not assert after some retries. Last error: {e.Message}");
+
+                    Thread.Sleep(MillisToWaitBetweenRetries);
+                }
+        }
+
+        protected async Task WaitFor(Func<Task<bool>> function)
+        {
+            var attempts = 0;
+            var allOk = false;
+            while (attempts < MaxAttempts && !allOk)
+                try
+                {
+                    allOk = await function.Invoke();
+                    if (!allOk) throw new Exception();
                 }
                 catch (Exception e)
                 {

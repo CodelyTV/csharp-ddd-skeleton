@@ -21,5 +21,10 @@ namespace CodelyTv.Shared.Domain.FiltersByCriteria
                     ? Enum.Parse<OrderType>(orderType.ToUpperInvariant())
                     : OrderType.NONE);
         }
+
+        public static Order None()
+        {
+            return new Order(new OrderBy(string.Empty), OrderType.NONE);
+        }
     }
 }

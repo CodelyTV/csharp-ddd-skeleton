@@ -22,6 +22,7 @@ namespace CodelyTv.Backoffice.Shared.Infrastructure.Persistence.Elasticsearch
 
             GenerateIndexIfNotExist(elastic.IndexFor(nameof(BackofficeCourse)), elastic);
 
+            services.AddSingleton(client);
             services.AddSingleton(elastic);
         }
 
