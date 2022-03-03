@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using CodelyTv.Backoffice.Courses.Domain;
@@ -34,7 +35,9 @@ namespace CodelyTv.Backoffice.Courses.Infrastructure.Persistence.Elasticsearch
 
         protected override string ModuleName()
         {
-            return nameof(BackofficeCourse).ToLower();
+            //return nameof(BackofficeCourse).ToLower();
+            return nameof(BackofficeCourse).ToLower(CultureInfo.CurrentCulture);
+            //return nameof(BackofficeCourse);
         }
     }
 }
