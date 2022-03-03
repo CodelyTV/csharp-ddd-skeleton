@@ -11,7 +11,6 @@ namespace CodelyTv.Test.Shared.Infrastructure.EntityFramework
         {
             var tables = Tables(context);
             var truncateTablesSql = TruncateDatabaseSql(tables);
-            // context.Database..ExecuteSqlCommand(truncateTablesSql);
             context.Database.ExecuteSqlRaw(truncateTablesSql);
         }
 

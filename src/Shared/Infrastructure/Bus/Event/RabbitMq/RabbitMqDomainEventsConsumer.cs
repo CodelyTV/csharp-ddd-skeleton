@@ -50,8 +50,6 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq
             var consumer = new EventingBasicConsumer(channel);
             consumer.Received += async (model, ea) =>
             {
-                //var body = ea.Body;
-                //var message = Encoding.UTF8.GetString(body);
                 var message = Encoding.UTF8.GetString(ea.Body.Span);
                 var @event = _deserializer.Deserialize(message);
 

@@ -35,9 +35,7 @@ namespace CodelyTv.Backoffice.Courses.Infrastructure.Persistence.Elasticsearch
 
         protected override string ModuleName()
         {
-            //return nameof(BackofficeCourse).ToLower();
             return nameof(BackofficeCourse).ToLower(CultureInfo.CurrentCulture);
-            //return nameof(BackofficeCourse);
         }
     }
 }
