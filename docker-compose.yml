@@ -3,7 +3,8 @@ version: '3.0'
 services:
   mssql:
     container_name: codelytv-chsarp_ddd_skeleton-mssql
-    image: mcr.microsoft.com/mssql/server:2019-latest    
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    user: root
     ports:
       - 1433:1433
     environment:
