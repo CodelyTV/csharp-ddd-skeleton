@@ -49,12 +49,12 @@ namespace CodelyTv.Apps.Backoffice.Frontend.Extension.DependencyInjection
 
             services.AddScoped<DbContext, BackofficeContext>();
             services.AddDbContext<BackofficeContext>(options =>
-                    options.UseSqlServer(configuration.GetConnectionString("BackofficeDatabase")),
+                    options.UseSqlServer(configuration.GetConnectionString("BackofficeDatabase"), options => options.EnableRetryOnFailure()),
                 ServiceLifetime.Transient);
 
             services.AddScoped<MoocContext, MoocContext>();
             services.AddDbContext<MoocContext>(options =>
-                options.UseSqlServer(configuration.GetConnectionString("MoocDatabase")), ServiceLifetime.Transient);
+                options.UseSqlServer(configuration.GetConnectionString("MoocDatabase"), options => options.EnableRetryOnFailure()), ServiceLifetime.Transient);
 
             services.AddRabbitMq(configuration);
             services.AddScoped<DomainEventJsonDeserializer, DomainEventJsonDeserializer>();

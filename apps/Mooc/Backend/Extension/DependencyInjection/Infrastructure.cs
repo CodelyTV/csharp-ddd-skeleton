@@ -41,7 +41,7 @@ namespace CodelyTv.Apps.Mooc.Backend.Extension.DependencyInjection
 
             services.AddScoped<DbContext, MoocContext>();
             services.AddDbContext<MoocContext>(options =>
-                options.UseSqlServer(configuration.GetConnectionString("MoocDatabase")), ServiceLifetime.Transient);
+                options.UseSqlServer(configuration.GetConnectionString("MoocDatabase"), options => options.EnableRetryOnFailure()), ServiceLifetime.Transient);
 
             services.AddRabbitMq(configuration);
 

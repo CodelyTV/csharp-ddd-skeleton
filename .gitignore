@@ -33,6 +33,9 @@ msbuild.log
 msbuild.err
 msbuild.wrn
 
+# SQL Server Data
+database/data
+
 # Visual Studio 2015
 .vs/
 

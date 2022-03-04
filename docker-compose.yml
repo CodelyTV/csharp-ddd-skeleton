@@ -9,10 +9,14 @@ services:
     environment:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=Your_password123
+      - MSSQL_SA_PASSWORD=Your_password123
     volumes:
       - ./database/init.sql:/init.sql
       - ./database/mooc.sql:/mooc.sql
       - ./database/backoffice.sql:/backoffice.sql
+      - ./database/data/data:/var/opt/mssql/data
+      - ./database/data/log:/var/opt/mssql/log
+      - ./database/data/secrets:/var/opt/mssql/secrets 
   rabbitmq:
     container_name: codelytv-chsarp_ddd_skeleton-rabbitmq
     image: 'rabbitmq:3.7-management'
