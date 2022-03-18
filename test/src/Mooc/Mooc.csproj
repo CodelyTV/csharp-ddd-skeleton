@@ -5,6 +5,7 @@
         <IsPackable>false</IsPackable>
         <AssemblyName>CodelyTv.Test.Mooc</AssemblyName>
         <RootNamespace>CodelyTv.Test.Mooc</RootNamespace>
+        <PublishWithAspNetCoreTargetManifest>false</PublishWithAspNetCoreTargetManifest>
     </PropertyGroup>
 
     <ItemGroup>

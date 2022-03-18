@@ -5,6 +5,7 @@
         <IsPackable>false</IsPackable>
         <AssemblyName>CodelyTv.Test.Shared</AssemblyName>
         <RootNamespace>CodelyTv.Test.Shared</RootNamespace>
+        <PublishWithAspNetCoreTargetManifest>false</PublishWithAspNetCoreTargetManifest>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

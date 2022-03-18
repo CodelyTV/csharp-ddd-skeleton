@@ -5,6 +5,7 @@
         <IsPackable>false</IsPackable>
         <AssemblyName>CodelyTv.Test.Backoffice</AssemblyName>
         <RootNamespace>CodelyTv.Test.Backoffice</RootNamespace>
+        <PublishWithAspNetCoreTargetManifest>false</PublishWithAspNetCoreTargetManifest>
     </PropertyGroup>
 
     <ItemGroup>
