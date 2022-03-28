@@ -34,8 +34,7 @@ namespace CodelyTv.Backoffice.Courses.Domain
 
         public static BackofficeCourse FromPrimitives(Dictionary<string, object> body)
         {
-            return new BackofficeCourse(Convert.ToString(body["id"]), Convert.ToString(body["name"]),
-                Convert.ToString(body["duration"]));
+            return new BackofficeCourse(body["id"].ToString(), body["name"].ToString(), body["duration"].ToString());
         }
 
         public override bool Equals(object obj)

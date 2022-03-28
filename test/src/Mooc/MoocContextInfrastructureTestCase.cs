@@ -55,7 +55,7 @@ namespace CodelyTv.Test.Mooc
                 services.AddQueryServices(AssemblyHelper.GetInstance(Assemblies.Mooc));
 
                 services.AddDbContext<MoocContext>(options =>
-                    options.UseSqlServer(configuration.GetConnectionString("MoocDatabase")));
+                    options.UseSqlServer(configuration.GetConnectionString("MoocDatabase"), options => options.EnableRetryOnFailure()));
 
                 services.Configure<RabbitMqConfig>(configuration.GetSection("RabbitMq"));
             };

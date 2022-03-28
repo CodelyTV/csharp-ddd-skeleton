@@ -3,16 +3,21 @@ version: '3.0'
 services:
   mssql:
     container_name: codelytv-chsarp_ddd_skeleton-mssql
-    image: mcr.microsoft.com/mssql/server:2019-latest    
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    user: root
     ports:
       - 1433:1433
     environment:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=Your_password123
+      - MSSQL_SA_PASSWORD=Your_password123
     volumes:
       - ./database/init.sql:/init.sql
       - ./database/mooc.sql:/mooc.sql
       - ./database/backoffice.sql:/backoffice.sql
+      - ./database/data/data:/var/opt/mssql/data
+      - ./database/data/log:/var/opt/mssql/log
+      - ./database/data/secrets:/var/opt/mssql/secrets 
   rabbitmq:
     container_name: codelytv-chsarp_ddd_skeleton-rabbitmq
     image: 'rabbitmq:3.7-management'
