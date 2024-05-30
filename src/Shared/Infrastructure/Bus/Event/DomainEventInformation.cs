@@ -14,9 +14,9 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event
             GetDomainTypes().ForEach(eventType => IndexedDomainEvents.Add(GetEventName(eventType), eventType));
         }
 
-        public Type ForName(string name)
+        public Type? ForName(string name)
         {
-            Type value;
+            Type? value;
             IndexedDomainEvents.TryGetValue(name, out value);
             return value;
         }
@@ -28,8 +28,18 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event
 
         private string GetEventName(Type eventType)
         {
-            var instance = (DomainEvent) Activator.CreateInstance(eventType);
-            return eventType.GetMethod("EventName").Invoke(instance, null).ToString();
+            var instance = Activator.CreateInstance(eventType);
+            var method = eventType.GetMethod("EventName");
+            if (method == null)
+            {
+                throw new InvalidOperationException($"Type {eventType} does not have a method named 'EventName'.");
+            }
+            var result = method.Invoke(instance, null);
+            if (result == null)
+            {
+                throw new InvalidOperationException($"Method 'EventName' on type {eventType} returned null.");
+            }
+            return result.ToString() ?? "";
         }
 
         private List<Type> GetDomainTypes()

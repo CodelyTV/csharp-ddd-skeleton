@@ -55,7 +55,13 @@ namespace CodelyTv.Test.Shared.Infrastructure
 
         protected T GetService<T>()
         {
-            return _host.Services.GetService<T>();
+            var service = _host.Services.GetService<T>();
+            if (service == null)
+            {
+                throw new Exception($"Service of type {typeof(T)} not found.");
+            }
+
+            return service;
         }
 
         protected abstract Action<IServiceCollection> Services();

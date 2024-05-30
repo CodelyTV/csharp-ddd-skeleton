@@ -20,6 +20,9 @@ namespace CodelyTv.Mooc.CoursesCounters.Domain
 
         private CoursesCounter()
         {
+            Id = null!;
+            Total = null!;
+            ExistingCourses = null!;
         }
 
         public static CoursesCounter Initialize(string id)
@@ -38,7 +41,7 @@ namespace CodelyTv.Mooc.CoursesCounters.Domain
             ExistingCourses.Add(id);
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (this == obj) return true;
 

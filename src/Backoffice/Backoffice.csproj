@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
+        <TargetFramework>net8.0</TargetFramework>
         <AssemblyName>CodelyTv.Backoffice</AssemblyName>
         <RootNamespace>CodelyTv.Backoffice</RootNamespace>
     </PropertyGroup>
@@ -11,8 +11,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.2" />
-      <PackageReference Include="NEST" Version="7.17.0" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" />
+      <PackageReference Include="NEST" />
     </ItemGroup>
 
 </Project>

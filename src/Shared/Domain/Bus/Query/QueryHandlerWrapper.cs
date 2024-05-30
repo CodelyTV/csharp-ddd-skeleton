@@ -13,10 +13,13 @@ namespace CodelyTv.Shared.Domain.Bus.Query
     {
         public override async Task<TResponse> Handle(Query query, IServiceProvider provider)
         {
-            var handler =
-                (QueryHandler<TQuery, TResponse>) provider.GetService(typeof(QueryHandler<TQuery, TResponse>));
+            var service = provider.GetService(typeof(QueryHandler<TQuery, TResponse>));
+            if (!(service is QueryHandler<TQuery, TResponse> handler))
+            {
+                throw new SystemException("Query is not a valid query");
+            }
 
-            return await handler.Handle((TQuery) query);
+            return await handler.Handle((TQuery)query);
         }
     }
 }

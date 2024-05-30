@@ -24,14 +24,16 @@ namespace CodelyTv.Shared.Infrastructure.Elasticsearch
             searchDescriptor.MatchAll();
             searchDescriptor.Index(_client.IndexFor(ModuleName()));
 
-            return (await _client.Client.SearchAsync<Dictionary<string, object>>(searchDescriptor))?.Documents;
+            var response = await _client.Client.SearchAsync<Dictionary<string, object>>(searchDescriptor);
+            return response?.Documents ?? new List<Dictionary<string, object>>();
         }
 
         protected async Task<IReadOnlyCollection<Dictionary<string, object>>> SearchByCriteria(Criteria criteria)
         {
             var searchDescriptor = _criteriaConverter.Convert(criteria, _client.IndexFor(ModuleName()));
 
-            return (await _client.Client.SearchAsync<Dictionary<string, object>>(searchDescriptor))?.Documents;
+            var response = await _client.Client.SearchAsync<Dictionary<string, object>>(searchDescriptor);
+            return response?.Documents ?? new List<Dictionary<string, object>>();
         }
 
         protected async Task Persist(string id, string json)

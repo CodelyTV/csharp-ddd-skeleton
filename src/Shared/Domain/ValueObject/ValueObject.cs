@@ -19,20 +19,18 @@ namespace CodelyTv.Shared.Domain.ValueObject
 
         protected abstract IEnumerable<object> GetAtomicValues();
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
-            if (obj == null || obj.GetType() != GetType()) return false;
+            if (obj is not ValueObject other || obj.GetType() != GetType()) return false;
 
-            var other = (ValueObject) obj;
             var thisValues = GetAtomicValues().GetEnumerator();
             var otherValues = other.GetAtomicValues().GetEnumerator();
             while (thisValues.MoveNext() && otherValues.MoveNext())
             {
-                if (ReferenceEquals(thisValues.Current, null) ^
-                    ReferenceEquals(otherValues.Current, null))
+                if (thisValues.Current is null ^ otherValues.Current is null)
                     return false;
 
-                if (thisValues.Current != null &&
+                if (thisValues.Current is not null &&
                     !thisValues.Current.Equals(otherValues.Current))
                     return false;
             }

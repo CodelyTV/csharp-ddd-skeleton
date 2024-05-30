@@ -72,7 +72,11 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq
 
         private string EventNameSubscribed(DomainEventSubscriberInformation subscriberInformation)
         {
-            dynamic domainEvent = Activator.CreateInstance(subscriberInformation.SubscribedEvent);
+            dynamic? domainEvent = Activator.CreateInstance(subscriberInformation.SubscribedEvent);
+            if (domainEvent == null)
+            {
+                throw new InvalidOperationException("Failed to create instance of event type ");
+            }
             return domainEvent.EventName();
         }
     }

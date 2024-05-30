@@ -6,12 +6,12 @@ namespace CodelyTv.Apps.Backoffice.Backend.Criteria
     public class FiltersParam
     {
         [FromQuery(Name = "filters")]
-        public List<Dictionary<string, string>> Filters { get; set; }
+        public List<Dictionary<string, string>> Filters { get; set; } = new List<Dictionary<string, string>>();
 
         [FromQuery(Name = "order_by")]
-        public string OrderBy { get; set; }
+        public string OrderBy { get; set; } = string.Empty;
 
-        public string Order { get; set; }
+        public string Order { get; set; } = string.Empty;
 
         public int? Limit { get; set; }
 

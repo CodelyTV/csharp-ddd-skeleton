@@ -12,6 +12,6 @@ namespace CodelyTv.Test.Shared.Infrastructure
             builder.ConfigureServices(Services());
         }
 
-        protected abstract Action<IServiceCollection> Services();
+        protected new abstract Action<IServiceCollection> Services();
     }
 }

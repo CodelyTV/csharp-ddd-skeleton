@@ -11,41 +11,51 @@ namespace CodelyTv.Backoffice.Courses.Domain
 
         public BackofficeCourse(string id, string name, string duration)
         {
-            Id = id;
-            Name = name;
-            Duration = duration;
+            Id = id ?? throw new ArgumentNullException(nameof(id));
+            Name = name ?? throw new ArgumentNullException(nameof(name));
+            Duration = duration ?? throw new ArgumentNullException(nameof(duration));
         }
 
         private BackofficeCourse()
         {
+            Id = string.Empty;
+            Name = string.Empty;
+            Duration = string.Empty;
         }
 
         public Dictionary<string, object> ToPrimitives()
         {
-            var primitives = new Dictionary<string, object>
+            return new Dictionary<string, object>
             {
-                {"id", Id},
-                {"name", Name},
-                {"duration", Duration}
+                { "id", Id },
+                { "name", Name },
+                { "duration", Duration }
             };
-
-            return primitives;
         }
 
         public static BackofficeCourse FromPrimitives(Dictionary<string, object> body)
         {
-            return new BackofficeCourse(body["id"].ToString(), body["name"].ToString(), body["duration"].ToString());
+            if (body == null)
+            {
+                throw new ArgumentNullException(nameof(body));
+            }
+
+            return new BackofficeCourse(
+                body["id"]?.ToString() ?? throw new InvalidOperationException("ID is missing"),
+                body["name"]?.ToString() ?? throw new InvalidOperationException("Name is missing"),
+                body["duration"]?.ToString() ?? throw new InvalidOperationException("Duration is missing")
+            );
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (this == obj) return true;
+            if (obj == null || GetType() != obj.GetType()) return false;
 
             var item = obj as BackofficeCourse;
             if (item == null) return false;
 
-            return Id.Equals(item.Id) && Name.Equals(item.Name) &&
-                   Duration.Equals(item.Duration);
+            return Id.Equals(item.Id) && Name.Equals(item.Name) && Duration.Equals(item.Duration);
         }
 
         public override int GetHashCode()

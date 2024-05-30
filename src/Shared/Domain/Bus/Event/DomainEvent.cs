@@ -10,16 +10,16 @@ namespace CodelyTv.Shared.Domain.Bus.Event
         public string EventId { get; }
         public string OccurredOn { get; }
 
-        protected DomainEvent(string aggregateId, string eventId, string occurredOn)
+        protected DomainEvent(string aggregateId, string? eventId, string? occurredOn)
         {
             AggregateId = aggregateId;
             EventId = eventId ?? Uuid.Random().Value;
             OccurredOn = occurredOn ?? Utils.DateToString(DateTime.Now);
         }
 
-        protected DomainEvent()
-        {
-        }
+        // protected DomainEvent()
+        // {
+        // }
 
         public abstract string EventName();
         public abstract Dictionary<string, string> ToPrimitives();

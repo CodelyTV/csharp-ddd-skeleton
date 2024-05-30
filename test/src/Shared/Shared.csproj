@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
+        <TargetFramework>net8.0</TargetFramework>
         <IsPackable>false</IsPackable>
         <AssemblyName>CodelyTv.Test.Shared</AssemblyName>
         <RootNamespace>CodelyTv.Test.Shared</RootNamespace>
@@ -13,16 +13,16 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Bogus" Version="34.0.1" />
-        <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="6.0.2" />
-        <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="6.0.2" />
-        <PackageReference Include="Moq" Version="4.17.1" />
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+        <PackageReference Include="Bogus" />
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
+        <PackageReference Include="Microsoft.AspNetCore.TestHost" />
+        <PackageReference Include="Moq" />
+        <PackageReference Include="Newtonsoft.Json" />
     </ItemGroup>
 
     <ItemGroup>
         <ProjectReference Include="..\..\..\apps\Mooc\Backend\Backend.csproj" />
         <ProjectReference Include="..\..\..\src\Shared\Shared.csproj" />
-    </ItemGroup>   
+    </ItemGroup>
 
 </Project>

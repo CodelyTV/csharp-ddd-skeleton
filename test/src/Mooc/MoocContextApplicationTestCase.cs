@@ -1,3 +1,5 @@
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -14,11 +16,11 @@ namespace CodelyTv.Test.Mooc
     public class MoocContextApplicationTestCase : IClassFixture<MoocWebApplicationFactory<Startup>>
     {
         private readonly MoocWebApplicationFactory<Startup> _factory;
-        private HttpClient _client;
+        private HttpClient? _client;
 
         public MoocContextApplicationTestCase(MoocWebApplicationFactory<Startup> factory)
         {
-            _factory = factory;
+            _factory = factory ?? throw new ArgumentNullException(nameof(factory));
         }
 
         protected void CreateAnonymousClient()
@@ -29,6 +31,11 @@ namespace CodelyTv.Test.Mooc
         protected async Task AssertRequestWithBody(HttpMethod method, string endpoint, string body,
             int expectedStatusCode)
         {
+            if (_client == null)
+            {
+                throw new InvalidOperationException("HttpClient is not initialized. Call CreateAnonymousClient() first.");
+            }
+
             using (var request = new HttpRequestMessage
             {
                 Method = method,
@@ -38,13 +45,18 @@ namespace CodelyTv.Test.Mooc
             {
                 var response = await _client.SendAsync(request);
 
-                Assert.Equal(expectedStatusCode, (int) response.StatusCode);
+                Assert.Equal(expectedStatusCode, (int)response.StatusCode);
             }
         }
 
         protected async Task AssertResponse(HttpMethod method, string endpoint, int expectedStatusCode,
             string expectedResponse)
         {
+            if (_client == null)
+            {
+                throw new InvalidOperationException("HttpClient is not initialized. Call CreateAnonymousClient() first.");
+            }
+
             using (var request = new HttpRequestMessage
             {
                 Method = method,
@@ -52,14 +64,19 @@ namespace CodelyTv.Test.Mooc
             })
             {
                 var response = await _client.SendAsync(request);
-                var result = response.Content.ReadAsStringAsync().Result;
-                Assert.Equal(expectedStatusCode, (int) response.StatusCode);
+                var result = await response.Content.ReadAsStringAsync();
+                Assert.Equal(expectedStatusCode, (int)response.StatusCode);
                 Assert.Equal(expectedResponse, result);
             }
         }
 
         protected async Task GivenISendEventsToTheBus(List<DomainEvent> domainEvents)
         {
+            if (domainEvents == null)
+            {
+                throw new ArgumentNullException(nameof(domainEvents));
+            }
+
             using (var scope = _factory.Server.Host.Services.CreateScope())
             {
                 var eventBus = scope.ServiceProvider.GetRequiredService<InMemoryApplicationEventBus>();

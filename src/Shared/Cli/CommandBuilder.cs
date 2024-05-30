@@ -11,7 +11,7 @@ namespace CodelyTv.Shared.Cli
         private readonly string[] _args;
         private readonly Dictionary<string, Type> Commands;
 
-        protected ServiceProvider Provider { get; set; }
+        protected ServiceProvider? Provider { get; set; }
 
         protected CommandBuilder(string[] args, Dictionary<string, Type> commands)
         {
@@ -24,11 +24,18 @@ namespace CodelyTv.Shared.Cli
         public virtual void Run()
         {
             var command = GetCommand();
-
+            if (Provider == null) throw new SystemException("Provider is not set");
             using var scope = Provider.CreateScope();
 
             var service = scope.ServiceProvider.GetService(command);
-            ((Command) service).Execute(_args);
+            if (service is Command commandService)
+            {
+                commandService.Execute(_args);
+            }
+            else
+            {
+                throw new SystemException("Command is not a valid command");
+            }
         }
 
         protected Type GetCommand()

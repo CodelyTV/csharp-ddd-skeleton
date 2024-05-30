@@ -6,8 +6,8 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq
     public class RabbitMqConfig
     {
         public ConnectionFactory ConnectionFactory { get; }
-        private static IConnection _connection { get; set; }
-        private static IModel _channel { get; set; }
+        private static IConnection? _connection { get; set; }
+        private static IModel? _channel { get; set; }
 
         public RabbitMqConfig(IOptions<RabbitMqConfigParams> rabbitMqParams)
         {

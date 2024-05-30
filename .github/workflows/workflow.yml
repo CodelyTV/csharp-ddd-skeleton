@@ -1,6 +1,6 @@
 name: Main Workflow
 
-on: [push]
+on: [push, workflow_dispatch]
 
 jobs:
   build:
@@ -14,17 +14,28 @@ jobs:
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: 6.0.x  
-       
+          dotnet-version: 8.0.x
+
       - name: Build with dotnet
         run: dotnet build --configuration Release
 
+      - name: Sleep for 30 seconds
+        uses: jakejarvis/wait-action@master
+        with:
+          time: "45s"
+
+      - name: Listing all docker containers
+        run: docker ps -all
+
+      - name: SQL Server logs
+        run: docker logs codelytv-chsarp_ddd_skeleton-mssql
+
       - name: Init databases
         run: docker exec codelytv-chsarp_ddd_skeleton-mssql /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P Your_password123 -d master -i init.sql
-        
+
       - name: Init mooc database
         run: docker exec codelytv-chsarp_ddd_skeleton-mssql /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P Your_password123 -d master -i mooc.sql
-        
+
       - name: Init backoffice database
         run: docker exec codelytv-chsarp_ddd_skeleton-mssql /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P Your_password123 -d master -i backoffice.sql
 

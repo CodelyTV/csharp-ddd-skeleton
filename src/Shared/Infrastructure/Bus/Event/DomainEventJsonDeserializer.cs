@@ -12,30 +12,67 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event
 
         public DomainEventJsonDeserializer(DomainEventsInformation information)
         {
-            this.information = information;
+            this.information = information ?? throw new ArgumentNullException(nameof(information));
         }
 
         public DomainEvent Deserialize(string body)
         {
+            if (string.IsNullOrEmpty(body))
+            {
+                throw new ArgumentNullException(nameof(body));
+            }
+
             var eventData = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, object>>>(body);
+            if (eventData == null || !eventData.ContainsKey("data"))
+            {
+                throw new InvalidOperationException("Invalid JSON format");
+            }
 
             var data = eventData["data"];
-            var attributes = JsonConvert.DeserializeObject<Dictionary<string, string>>(data["attributes"].ToString());
+            if (data == null || !data.ContainsKey("attributes") || !data.ContainsKey("type") || !data.ContainsKey("id") || !data.ContainsKey("occurred_on"))
+            {
+                throw new InvalidOperationException("Invalid data format");
+            }
 
-            var domainEventType = information.ForName((string) data["type"]);
+            var attributes = JsonConvert.DeserializeObject<Dictionary<string, string>>(data["attributes"]?.ToString() ?? string.Empty);
+            if (attributes == null)
+            {
+                throw new InvalidOperationException("Invalid attributes format");
+            }
 
-            var instance = (DomainEvent) Activator.CreateInstance(domainEventType);
+            var domainEventType = information.ForName(data["type"]?.ToString() ?? throw new InvalidOperationException("Type is missing"));
+            if (domainEventType == null)
+            {
+                throw new InvalidOperationException("Unable to resolve domain event type");
+            }
 
-            var domainEvent = (DomainEvent) domainEventType
-                .GetTypeInfo()
-                .GetDeclaredMethod(nameof(DomainEvent.FromPrimitives))
-                .Invoke(instance, new object[]
-                {
-                    attributes["id"],
-                    attributes,
-                    data["id"].ToString(),
-                    data["occurred_on"].ToString()
-                });
+            var instance = Activator.CreateInstance(domainEventType) as DomainEvent;
+            if (instance == null)
+            {
+                throw new InvalidOperationException($"Unable to create instance of type {domainEventType}");
+            }
+
+            var fromPrimitivesMethod = domainEventType.GetTypeInfo().GetDeclaredMethod(nameof(DomainEvent.FromPrimitives));
+            if (fromPrimitivesMethod == null)
+            {
+                throw new InvalidOperationException("FromPrimitives method not found");
+            }
+
+            var id = data["id"]?.ToString() ?? throw new InvalidOperationException("ID is missing");
+            var occurredOn = data["occurred_on"]?.ToString() ?? throw new InvalidOperationException("Occurred on is missing");
+
+            var domainEvent = fromPrimitivesMethod.Invoke(instance, new object[]
+            {
+                attributes["id"],
+                attributes,
+                id,
+                occurredOn
+            }) as DomainEvent;
+
+            if (domainEvent == null)
+            {
+                throw new InvalidOperationException("Unable to deserialize domain event");
+            }
 
             return domainEvent;
         }

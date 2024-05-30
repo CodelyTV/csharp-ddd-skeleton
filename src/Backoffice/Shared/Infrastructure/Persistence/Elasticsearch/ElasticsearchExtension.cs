@@ -12,8 +12,18 @@ namespace CodelyTv.Backoffice.Shared.Infrastructure.Persistence.Elasticsearch
     {
         public static void AddElasticsearch(this IServiceCollection services, IConfiguration configuration)
         {
-            var defaultIndex = configuration["Elasticsearch:IndexPrefix"];
-            var url = $"{configuration["Elasticsearch:Host"]}:{configuration["Elasticsearch:Port"]}";
+            if (configuration == null)
+            {
+                throw new ArgumentNullException(nameof(configuration));
+            }
+
+            var defaultIndex = configuration["Elasticsearch:IndexPrefix"] ?? throw new InvalidOperationException("Elasticsearch index prefix is missing");
+
+            var host = configuration["Elasticsearch:Host"] ?? throw new InvalidOperationException("Elasticsearch host is missing");
+
+            var port = configuration["Elasticsearch:Port"] ?? throw new InvalidOperationException("Elasticsearch port is missing");
+
+            var url = $"{host}:{port}";
 
             var settings = new ConnectionSettings(new Uri(url)).DefaultIndex(defaultIndex);
 

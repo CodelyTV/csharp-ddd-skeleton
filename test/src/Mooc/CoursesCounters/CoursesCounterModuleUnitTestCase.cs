@@ -25,7 +25,7 @@ namespace CodelyTv.Test.Mooc.CoursesCounters
 
         protected void ShouldSearch()
         {
-            Repository.Setup(x => x.Search()).ReturnsAsync((CoursesCounter) null);
+            Repository.Setup(x => x.Search()).ReturnsAsync((CoursesCounter?)null);
         }
     }
 }

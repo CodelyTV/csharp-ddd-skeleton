@@ -19,6 +19,9 @@ namespace CodelyTv.Mooc.Courses.Domain
 
         private Course()
         {
+            Id = null!;
+            Name = null!;
+            Duration = null!;
         }
 
         public static Course Create(CourseId id, CourseName name, CourseDuration duration)
@@ -30,7 +33,7 @@ namespace CodelyTv.Mooc.Courses.Domain
             return course;
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (this == obj) return true;
 

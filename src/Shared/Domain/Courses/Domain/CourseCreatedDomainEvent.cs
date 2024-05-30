@@ -9,15 +9,17 @@ namespace CodelyTv.Shared.Domain.Courses.Domain
         public string Name { get; }
         public string Duration { get; }
 
-        public CourseCreatedDomainEvent(string id, string name, string duration, string eventId = null,
-            string occurredOn = null) : base(id, eventId, occurredOn)
+        public CourseCreatedDomainEvent(string id, string name, string duration, string? eventId = null,
+            string? occurredOn = null) : base(id, eventId, occurredOn)
         {
             Name = name;
             Duration = duration;
         }
 
-        public CourseCreatedDomainEvent()
+        public CourseCreatedDomainEvent() : base(string.Empty, null, null)
         {
+            Name = string.Empty;
+            Duration = string.Empty;
         }
 
         public override string EventName()
@@ -40,7 +42,7 @@ namespace CodelyTv.Shared.Domain.Courses.Domain
             return new CourseCreatedDomainEvent(aggregateId, body["name"], body["duration"], eventId, occurredOn);
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (this == obj) return true;
 

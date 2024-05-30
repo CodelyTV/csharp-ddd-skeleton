@@ -17,16 +17,32 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Command
 
         public InMemoryCommandBus(IServiceProvider provider)
         {
-            _provider = provider;
+            _provider = provider ?? throw new ArgumentNullException(nameof(provider));
         }
 
         public async Task Dispatch(Domain.Bus.Command.Command command)
         {
+            if (command == null)
+            {
+                throw new ArgumentNullException(nameof(command));
+            }
+
             var wrappedHandlers = GetWrappedHandlers(command);
 
-            if (wrappedHandlers == null) throw new CommandNotRegisteredError(command);
+            if (wrappedHandlers == null || !wrappedHandlers.Any())
+            {
+                throw new CommandNotRegisteredError(command);
+            }
 
-            foreach (var handler in wrappedHandlers) await handler.Handle(command, _provider);
+            foreach (var handler in wrappedHandlers)
+            {
+                if (handler == null)
+                {
+                    continue;
+                }
+
+                await handler.Handle(command, _provider);
+            }
         }
 
         private IEnumerable<CommandHandlerWrapper> GetWrappedHandlers(Domain.Bus.Command.Command command)
@@ -34,11 +50,15 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Command
             var handlerType = typeof(CommandHandler<>).MakeGenericType(command.GetType());
             var wrapperType = typeof(CommandHandlerWrapper<>).MakeGenericType(command.GetType());
 
-            var handlers =
-                (IEnumerable) _provider.GetService(typeof(IEnumerable<>).MakeGenericType(handlerType));
+            var handlers = _provider.GetService(typeof(IEnumerable<>).MakeGenericType(handlerType)) as IEnumerable<object>;
+            if (handlers == null)
+            {
+                throw new InvalidOperationException($"Handlers for command type {command.GetType().Name} not found");
+            }
 
-            var wrappedHandlers = _commandHandlers.GetOrAdd(command.GetType(), handlers.Cast<object>()
-                .Select(handler => (CommandHandlerWrapper) Activator.CreateInstance(wrapperType)));
+            var wrappedHandlers = _commandHandlers.GetOrAdd(command.GetType(), _ => handlers
+                .Select(handler => (CommandHandlerWrapper)(Activator.CreateInstance(wrapperType) ?? throw new InvalidOperationException($"Unable to create instance of {wrapperType.Name}")))
+                .ToList());
 
             return wrappedHandlers;
         }

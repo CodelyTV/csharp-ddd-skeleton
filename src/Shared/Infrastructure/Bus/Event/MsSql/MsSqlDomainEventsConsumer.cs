@@ -19,36 +19,68 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event.MsSql
             DomainEventsInformation domainEventsInformation,
             DbContext context)
         {
-            _bus = bus;
-            _domainEventsInformation = domainEventsInformation;
-            _context = context;
+            _bus = bus ?? throw new ArgumentNullException(nameof(bus));
+            _domainEventsInformation = domainEventsInformation ?? throw new ArgumentNullException(nameof(domainEventsInformation));
+            _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
         public async Task Consume()
         {
             var domainEvents = _context.Set<DomainEventPrimitive>().Take(Chunk).ToList();
+            if (domainEvents == null || domainEvents.Count == 0)
+            {
+                throw new InvalidOperationException("No domain events found");
+            }
 
-            foreach (var domainEvent in domainEvents) await ExecuteSubscribers(domainEvent);
+            foreach (var domainEvent in domainEvents)
+            {
+                if (domainEvent == null)
+                {
+                    continue;
+                }
+                await ExecuteSubscribers(domainEvent);
+            }
         }
 
         private async Task ExecuteSubscribers(DomainEventPrimitive domainEventPrimitive)
         {
-            var domainEventType = _domainEventsInformation.ForName(domainEventPrimitive.Name);
+            if (domainEventPrimitive == null)
+            {
+                throw new ArgumentNullException(nameof(domainEventPrimitive));
+            }
 
-            var instance = (DomainEvent) Activator.CreateInstance(domainEventType);
+            var domainEventType = _domainEventsInformation.ForName(domainEventPrimitive.Name ?? throw new InvalidOperationException("Event name is missing"));
+            if (domainEventType == null)
+            {
+                throw new InvalidOperationException("Unable to resolve domain event type");
+            }
 
-            var result = (DomainEvent) domainEventType
-                .GetTypeInfo()
-                .GetDeclaredMethod(nameof(DomainEvent.FromPrimitives))
-                .Invoke(instance, new object[]
-                {
-                    domainEventPrimitive.AggregateId,
-                    domainEventPrimitive.Body,
-                    domainEventPrimitive.Id,
-                    domainEventPrimitive.OccurredOn
-                });
+            var instance = Activator.CreateInstance(domainEventType) as DomainEvent;
+            if (instance == null)
+            {
+                throw new InvalidOperationException($"Unable to create instance of type {domainEventType}");
+            }
 
-            await _bus.Publish(new List<DomainEvent> {result});
+            var fromPrimitivesMethod = domainEventType.GetTypeInfo().GetDeclaredMethod(nameof(DomainEvent.FromPrimitives));
+            if (fromPrimitivesMethod == null)
+            {
+                throw new InvalidOperationException("FromPrimitives method not found");
+            }
+
+            var result = fromPrimitivesMethod.Invoke(instance, new object[]
+            {
+                domainEventPrimitive.AggregateId ?? throw new InvalidOperationException("AggregateId is missing"),
+                domainEventPrimitive.Body ?? throw new InvalidOperationException("Body is missing"),
+                domainEventPrimitive.Id ?? throw new InvalidOperationException("Id is missing"),
+                domainEventPrimitive.OccurredOn ?? throw new InvalidOperationException("OccurredOn is missing")
+            }) as DomainEvent;
+
+            if (result == null)
+            {
+                throw new InvalidOperationException("Unable to deserialize domain event");
+            }
+
+            await _bus.Publish(new List<DomainEvent> { result });
 
             _context.Set<DomainEventPrimitive>().Remove(domainEventPrimitive);
             _context.SaveChanges();

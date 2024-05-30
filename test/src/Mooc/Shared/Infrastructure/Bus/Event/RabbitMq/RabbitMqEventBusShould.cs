@@ -42,7 +42,7 @@ namespace CodelyTv.Test.Mooc.Shared.Infrastructure.Bus.Event.RabbitMq
         {
             var domainEvent = CourseCreatedDomainEventMother.Random();
 
-            await _bus.Publish(new List<DomainEvent> {domainEvent});
+            await _bus.Publish(new List<DomainEvent> { domainEvent });
 
             await _consumer.Consume();
 
@@ -64,18 +64,50 @@ namespace CodelyTv.Test.Mooc.Shared.Infrastructure.Bus.Event.RabbitMq
                 });
         }
 
-        private static void CreateQueue(IModel channel,
-            DomainEventSubscribersInformation domainEventSubscribersInformation)
+        private static void CreateQueue(IModel channel, DomainEventSubscribersInformation domainEventSubscribersInformation)
         {
+            if (channel == null)
+            {
+                throw new ArgumentNullException(nameof(channel));
+            }
+
+            if (domainEventSubscribersInformation == null)
+            {
+                throw new ArgumentNullException(nameof(domainEventSubscribersInformation));
+            }
+
             foreach (var subscriberInformation in domainEventSubscribersInformation.All())
             {
+                if (subscriberInformation == null)
+                {
+                    continue;
+                }
+
                 var domainEventsQueueName = RabbitMqQueueNameFormatter.Format(subscriberInformation);
                 var queue = channel.QueueDeclare(domainEventsQueueName,
-                    true,
-                    false,
-                    false);
-                dynamic domainEvent = Activator.CreateInstance(subscriberInformation.SubscribedEvent);
-                channel.QueueBind(queue, TestDomainEvents, (string) domainEvent.EventName());
+                    durable: true,
+                    exclusive: false,
+                    autoDelete: false);
+
+                var domainEvent = Activator.CreateInstance(subscriberInformation.SubscribedEvent);
+                if (domainEvent == null)
+                {
+                    throw new InvalidOperationException($"Unable to create instance of {subscriberInformation.SubscribedEvent.FullName}");
+                }
+
+                var eventNameMethod = domainEvent.GetType().GetMethod("EventName");
+                if (eventNameMethod == null)
+                {
+                    throw new InvalidOperationException("The 'EventName' method is not found in the subscribed event.");
+                }
+
+                var eventName = eventNameMethod.Invoke(domainEvent, null) as string;
+                if (eventName == null)
+                {
+                    throw new InvalidOperationException("The 'EventName' method returned null or is not a string.");
+                }
+
+                channel.QueueBind(queue.QueueName, TestDomainEvents, eventName);
             }
         }
 

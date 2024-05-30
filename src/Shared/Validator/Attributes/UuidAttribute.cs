@@ -5,10 +5,10 @@ namespace CodelyTv.Shared.Validator.Attributes
 {
     public class UuidAttribute : ValidationAttribute
     {
-        protected override ValidationResult IsValid(object value,
+        protected override ValidationResult? IsValid(object? value,
             ValidationContext validationContext)
         {
-            var isValid = Guid.TryParse((string) value, out var result);
+            var isValid = Guid.TryParse(value as string, out var result);
 
             if (isValid) return ValidationResult.Success;
 

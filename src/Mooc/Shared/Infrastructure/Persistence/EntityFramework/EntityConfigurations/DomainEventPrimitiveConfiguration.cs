@@ -12,19 +12,29 @@ namespace CodelyTv.Mooc.Shared.Infrastructure.Persistence.EntityFramework.Entity
     {
         public void Configure(EntityTypeBuilder<DomainEventPrimitive> builder)
         {
+            if (builder == null)
+            {
+                throw new ArgumentNullException(nameof(builder));
+            }
+
             builder.ToTable(nameof(MoocContext.DomainEvents).ToDatabaseFormat());
 
             builder.HasKey(x => x.AggregateId);
 
             builder.Property(x => x.Body)
-                .HasConversion(v => JsonConvert.SerializeObject(v),
-                    v => JsonConvert.DeserializeObject<Dictionary<string, string>>(v));
+                .HasConversion(
+                    v => JsonConvert.SerializeObject(v) ?? string.Empty,
+                    v => JsonConvert.DeserializeObject<Dictionary<string, string>>(v) ?? new Dictionary<string, string>()
+                );
 
             builder.Property(x => x.AggregateId)
                 .HasColumnName(nameof(DomainEventPrimitive.AggregateId).ToDatabaseFormat());
 
             builder.Property(x => x.OccurredOn)
-                .HasConversion(v => Utils.StringToDate(v), v => Utils.DateToString(v))
+                .HasConversion(
+                    v => Utils.StringToDate(v),
+                    v => Utils.DateToString(v) ?? string.Empty
+                )
                 .HasColumnName(nameof(DomainEventPrimitive.OccurredOn).ToDatabaseFormat());
         }
     }

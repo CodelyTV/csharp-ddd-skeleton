@@ -4,6 +4,6 @@ namespace CodelyTv.Shared.Domain.Bus.Query
 {
     public interface QueryBus
     {
-        Task<TResponse> Ask<TResponse>(Query request);
+        Task<TResponse> Ask<TResponse>(Query request) where TResponse : class;
     }
 }

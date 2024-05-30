@@ -11,7 +11,7 @@ namespace CodelyTv.Mooc.CoursesCounters.Application.Find
             Total = total;
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (this == obj) return true;
 

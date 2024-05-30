@@ -59,7 +59,7 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq
 
                 try
                 {
-                    await ((DomainEventSubscriberBase) subscriber).On(@event);
+                    await ((DomainEventSubscriberBase)subscriber).On(@event);
                 }
                 catch
                 {
@@ -83,6 +83,8 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq
             var subscriberName = queueParts[^1].ToCamelFirstUpper();
 
             var t = ReflectionHelper.GetType(subscriberName);
+            if (t is null)
+                throw new Exception($"The subscriber {subscriberName} does not exist");
 
             var subscriber = scope.ServiceProvider.GetRequiredService(t);
             DomainEventSubscribers.Add(queue, subscriber);
@@ -108,7 +110,7 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq
 
         private bool HasBeenRedeliveredTooMuch(IDictionary<string, object> headers)
         {
-            return (int) (headers[HeaderRedelivery] ?? 0) >= MaxRetries;
+            return (int)(headers[HeaderRedelivery] ?? 0) >= MaxRetries;
         }
 
         private void SendToRetry(BasicDeliverEventArgs ea, string queue)
@@ -129,7 +131,7 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq
             var body = ea.Body;
             var properties = ea.BasicProperties;
             var headers = ea.BasicProperties.Headers;
-            headers[HeaderRedelivery] = (int) headers[HeaderRedelivery] + 1;
+            headers[HeaderRedelivery] = (int)headers[HeaderRedelivery] + 1;
             properties.Headers = headers;
 
             channel.BasicPublish(exchange,

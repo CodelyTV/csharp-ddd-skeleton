@@ -20,7 +20,7 @@ namespace CodelyTv.Mooc.Courses.Infrastructure
             });
         }
 
-        public async Task<Course> Search(CourseId id)
+        public async Task<Course?> Search(CourseId id)
         {
             if (File.Exists(FileName(id.Value)))
             {

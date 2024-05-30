@@ -8,8 +8,8 @@ namespace CodelyTv.Shared.Infrastructure.Elasticsearch
 {
     public class ElasticsearchCriteriaConverter<T> where T : class
     {
-        private readonly Dictionary<FilterOperator, Func<Filter, QueryContainer>> _queryTransformers =
-            new Dictionary<FilterOperator, Func<Filter, QueryContainer>>
+        private readonly Dictionary<FilterOperator, Func<Filter, QueryContainer?>> _queryTransformers =
+            new Dictionary<FilterOperator, Func<Filter, QueryContainer?>>
             {
                 {FilterOperator.EQUAL, TermQuery},
                 {FilterOperator.NOT_EQUAL, TermQuery},
@@ -37,7 +37,7 @@ namespace CodelyTv.Shared.Infrastructure.Elasticsearch
             return searchDescriptor;
         }
 
-        private SortDescriptor<T> CreateSortDescriptor(SortDescriptor<T> sortDescriptor, Criteria criteria)
+        private SortDescriptor<T>? CreateSortDescriptor(SortDescriptor<T> sortDescriptor, Criteria criteria)
         {
             if (!criteria.HasOrder())
                 return null;
@@ -48,12 +48,12 @@ namespace CodelyTv.Shared.Infrastructure.Elasticsearch
             return sortDescriptor.Field(f => f.Field(orderByValue).Order(sortOrder));
         }
 
-        private QueryContainer QueryByCriteria(Criteria criteria)
+        private QueryContainer? QueryByCriteria(Criteria criteria)
         {
             if (!criteria.HasFilters())
                 return null;
 
-            QueryContainer query = null;
+            QueryContainer? query = null;
 
             foreach (var filter in criteria.Filters.Values)
             {
@@ -69,7 +69,7 @@ namespace CodelyTv.Shared.Infrastructure.Elasticsearch
             return Query<T>.Term(filter.Field.Value, filter.Value.Value.ToLowerInvariant());
         }
 
-        private static QueryContainer GreaterThanQueryTransformer(Filter filter)
+        private static QueryContainer? GreaterThanQueryTransformer(Filter filter)
         {
             if (double.TryParse(filter.Value.Value, out var value))
                 return Query<T>.Range(r => r.Field(filter.Field.Value).GreaterThan(value));
@@ -77,7 +77,7 @@ namespace CodelyTv.Shared.Infrastructure.Elasticsearch
             return null;
         }
 
-        private static QueryContainer GreaterThanOrEqualQueryTransformer(Filter filter)
+        private static QueryContainer? GreaterThanOrEqualQueryTransformer(Filter filter)
         {
             if (double.TryParse(filter.Value.Value, out var value))
                 return Query<T>.Range(r => r.Field(filter.Field.Value).GreaterThanOrEquals(value));
@@ -85,7 +85,7 @@ namespace CodelyTv.Shared.Infrastructure.Elasticsearch
             return null;
         }
 
-        private static QueryContainer LessThanQueryTransformer(Filter filter)
+        private static QueryContainer? LessThanQueryTransformer(Filter filter)
         {
             if (double.TryParse(filter.Value.Value, out var value))
                 return Query<T>.Range(r => r.Field(filter.Field.Value).LessThan(value));
@@ -93,7 +93,7 @@ namespace CodelyTv.Shared.Infrastructure.Elasticsearch
             return null;
         }
 
-        private static QueryContainer LessThanOrEqualQueryTransformer(Filter filter)
+        private static QueryContainer? LessThanOrEqualQueryTransformer(Filter filter)
         {
             if (double.TryParse(filter.Value.Value, out var value))
                 return Query<T>.Range(r => r.Field(filter.Field.Value).LessThanOrEquals(value));

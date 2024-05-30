@@ -7,17 +7,17 @@ namespace CodelyTv.Shared.Domain
 {
     public static class ReflectionHelper
     {
-        public static Assembly GetAssemblyByName(string name)
+        public static Assembly? GetAssemblyByName(string name)
         {
             if (name == null) return null;
 
             name = name.ToUpper(CultureInfo.InvariantCulture);
             return AppDomain.CurrentDomain.GetAssemblies()
-                .FirstOrDefault(x => x.FullName.ToUpper(CultureInfo.InvariantCulture)
-                    .Contains(name, StringComparison.InvariantCulture));
+                .FirstOrDefault(x => x.FullName?.ToUpper(CultureInfo.InvariantCulture)
+                    .Contains(name, StringComparison.InvariantCulture) ?? false);
         }
 
-        public static Type GetType(string name)
+        public static Type? GetType(string name)
         {
             if (string.IsNullOrEmpty(name)) return null;
 
@@ -25,16 +25,21 @@ namespace CodelyTv.Shared.Domain
                 .FirstOrDefault(type => type.Name.Equals(name, StringComparison.InvariantCulture));
         }
 
-        public static Type GetType(string assemblyName, string name)
+        public static Type? GetType(string assemblyName, string name)
         {
             if (string.IsNullOrEmpty(assemblyName) && string.IsNullOrEmpty(name)) return null;
 
             var assembly = GetAssemblyByName(assemblyName);
 
+            if (assembly == null)
+            {
+                throw new ArgumentException("Assembly not found", nameof(assemblyName));
+            }
+
             return GetType(assembly, name);
         }
 
-        public static Type GetType(Assembly assembly, string name)
+        public static Type? GetType(Assembly assembly, string name)
         {
             if (assembly == null) return null;
 

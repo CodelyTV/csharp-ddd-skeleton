@@ -57,7 +57,7 @@ namespace CodelyTv.Shared
             }
             catch (ReflectionTypeLoadException e)
             {
-                return e.Types.Where(t => t != null);
+                return e.Types.Where(t => t != null).Cast<Type>();
             }
         }
     }

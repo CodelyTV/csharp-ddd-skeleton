@@ -13,6 +13,11 @@ namespace CodelyTv.Test.Mooc
     {
         private string _databaseName;
 
+        public MoocWebApplicationFactory()
+        {
+            _databaseName = Guid.NewGuid().ToString();
+        }
+
         public HttpClient GetAnonymousClient()
         {
             SetDatabaseName();
@@ -33,7 +38,7 @@ namespace CodelyTv.Test.Mooc
                     .AddEntityFrameworkInMemoryDatabase()
                     .BuildServiceProvider();
 
-                // Add a database context using an in-memory 
+                // Add a database context using an in-memory
                 // database for testing.
                 services.AddDbContext<MoocContext>(options =>
                 {

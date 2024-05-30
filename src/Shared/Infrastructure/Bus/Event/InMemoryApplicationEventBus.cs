@@ -25,11 +25,17 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event
             {
                 var subscribers = GetSubscribers(@event, scope);
 
-                foreach (var subscriber in subscribers) await ((DomainEventSubscriberBase) subscriber).On(@event);
+                foreach (var subscriber in subscribers)
+                {
+                    if (subscriber is not null)
+                    {
+                        await ((DomainEventSubscriberBase)subscriber).On(@event);
+                    }
+                }
             }
         }
 
-        private static IEnumerable<object> GetSubscribers(DomainEvent @event, IServiceScope scope)
+        private static IEnumerable<object?> GetSubscribers(DomainEvent @event, IServiceScope scope)
         {
             var eventType = @event.GetType();
             var subscriberType = typeof(DomainEventSubscriber<>).MakeGenericType(eventType);

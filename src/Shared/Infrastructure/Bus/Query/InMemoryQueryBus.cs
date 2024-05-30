@@ -21,6 +21,7 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Query
         }
 
         public async Task<TResponse> Ask<TResponse>(Domain.Bus.Query.Query query)
+                where TResponse : class
         {
             var handler = GetWrappedHandlers<TResponse>(query);
 
@@ -31,18 +32,36 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Query
 
         private QueryHandlerWrapper<TResponse> GetWrappedHandlers<TResponse>(Domain.Bus.Query.Query query)
         {
-            Type[] typeArgs = {query.GetType(), typeof(TResponse)};
+            Type[] typeArgs = { query.GetType(), typeof(TResponse) };
 
             var handlerType = typeof(QueryHandler<,>).MakeGenericType(typeArgs);
             var wrapperType = typeof(QueryHandlerWrapper<,>).MakeGenericType(typeArgs);
 
-            var handlers =
-                (IEnumerable) _provider.GetService(typeof(IEnumerable<>).MakeGenericType(handlerType));
+            var handlers = _provider.GetService(typeof(IEnumerable<>).MakeGenericType(handlerType)) as IEnumerable;
+            if (handlers == null)
+            {
+                throw new Exception($"The query {query.GetType().Name} has not a query handlers associated");
+            }
 
-            var wrappedHandlers = (QueryHandlerWrapper<TResponse>) _queryHandlers.GetOrAdd(query.GetType(),
-                handlers.Cast<object>()
-                    .Select(handler => (QueryHandlerWrapper<TResponse>) Activator.CreateInstance(wrapperType))
-                    .FirstOrDefault());
+            var handler = handlers.Cast<object>()
+            .Select(h =>
+            {
+                var instance = Activator.CreateInstance(wrapperType);
+                if (instance == null)
+                {
+                    throw new InvalidOperationException($"Unable to create an instance of type {wrapperType.FullName}.");
+                }
+
+                return (QueryHandlerWrapper<TResponse>)instance;
+            })
+            .FirstOrDefault();
+
+            if (handler == null)
+            {
+                throw new Exception($"The query {query.GetType().Name} has not a query handler associated");
+            }
+
+            var wrappedHandlers = (QueryHandlerWrapper<TResponse>)_queryHandlers.GetOrAdd(query.GetType(), handler);
 
             return wrappedHandlers;
         }

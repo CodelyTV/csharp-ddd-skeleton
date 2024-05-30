@@ -11,10 +11,25 @@ namespace CodelyTv.Shared.Domain.Bus.Command
     internal class CommandHandlerWrapper<TCommand> : CommandHandlerWrapper
         where TCommand : Command
     {
-        public override async Task Handle(Command domainEvent, IServiceProvider provider)
+        public override async Task Handle(Command command, IServiceProvider provider)
         {
-            var handler = (CommandHandler<TCommand>) provider.GetService(typeof(CommandHandler<TCommand>));
-            await handler.Handle((TCommand) domainEvent);
+            if (command == null)
+            {
+                throw new ArgumentNullException(nameof(command));
+            }
+
+            if (provider == null)
+            {
+                throw new ArgumentNullException(nameof(provider));
+            }
+
+            var handler = provider.GetService(typeof(CommandHandler<TCommand>)) as CommandHandler<TCommand>;
+            if (handler == null)
+            {
+                throw new InvalidOperationException($"Handler for {typeof(TCommand).Name} not found");
+            }
+
+            await handler.Handle((TCommand)command);
         }
     }
 }

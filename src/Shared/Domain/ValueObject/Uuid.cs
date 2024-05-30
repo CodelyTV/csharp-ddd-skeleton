@@ -35,7 +35,7 @@ namespace CodelyTv.Shared.Domain.ValueObject
             yield return Value;
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (this == obj) return true;
 

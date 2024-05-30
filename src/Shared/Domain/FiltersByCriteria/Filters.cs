@@ -12,7 +12,7 @@ namespace CodelyTv.Shared.Domain.FiltersByCriteria
             Values = filters;
         }
 
-        public static Filters FromValues(List<Dictionary<string, string>> filters)
+        public static Filters? FromValues(List<Dictionary<string, string>> filters)
         {
             if (filters == null) return null;
 

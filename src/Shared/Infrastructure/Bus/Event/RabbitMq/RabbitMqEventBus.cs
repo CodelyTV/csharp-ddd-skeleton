@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using CodelyTv.Shared.Domain.Bus.Event;
 using CodelyTv.Shared.Infrastructure.Bus.Event.MsSql;
@@ -22,7 +23,7 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq
 
         public async Task Publish(List<DomainEvent> events)
         {
-            events.ForEach(async e => await Publish(e));
+            await Task.WhenAll(events.Select(e => Publish(e)));
         }
 
         private async Task Publish(DomainEvent domainEvent)
@@ -32,9 +33,9 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event.RabbitMq
                 var serializedDomainEvent = DomainEventJsonSerializer.Serialize(domainEvent);
                 _rabbitMqPublisher.Publish(_exchangeName, domainEvent.EventName(), serializedDomainEvent);
             }
-            catch (RabbitMQClientException e)
+            catch (RabbitMQClientException)
             {
-                await _failOverPublisher.Publish(new List<DomainEvent> {domainEvent});
+                await _failOverPublisher.Publish(new List<DomainEvent> { domainEvent });
             }
         }
     }

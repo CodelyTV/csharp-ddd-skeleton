@@ -1,9 +1,7 @@
-version: '3.0'
-
 services:
   mssql:
     container_name: codelytv-chsarp_ddd_skeleton-mssql
-    image: mcr.microsoft.com/mssql/server:2019-latest
+    image: mcr.microsoft.com/mssql/server:2022-latest
     user: root
     ports:
       - 1433:1433
@@ -17,10 +15,10 @@ services:
       - ./database/backoffice.sql:/backoffice.sql
       - ./database/data/data:/var/opt/mssql/data
       - ./database/data/log:/var/opt/mssql/log
-      - ./database/data/secrets:/var/opt/mssql/secrets 
+      - ./database/data/secrets:/var/opt/mssql/secrets
   rabbitmq:
     container_name: codelytv-chsarp_ddd_skeleton-rabbitmq
-    image: 'rabbitmq:3.7-management'
+    image: "rabbitmq:3.7-management"
     restart: unless-stopped
     ports:
       - 5630:5672
@@ -30,7 +28,7 @@ services:
       - RABBITMQ_DEFAULT_PASS=c0d3ly
   elasticsearch:
     container_name: codelytv-chsarp_ddd_skeleton-elasticsearch
-    image: 'elasticsearch:7.9.1'
+    image: "elasticsearch:7.9.1"
     restart: unless-stopped
     ports:
       - 9300:9300

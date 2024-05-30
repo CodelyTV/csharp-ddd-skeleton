@@ -14,7 +14,7 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event
             get
             {
                 var nameParts = _subscriberClass.FullName?.Split(".");
-                return nameParts?[1];
+                return nameParts?.Length > 1 ? nameParts[1] : string.Empty;
             }
         }
 
@@ -23,7 +23,7 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event
             get
             {
                 var nameParts = _subscriberClass.FullName?.Split(".");
-                return nameParts?[2];
+                return nameParts?.Length > 2 ? nameParts[2] : string.Empty;
             }
         }
 
@@ -32,7 +32,7 @@ namespace CodelyTv.Shared.Infrastructure.Bus.Event
             get
             {
                 var nameParts = _subscriberClass.FullName?.Split(".");
-                return nameParts?[^1];
+                return nameParts?.Length > 0 ? nameParts[^1] : string.Empty;
             }
         }
 
